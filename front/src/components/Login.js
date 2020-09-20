@@ -74,6 +74,7 @@ const logIn = () =>{
       if(response.data!=='fail'){
         var token = response.data;
         Authcontrol.authenticateUser(token);
+        // alert(JSON.stringify(response.data));
         axios.post(be_conf.server + '/userinfo', {}, { headers: { "Authorization": 'Bearer ' + Authcontrol.getToken() } })
         .then(function (response) {
           var dateStr = new Date();
