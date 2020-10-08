@@ -213,9 +213,10 @@ function api_impl(req, res) {
         if (id) {
             sqlStr = "select * from " + tableName + " where " + idName + " = " + id;
         }
-        // else {
-        //     sqlStr = "select * from " + tableName + " where clientid = '" + clientid+"'";
-        // }
+	
+        else {
+             sqlStr = "select * from " + tableName;
+        }
 
 
         con.query(sqlStr, function (err, result) {
