@@ -91,7 +91,7 @@ app.post('/departments', function (req, res) {
 app.post('/signin', function (req, res) {
 
 
-    var email = req.body.email;
+    var email = req.body.login;
     var password = req.body.password;
     console.log(JSON.stringify(req.body));
     var sqlStr = '';
