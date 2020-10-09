@@ -135,6 +135,9 @@ app.post('/signin', function (req, res) {
         });
 
     }
+    else{
+        res.end("Need login and password!"); 
+    }
 
 
 });
