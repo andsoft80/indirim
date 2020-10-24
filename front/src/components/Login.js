@@ -11,6 +11,7 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import WorkOffIcon from '@material-ui/icons/WorkOff';
+import WorkOutlinedIcon from '@material-ui/icons/WorkOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
@@ -68,7 +69,7 @@ const logIn = () =>{
 
   if(email && password){
     axios.post(be_conf.server + '/signin', {
-      email: email,
+      login: email,
       password: password
     }).then(function(response){
       if(response.data!=='fail'){
@@ -105,10 +106,10 @@ export default function SignInSide() {
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             {/* <LockOutlinedIcon /> */}
-            <WorkOffIcon/>
+            <WorkOutlinedIcon/>
           </Avatar>
           <Typography component="h1" variant="h5">
-            Discount order platform
+            Сделка Будет
           </Typography>
           <form className={classes.form} noValidate>
             <TextField
