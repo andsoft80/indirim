@@ -51,10 +51,12 @@ async function getTokenFromHeader(req) {
 }
 
 function check(req, res, next) {
+    
     if (req.url === '/signin') {
         next();
     }
     else {
+        
         getTokenFromHeader(req).then((value) => {
             var now = Math.floor(Date.now() / 1000);
             // console.log(Math.floor(Date.now() / 1000));
@@ -69,9 +71,14 @@ function check(req, res, next) {
     }
 }
 
-app.all('*', function (req, res, next) {
+app.post('*', function (req, res, next) {
     // console.log(req.url);
     check(req, res, next);
+})
+
+app.get('/', function (req, res) {
+    
+    res.sendFile('index.html');
 })
 
 app.post('/departments', function (req, res) {
@@ -249,8 +256,9 @@ app.post('/table/:tableName/action/:action', function (req, res) {
 
 
 app.post('/userinfo', function (req, res) {
-
+    
     getTokenFromHeader(req).then(function (response) {
+        
 
         res.end(JSON.stringify(response));
     });
@@ -261,6 +269,31 @@ app.post('/userinfo', function (req, res) {
 });
 
 app.post('/checkauth', function (req, res) {
+
+    res.end("checked");
+
+
+});
+
+app.post('/signUp', function (req, res) {
+    console.log('reg req...');
+    var email = req.body.email;
+    var password = req.body.password;
+    var name = req.body.name;
+
+
+    sqlStr = "select * from users where email = '"+email+"'";
+    con.query(sqlStr, function (err, result) {
+        if (err){
+            res.end(JSON.stringify(err));
+        }
+        else{
+            console.log(result);
+        }
+        res.end('OK');
+
+    });
+
 
     res.end("checked");
 
