@@ -52,7 +52,7 @@ async function getTokenFromHeader(req) {
 
 function check(req, res, next) {
     
-    if (req.url === '/signin') {
+    if (req.url === '/signin' || req.url === '/signup' || req.url === '/recovery') {
         next();
     }
     else {
@@ -117,7 +117,7 @@ app.post('/signin', function (req, res) {
             }
             else if (result.length === 0 || !bcrypt.compareSync(password, result[0].password)) {
                 res.statusCode = 404;
-                res.end("fail");
+                res.end();
             }
             else {
 
@@ -276,7 +276,7 @@ app.post('/checkauth', function (req, res) {
 
 });
 
-app.post('/signUp', function (req, res) {
+app.post('/signup', function (req, res) {
     console.log('reg req...');
     var email = req.body.email;
     var password = req.body.password;
@@ -288,15 +288,21 @@ app.post('/signUp', function (req, res) {
         if (err){
             res.end(JSON.stringify(err));
         }
-        else{
-            console.log(result);
+        else if(result.length >0){
+            res.statusCode = 400;
+            res.end();
+            
+            
         }
-        res.end('OK');
+        else{
+            res.end('Пользователь зарегистрирован!');
+        }
+        
 
     });
 
 
-    res.end("checked");
+    
 
 
 });

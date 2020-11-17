@@ -28,7 +28,7 @@
         $(document).ready(function () {
             $('#loginForm').on('submit', function (e) {
                 e.preventDefault();
-                
+
 
             });
         });
@@ -177,14 +177,14 @@
                     login: email,
                     password: password
                 }).then(function (response) {
-                    if (response.data !== 'fail') {
+                    
                         var token = response.data;
                         authenticateUser(token);
                         // alert(JSON.stringify(response.data));
 
                         axios.post('/userinfo', {}, { headers: { "Authorization": 'Bearer ' + getToken() } })
                             .then(function (response) {
-                                
+
                                 // alert(JSON.stringify(response.data));
                                 var dateStr = new Date();
 
@@ -193,11 +193,18 @@
                                 alert("Логин ОК");
                             })
 
-                    }
-                    else {
-                        alert("Логин или пароль не верный!");
-                    }
-                });
+
+                })
+                    .catch(function (error) {
+                        // handle error
+                        if(error.message.indexOf('404')>0){
+                            alert("Логин или пароль не верные!");
+                            
+                        }
+                        else{
+                            alert(error);
+                        }
+                    });
             }
         }
 
@@ -239,7 +246,7 @@
                                     fullWidth
                                     id="password"
                                     label="Пароль"
-                                    type="textField"
+                                    type="password"
                                     //defaultValue="1980-11-21"
                                     className={classes.textField}
                                     // InputLabelProps={{
