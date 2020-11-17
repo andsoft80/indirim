@@ -116,6 +116,7 @@ app.post('/signin', function (req, res) {
                 res.end(JSON.stringify(err));
             }
             else if (result.length === 0 || !bcrypt.compareSync(password, result[0].password)) {
+                res.statusCode = 404;
                 res.end("fail");
             }
             else {
