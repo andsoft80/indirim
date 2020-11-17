@@ -171,7 +171,7 @@
                 alert("Пароли не совпадают!");
             }
             else {
-                alert(name);
+                
                 axios.post('/signup', {
                     name: name,
                     email: email,
@@ -180,7 +180,8 @@
                 }, { headers: {} })
                     .then(function (response) {
 
-                        alert(JSON.stringify(response));
+                        alert("Пользователь успешно зарегистрирован!");
+                        window.location = '/login.html';
 
                     })
                     .catch(function (error) {
