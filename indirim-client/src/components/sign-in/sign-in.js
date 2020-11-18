@@ -1,22 +1,18 @@
 import React, {useEffect, useState} from "react";
-import { Link as RouterLink } from 'react-router-dom';
+import {useDispatch} from "react-redux";
+import {Link as RouterLink, useLocation} from 'react-router-dom';
 import {makeStyles} from "@material-ui/styles";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
 import {validate} from "validate.js";
-import {signIn} from "../../redux/actions";
-import {connect} from "react-redux";
-import {bindActionCreators, compose} from "redux";
+import {authActions} from "../../redux/actions/auth-actions";
+import {withAuthService} from "../hoc";
 
 const useStyles = makeStyles(theme => ({
   root: {
 	backgroundColor: theme.palette.background.default,
-	height: '100%'
-  },
-  grid: {
 	height: '100%'
   },
   content: {
@@ -70,116 +66,125 @@ const schema = {
   }
 };
 
-
-const SignIn = ({history, signIn}) => {
+const SignIn = ({authService, ...rest}) => {
   const classes = useStyles();
-
-  const [email, setEmail] = useState("alexandr.zelentsov@gmail.com");
-  const [password, setPassword] = useState("123456");
+  
+  const [credentials, setCredentials] = useState({
+	login: "andsoft80@gmail.com",
+	password: "death666"
+  });
+  const [touched, setTouch] = useState({});
+  const [errors, setErrors] = useState({});
+  // const [email, setEmail] = useState("andsoft80@gmail.com");
+  // const [password, setPassword] = useState("death666");
   const [valid, setValid] = useState(false);
-  const [error, setError] = useState({});
-  const [submitted, setSubmitted] = useState(false);
-  const [touched, setTouched] = useState(false);
+ 
+  
+  const dispatch = useDispatch();
+  const location = useLocation();
   
   useEffect(() => {
 	const errors = validate({
-	  email: email,
-	  password: password
+	  email: credentials.login,
+	  password: credentials.password
 	}, schema);
 	
 	setValid(!errors);
-	setError(errors);
-  }, [email, password]);
+	setErrors(errors);
+  }, [credentials]);
   
-  const hasError = field => !!(touched[field] && error[field]);
+  const handleChange = event => {
+    event.persist();
+    setCredentials({
+	  ...credentials,
+	  [event.target.name]:
+	  	event.target.type === 'checkbox'
+		  ? event.target.checked
+		  : event.target.value
+	});
+	setTouch({
+	  ...touched,
+	  [event.target.name]: true
+	})
+  }
   
-  const handleSignIn = event => {
-    event.preventDefault();
-	if (email && password) {
-	  console.log("handleSignIn", email, password);
-	  signIn(email, password);
+  const hasError = field =>
+	touched[field] && errors[field] ? true : false;
+  
+  const onSignIn = (e) => {
+	e.preventDefault();
+	const { login, password} = credentials;
+	if (login && password) {
+	  const { from } = location.state || { from: { pathname: "/" } };
+	  dispatch(authActions.fetchSignIn(authService, credentials, from));
 	}
-	setSubmitted(true);
   };
   
   return (
 	<div className={classes.root}>
-	  <Grid className={classes.grid} container>
-		<Grid className={classes.content} item lg={7} xs={12}>
-		  <div className={classes.content}>
-			<div className={classes.contentBody}>
-			  <form className={classes.form} name="form" onSubmit={handleSignIn}>
-				<Typography className={classes.title} variant="h2">
-				  Sign in
-				</Typography>
-				<TextField
-				  className={classes.textField}
-				  error={hasError('email')}
-				  fullWidth
-				  helperText={
-					hasError('email') ? error.email[0] : null
-				  }
-				  label="Email address"
-				  name="email"
-				  onChange={event => setEmail(event.target.value)}
-				  type="text"
-				  value={email || ''}
-				  variant="outlined"
-				/>
-				<TextField
-				  className={classes.textField}
-				  error={hasError('password')}
-				  fullWidth
-				  helperText={
-					hasError('password') ? error.password[0] : null
-				  }
-				  label="Password"
-				  name="password"
-				  onChange={event => setPassword(event.target.value)}
-				  type="password"
-				  value={password || ''}
-				  variant="outlined"
-				/>
-				<Button
-				  className={classes.signInButton}
-				  color="primary"
-				  disabled={!valid}
-				  fullWidth
-				  size="large"
-				  type="submit"
-				  variant="contained"
-				>
-				  Sign in now
-				</Button>
-				<Typography
-				  color="textSecondary"
-				  variant="body1"
-				>
-				  Don't have an account?{' '}
-				  <Link
-					component={RouterLink}
-					to="/sign-up"
-					variant="h6"
-				  >
-					Sign up
-				  </Link>
-				</Typography>
-			  </form>
-			</div>
-		  </div>
-		</Grid>
-	  </Grid>
+	  <div className={classes.content}>
+		<div className={classes.contentBody}>
+		  <form className={classes.form} name="form" onSubmit={onSignIn}>
+			<Typography className={classes.title} variant="h2">
+			  Sign in
+			</Typography>
+			<TextField
+			  className={classes.textField}
+			  error={hasError('email')}
+			  fullWidth
+			  helperText={
+				hasError('email') ? errors.login[0] : null
+			  }
+			  label="Email address"
+			  name="email"
+			  onChange={handleChange}
+			  type="text"
+			  value={credentials.login || ''}
+			  variant="outlined"
+			/>
+			<TextField
+			  className={classes.textField}
+			  error={hasError('password')}
+			  fullWidth
+			  helperText={
+				hasError('password') ? errors.password[0] : null
+			  }
+			  label="Password"
+			  name="password"
+			  onChange={handleChange}
+			  type="password"
+			  value={credentials.password || ''}
+			  variant="outlined"
+			/>
+			<Button
+			  className={classes.signInButton}
+			  color="primary"
+			  disabled={!valid}
+			  fullWidth
+			  size="large"
+			  type="submit"
+			  variant="contained"
+			>
+			  Sign in now
+			</Button>
+			<Typography
+			  color="textSecondary"
+			  variant="body1"
+			>
+			  Don't have an account?{' '}
+			  <Link
+				component={RouterLink}
+				to="/signUp"
+				variant="h6"
+			  >
+				Sign up
+			  </Link>
+			</Typography>
+		  </form>
+		</div>
+	  </div>
 	</div>
   );
 }
 
-const mapDispatchToProps = (dispatch, { deviceStockService }) => {
-  return bindActionCreators({
-	signIn: signIn(deviceStockService)
-  }, dispatch);
-};
-
-
-const SignInContainer = connect(null, mapDispatchToProps)(SignIn);
-
-export { SignInContainer as SignIn };
+export default withAuthService()(SignIn);
