@@ -368,16 +368,16 @@ app.post('/recovery', function (req, res) {
                     port: 465,
                     secure: true, // true for 465, false for other ports
                     auth: {
-                        user: 'realestate-rus@yandex.ru',
-                        pass: 'Profession@l1',
+                        user: 'realestate-rus',
+                        pass: 'mpueakcygkrafefw',
                     },
                 });
                 let info = transporter.sendMail({
-                    from: 'Сделка будет <ceo@datamixstudio.com>', // sender address
+                    from: 'Сделка будет <realestate-rus@yandex.ru>', // sender address
                     to: email, // list of receivers
                     subject: "Восстановление пароля на портале Сделка Будет", // Subject line
                     text: "Ваш новый пароль", // plain text body
-                    html: "<b>"+password+"</b>", // html body
+                    html: "<b>Ваш новый пароль : "+password+"</b>", // html body
                 });
 
 

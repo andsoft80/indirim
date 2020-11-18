@@ -21,10 +21,30 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="Authcontrol.js"></script>
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        #header {
+            background-color: blueviolet;
+        }
+        #sideMenu {
+            background-color: rgb(223, 226, 43);
+        }
+        #footer {
+            background-color: rgb(226, 43, 104);
+        }
+        #content {
+            background-color: 'white';
+        }
+
+    </style>
 </head>
 
 <body>
-    <div id="root"></div>
+
     <script>
         $(document).ready(function () {
             $('#reсForm').on('submit', function (e) {
@@ -33,6 +53,10 @@
 
             });
         });
+    </script>
+    <script>
+        document.createElement('aside');
+        document.createElement('article');
     </script>
     <script type="text/babel">
         const {
@@ -54,6 +78,13 @@
             FormControlLabel,
             Paper
         } = MaterialUI;
+
+        const {
+
+            useState
+        } = React;
+
+
 
         // Create a theme instance.
         const theme = createMuiTheme({
@@ -90,7 +121,9 @@
                     body1: 'span',
                     body2: 'span',
                 },
-            }
+            },
+
+
         });
 
         function LightBulbIcon(props) {
@@ -109,6 +142,13 @@
                 verticalAlign: 'middle',
                 marginRight: theme.spacing(1),
             },
+            wrap: {
+                backgroundColor: '#F8F8F8',
+                minHeight: '100%'
+            },
+
+
+
         }));
 
         function Login() {
@@ -157,22 +197,22 @@
             var filename = e.target.files[0].name;
             alert(filename);
         }
-        function Recovery(){
+        function Recovery() {
 
             var email = document.getElementById('email').value;
 
 
-            if (email == '' ) {
+            if (email == '') {
                 alert("Укажите все поля!");
 
             }
 
             else {
-               
+
                 axios.post('/recovery', {
-                    
+
                     email: email,
-                    
+
 
                 }, { headers: {} })
                     .then(function (response) {
@@ -183,11 +223,11 @@
                     })
                     .catch(function (error) {
                         // handle error
-                        if(error.message.indexOf('400')>0){
+                        if (error.message.indexOf('400') > 0) {
                             alert("Ошибка");
-                            
+
                         }
-                        else{
+                        else {
                             alert(error);
                         }
                         // alert(typeof error.message);
@@ -197,53 +237,54 @@
 
         function App() {
             const classes = useStyles();
+            const [userData, setUserData] = useState({ name: 'SomeBody' });
+            React.useEffect(() => {
+                getUserData();
+            }, []);
+            function getUserData() {
+                axios.post('/userinfo', {
+
+
+
+
+                }, { headers: { "Authorization": 'Bearer ' + getToken() } })
+                    .then(function (response) {
+
+                        setUserData(response.data.data);
+
+
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        if (error.message.indexOf('400') > 0) {
+                            window.location = '/login.html';
+                        }
+                        else {
+                            // alert(error);
+                            window.location = '/login.html';
+                        }
+                        // alert(typeof error.message);
+                    })
+            }
             return (
-                <Container maxWidth="sm"
 
-                >
-                    <Grid
-
-                        container
-                        spacing={0}
-                        direction="column"
-                        alignItems="center"
-                        justify="center"
-                        style={{ minHeight: '100vh' }}
-
-                    >
-                        <Paper style={{ backgroundColor: "#F8F8F8", paddingLeft: 20, paddingRight: 20, paddingBottom: 20 }} >
-                            <Login />
-                            <form className={classes.container} noValidate onSubmit = {Recovery} id = 'reсForm'>
-                                <TextField
-                                    size="small"
-                                    fullWidth
-                                    id="email"
-                                    label="E-mail"
-                                    type="textField"
-                                    //defaultValue="1980-11-21"
-                                    className={classes.textField}
-                                    // InputLabelProps={{
-                                    //     shrink: true,
-                                    // }}
-                                    variant="outlined"
-                                />
-                                <br /><br />
-                                
-                                <Grid container justify="space-around">
-                                    <Button variant="contained" color="primary" type="submit" fullWidth>
-                                        Восстановить
-                                    </Button>
-                                </Grid>
+                <div className={classes.wrap}>
+                    <div id="vertical_wrap">
+                        <div id='header'> Hello {userData.name}</div>
+                        <div id="horizontal_wrap">                            
+                            <div id="sideMenu"></div>
+                            <div id="content"></div>
+                        </div>
+                        <div id="footer"></div>
+                    </div>
+                    
 
 
-                            </form>
 
 
-                            
-                        </Paper>
-                        <p>Сделка будет  @DatamixStudio</p>
-                    </Grid>
-                </Container>
+                </div >
+
+
             );
         }
 
@@ -256,6 +297,8 @@
             document.querySelector('#root'),
         );
     </script>
+    <script type="text/babel" src="sidemenu.js"></script>
+    <div id="root" style="height: 100%;"></div>
 
 </body>
 
