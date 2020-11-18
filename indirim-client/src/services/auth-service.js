@@ -16,7 +16,7 @@ class AuthService {
   
   signIn = async (login, password) => {
     return axios
-      .post("signin" + this._API_URL, {login, password})
+      .post(this._API_URL + "signin", {login, password})
       .then((res) => {
         console.info("AuthService.signIn res => ", res);
         if (res) localStorage.setItem("indirim_token", res);

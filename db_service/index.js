@@ -1,5 +1,11 @@
 var express = require('express');
 var bcrypt = require('bcrypt');
+const saltRounds = 10;
+const salt = bcrypt.genSaltSync(saltRounds);
+
+const nodemailer = require("nodemailer");
+
+
 var app = express();
 var cors = require('cors');
 app.use(cors());
@@ -51,10 +57,12 @@ async function getTokenFromHeader(req) {
 }
 
 function check(req, res, next) {
-    if (req.url === '/signin') {
+
+    if (req.url === '/signin' || req.url === '/signup' || req.url === '/recovery') {
         next();
     }
     else {
+
         getTokenFromHeader(req).then((value) => {
             var now = Math.floor(Date.now() / 1000);
             // console.log(Math.floor(Date.now() / 1000));
@@ -69,16 +77,21 @@ function check(req, res, next) {
     }
 }
 
-app.all('*', function (req, res, next) {
+app.post('*', function (req, res, next) {
     // console.log(req.url);
     check(req, res, next);
+})
+
+app.get('/', function (req, res) {
+
+    res.sendFile('index.html');
 })
 
 app.post('/departments', function (req, res) {
     var clientid = req.body.clientid;
 
 
-    var sqlStr = "select department from users where clientid = '"+clientid+"' group by department" 
+    var sqlStr = "select department from users where clientid = '" + clientid + "' group by department"
     con.query(sqlStr, function (err, result) {
         if (err)
             res.end(JSON.stringify(err));
@@ -109,13 +122,14 @@ app.post('/signin', function (req, res) {
                 res.end(JSON.stringify(err));
             }
             else if (result.length === 0 || !bcrypt.compareSync(password, result[0].password)) {
-                res.end("fail");
+                res.statusCode = 404;
+                res.end();
             }
             else {
 
                 const data = {
                     id: result[0].id,
-                    
+
                     name: result[0].name,
                     email: result[0].email
 
@@ -135,8 +149,8 @@ app.post('/signin', function (req, res) {
         });
 
     }
-    else{
-        res.end("Need login and password!"); 
+    else {
+        res.end("Need login and password!");
     }
 
 
@@ -216,9 +230,9 @@ function api_impl(req, res) {
         if (id) {
             sqlStr = "select * from " + tableName + " where " + idName + " = " + id;
         }
-	
+
         else {
-             sqlStr = "select * from " + tableName;
+            sqlStr = "select * from " + tableName;
         }
 
 
@@ -252,6 +266,7 @@ app.post('/userinfo', function (req, res) {
 
     getTokenFromHeader(req).then(function (response) {
 
+
         res.end(JSON.stringify(response));
     });
 
@@ -263,6 +278,119 @@ app.post('/userinfo', function (req, res) {
 app.post('/checkauth', function (req, res) {
 
     res.end("checked");
+
+
+});
+
+app.post('/signup', function (req, res) {
+    console.log('reg req...');
+    var email = req.body.email;
+    var password = req.body.password;
+    var name = req.body.name;
+
+
+    sqlStr = "select * from users where email = '" + email + "'";
+    con.query(sqlStr, function (err, result) {
+        if (err) {
+            res.end(JSON.stringify(err));
+        }
+        else if (result.length > 0) {
+            res.statusCode = 400;
+            res.end();
+
+
+        }
+        else {
+            sqlStr = "insert into users (email, password, name) values('" + email + "','" + bcrypt.hashSync(password, salt) + "','" + name + "')";
+            con.query(sqlStr, function (err, result) {
+                if (err)
+                    res.end(JSON.stringify(err));
+                res.end(JSON.stringify(result));
+
+            });
+
+        }
+
+
+    });
+
+
+
+
+
+});
+
+function generate(len) {
+    var ints = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    var chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+    var out = '';
+    for (var i = 0; i < len; i++) {
+        var ch = Math.random(1, 2);
+        if (ch < 0.5) {
+            var ch2 = Math.ceil(Math.random(1, ints.length-1) * 10);
+            out += ints[ch2];
+        } else {
+            var ch2 = Math.ceil(Math.random(1, chars.length-1) * 10);
+            out += chars[ch2];
+        }
+    }
+    return out;
+}
+
+app.post('/recovery', function (req, res) {
+    console.log('reg req...');
+    var email = req.body.email;
+    sqlStr = "select * from users where email = '" + email + "'";
+    con.query(sqlStr, function (err, result) {
+        if (err) {
+            res.end(JSON.stringify(err));
+        }
+        else if (result.length == 0) {
+            res.statusCode = 400;
+            res.end();
+
+
+        }
+        else {
+            var password = generate(8);
+            console.log(password);
+            var hash_pass = bcrypt.hashSync(password, salt);
+            console.log(hash_pass);
+            sqlStr = "update users set password = '" + hash_pass + "' where email = '" + email+"'";
+            con.query(sqlStr, function (err, result) {
+                if (err)
+                    res.end(JSON.stringify(err));
+
+
+                res.end(JSON.stringify(result));
+                let transporter = nodemailer.createTransport({
+                    host: "smtp.yandex.ru",
+                    port: 465,
+                    secure: true, // true for 465, false for other ports
+                    auth: {
+                        user: 'realestate-rus',
+                        pass: 'mpueakcygkrafefw',
+                    },
+                });
+                let info = transporter.sendMail({
+                    from: 'Сделка будет <realestate-rus@yandex.ru>', // sender address
+                    to: email, // list of receivers
+                    subject: "Восстановление пароля на портале Сделка Будет", // Subject line
+                    text: "Ваш новый пароль", // plain text body
+                    html: "<b>Ваш новый пароль : "+password+"</b>", // html body
+                });
+
+
+
+            });
+
+        }
+
+
+    });
+
+
+
 
 
 });

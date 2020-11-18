@@ -8,13 +8,13 @@ import { ThemeProvider } from "@material-ui/styles";
 
 import store from './redux';
 import theme from "./theme";
+import {history} from "./utils";
 import App from "./components/app";
 import {AuthService} from "./services/auth-service";
 import ErrorBoundary from "./components/common/error-boundary";
 import {AuthServiceProvider} from "./components/common/service-context";
 
 const authService = new AuthService();
-const browserHistory = createBrowserHistory();
 
 ReactDOM.render(
   <React.StrictMode>
@@ -22,7 +22,7 @@ ReactDOM.render(
       <ErrorBoundary>
         <AuthServiceProvider value={authService}>
           <ThemeProvider theme={ theme }>
-            <Router history={browserHistory}>
+            <Router history={history}>
               <App/>
             </Router>
           </ThemeProvider>

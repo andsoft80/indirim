@@ -4,7 +4,7 @@ import {makeStyles} from "@material-ui/styles";
 
 const useStyles = makeStyles(() => ({
   root: {
-    paddingTop: 64,
+    // paddingTop: 64,
     height: '100%'
   },
   content: {
