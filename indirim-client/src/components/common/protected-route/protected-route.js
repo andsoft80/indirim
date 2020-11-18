@@ -35,4 +35,4 @@ const mapStateToProps = ({ auth: { isLoggedIn }}) => {
 //   return bindActionCreators({}, dispatch);
 // };
 
-export default connect(mapStateToProps, null)(ProtectedRoute);
+export default connect(mapStateToProps)(ProtectedRoute);
