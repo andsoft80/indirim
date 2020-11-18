@@ -28,18 +28,70 @@
         }
 
         #header {
-            background-color: blueviolet;
-        }
-        #sideMenu {
-            background-color: rgb(223, 226, 43);
-        }
-        #footer {
-            background-color: rgb(226, 43, 104);
-        }
-        #content {
-            background-color: 'white';
+            /* background-color: blueviolet; */
+            display: flex;
+            height: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 30px;
+            padding-right: 30px;
         }
 
+        #sideMenu {
+
+            display: flex;
+            width: 200px;
+            /* border-right: 1px solid gray;  */
+            padding-left: 30px;
+
+
+
+        }
+
+        #footer {
+            /* background-color: rgb(226, 43, 104); */
+            display: flex;
+
+        }
+
+        #content_wrap {
+            /* background-color: blue; */
+            width: 100%;
+            display: flex;
+            padding: 20px;
+
+
+        }
+
+        #content {
+            background-color: white;
+
+
+
+        }
+
+        #vertical_wrap {
+            height: 100%;
+            display: -webkit-flex;
+            display: flex;
+            flex-direction: column;
+
+
+
+
+            justify-content: space-between;
+        }
+
+        #horizontal_wrap {
+
+            display: -webkit-flex;
+            display: flex;
+            height: 100%;
+
+
+
+        }
     </style>
 </head>
 
@@ -124,6 +176,7 @@
             },
 
 
+
         });
 
         function LightBulbIcon(props) {
@@ -144,8 +197,14 @@
             },
             wrap: {
                 backgroundColor: '#F8F8F8',
-                minHeight: '100%'
+                height: '100%'
             },
+            paper: {
+                padding: 30,
+                width: '100%'
+            }
+
+
 
 
 
@@ -237,7 +296,7 @@
 
         function App() {
             const classes = useStyles();
-            const [userData, setUserData] = useState({ name: 'SomeBody' });
+            const [userData, setUserData] = useState({ name: '' });
             React.useEffect(() => {
                 getUserData();
             }, []);
@@ -270,14 +329,28 @@
 
                 <div className={classes.wrap}>
                     <div id="vertical_wrap">
-                        <div id='header'> Hello {userData.name}</div>
-                        <div id="horizontal_wrap">                            
-                            <div id="sideMenu"></div>
-                            <div id="content"></div>
+                        <div id='header'>
+                            <div id='leftside'>
+                                <font size="5">Сделка будет</font>
+                            </div>
+                            <div id='rightside'>
+                                {userData.name}
+                            </div>
+
                         </div>
-                        <div id="footer"></div>
+                        <div id="horizontal_wrap">
+                            <div id="sideMenu"></div>
+                            <div id="content_wrap">
+                                <Paper className={classes.paper}>
+                                    <font size="5">Профиль</font>
+                                    <br />
+                                    {userData.name}
+                                </Paper>
+                            </div>
+                        </div>
+                        <div id="footer">Подвальчик</div>
                     </div>
-                    
+
 
 
 
