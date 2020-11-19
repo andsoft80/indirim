@@ -30,19 +30,39 @@
         #header {
             /* background-color: blueviolet; */
             display: flex;
-            height: 50px;
-            display: flex;
+            height: 60px;
+
             justify-content: space-between;
             align-items: center;
-            padding-left: 30px;
+            padding-left: 15px;
             padding-right: 30px;
+        }
+
+        #leftside {
+            /* background-color: blueviolet; */
+            display: flex;
+            height: 60px;
+
+
+            align-items: center;
+
+        }
+
+        #rightside {
+            /* background-color: blueviolet; */
+            display: flex;
+            height: 60px;
+
+
+            align-items: center;
+
         }
 
         #sideMenu {
 
             display: flex;
-            width: 200px;
-            /* border-right: 1px solid gray;  */
+            width: 250px;
+            border-right: 0.5px solid silver;
             padding-left: 30px;
 
 
@@ -51,7 +71,8 @@
 
         #footer {
             /* background-color: rgb(226, 43, 104); */
-            display: flex;
+            text-align: center;
+            padding-bottom: 10px;
 
         }
 
@@ -131,7 +152,9 @@
             Paper,
             MenuIcon,
             Fab,
-            IconButton
+            IconButton,
+            Menu,
+            MenuItem
         } = MaterialUI;
 
         const {
@@ -300,6 +323,51 @@
         function App() {
             const classes = useStyles();
             const [userData, setUserData] = useState({ name: '' });
+            const [anchorEl, setAnchorEl] = React.useState(null);
+            //////////////////////pages////////////////////////
+            const [profilePage, setProfilePage] = React.useState(true);
+            const [orderListPage, setListOrderPage] = React.useState(false);
+            const [orderPage, setOrderPage] = React.useState(false);
+            const [accountPage, setAccountPage] = React.useState(false);
+            const [paymentPage, setPaymentPage] = React.useState(false);
+            const [newOrderPage, setNewOrderPage] = React.useState(false);
+
+            const hideAllPage = () => {
+                setProfilePage(false);
+                setListOrderPage(false);
+                setOrderPage(false);
+                setAccountPage(false);
+                setPaymentPage(false);
+                setNewOrderPage(false);
+            }
+
+            ///////////////////////////////////////////////////
+
+
+
+            const handleClick = (event) => {
+                setAnchorEl(event.currentTarget);
+            };
+
+            const handleCloseProfile = () => {
+                setAnchorEl(null);
+                hideAllPage();
+                setProfilePage(true);
+            };
+            const handleCloseAccount = () => {
+                setAnchorEl(null);
+                hideAllPage();
+                setAccountPage(true);
+            };
+            const handleCloseLogout = () => {
+                setAnchorEl(null);
+                deauthenticateUser();
+                window.location = '/login.html';
+            };
+            const handleClose = () => {
+                setAnchorEl(null);
+            };
+
             React.useEffect(() => {
                 getUserData();
             }, []);
@@ -334,31 +402,53 @@
                     <div id="vertical_wrap">
                         <div id='header'>
                             <div id='leftside'>
-                                <IconButton >
-                                    <Icon>menu</Icon>
-                                </IconButton>
-                                
-
-
-
-                                <font size="5">Сделка будет</font>
+                                <div>
+                                    <IconButton >
+                                        <Icon>menu</Icon>
+                                    </IconButton>
+                                </div>
+                                <div>
+                                    <b><font size="5">Datamix </font></b>
+                                    <font size="5">Сделка будет</font>
+                                </div>
                             </div>
                             <div id='rightside'>
-                                {userData.name}
+
+                                <Icon>fingerprint</Icon>
+                                <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                                    {userData.name}
+                                </Button>
+                                <Menu
+                                    id="simple-menu"
+                                    anchorEl={anchorEl}
+                                    keepMounted
+                                    open={Boolean(anchorEl)}
+                                    onClose={handleClose}
+                                >
+                                    <MenuItem onClick={handleCloseProfile}>Профиль</MenuItem>
+                                    <MenuItem onClick={handleCloseAccount}>Мой счет</MenuItem>
+                                    <MenuItem onClick={handleCloseLogout}>Выйти</MenuItem>
+                                </Menu>
+
                             </div>
 
                         </div>
                         <div id="horizontal_wrap">
                             <div id="sideMenu"></div>
                             <div id="content_wrap">
-                                <Paper className={classes.paper}>
-                                    <font size="5">Профиль</font>
-                                    <br />
-                                    {userData.name}
+                                <Paper className={classes.paper} >
+                                    <div id="content_profile" hidden = {!profilePage}></div>
+                                    <div id="content_orderlist" hidden = {!orderListPage}></div>
+                                    <div id="content_order" hidden = {!orderPage}></div>
+                                    <div id="content_neworder" hidden = {!newOrderPage}></div>
+                                    <div id="content_account" hidden = {!accountPage}></div>
+                                    <div id="content_payment" hidden = {!paymentPage}></div>
+
+
                                 </Paper>
                             </div>
                         </div>
-                        <div id="footer">Подвальчик</div>
+                        <div id="footer"  >Datamix Studio Project</div>
                     </div>
 
 
@@ -381,6 +471,9 @@
         );
     </script>
     <script type="text/babel" src="sidemenu.js"></script>
+    <script type="text/babel" src="profile.js"></script>
+    <script type="text/babel" src="account.js"></script>
+
     <div id="root" style="height: 100%;"></div>
 
 </body>
