@@ -1,4 +1,24 @@
+
+const useStyles = makeStyles({
+    rootForm: {
+
+
+    },
+    bullet: {
+        display: 'inline-block',
+        margin: '0 2px',
+        transform: 'scale(0.8)',
+    },
+    title: {
+        fontSize: 14,
+    },
+    pos: {
+        marginBottom: 12,
+    },
+});
 function Profile() {
+    const classes = useStyles();
+    const bull = <span className={classes.bullet}>•</span>;
     const [userData, setUserData] = useState({ name: '' });
     React.useEffect(() => {
         getUserData();
@@ -31,9 +51,26 @@ function Profile() {
     return (
 
         <div>
-            <font size="5">Профиль</font>
-            <br />
-            {userData.name}
+            <Container maxWidth="sm">
+                <font size="5">Профиль</font>
+                <br /><br />
+                <font size="4">{userData.name}</font>
+                <br />
+                <font size="2">{userData.email}</font>
+                <br /><br />
+                <Card className={classes.rootForm} variant="outlined">
+                    <CardContent>
+                        <Typography className={classes.title} color="textSecondary" gutterBottom>
+                            Смена пароля
+                    </Typography>
+
+
+                    </CardContent>
+                    <CardActions>
+                        <Button size="small">Learn More</Button>
+                    </CardActions>
+                </Card>
+            </Container>
         </div>
 
 
