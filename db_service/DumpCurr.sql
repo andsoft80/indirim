@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.21, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)
 --
 -- Host: localhost    Database: indirim
 -- ------------------------------------------------------
--- Server version	8.0.21
+-- Server version	8.0.22
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -165,9 +165,11 @@ CREATE TABLE `users` (
   `password` varchar(200) NOT NULL,
   `name` varchar(200) DEFAULT NULL,
   `companyid` bigint DEFAULT NULL,
+  `firstName` varchar(200) DEFAULT NULL,
+  `secondName` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,7 +178,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'andsoft80@gmail.com','$2a$10$kRpUsrhJbp3dk7XXfA.neuuHmJVlhoGlfoX8ntylrQH7fT5nX8Y7O','Andrey Saulin',NULL);
+INSERT INTO `users` VALUES (1,'andsoft80@gmail.com','$2b$10$uYbxJceglbt3KwkG1m8cxO8AfUFqHXzbOCFSqzPCRQ2LhkxR010Km','Andrey Saulin',NULL,NULL,NULL),(4,'andsoft80@mail.ru','$2b$10$tOjzGsR0cWEivlPs.MoNje.TU63wZXq.bvlKMQfDMBUAOZ4QsmluW','Andrey Saulin',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -189,4 +191,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-10-07  7:59:26
+-- Dump completed on 2020-11-19 17:10:22
