@@ -288,6 +288,14 @@ app.post('/signup', function (req, res) {
     var password = req.body.password;
     var name = req.body.name;
 
+    var firstName = '';
+    if(req.body.firstName)
+    firstName = req.body.firstName;
+
+    var lastName = '';
+    if(req.body.lastName)
+    lastName = req.body.lastName;
+
 
     sqlStr = "select * from users where email = '" + email + "'";
     con.query(sqlStr, function (err, result) {
@@ -301,7 +309,7 @@ app.post('/signup', function (req, res) {
 
         }
         else {
-            sqlStr = "insert into users (email, password, name) values('" + email + "','" + bcrypt.hashSync(password, salt) + "','" + name + "')";
+            sqlStr = "insert into users (email, password, name, firstName, lastName) values('" + email + "','" + bcrypt.hashSync(password, salt) + "','" + name +"','"+firstName+"','"+lastName+ "')";
             con.query(sqlStr, function (err, result) {
                 if (err)
                     res.end(JSON.stringify(err));
