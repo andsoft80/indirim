@@ -1,7 +1,7 @@
 
 const useStyles = makeStyles({
     rootForm: {
-
+        maxWidth: 500
 
     },
     bullet: {
@@ -16,6 +16,8 @@ const useStyles = makeStyles({
         marginBottom: 12,
     },
 });
+
+
 function Profile() {
     const classes = useStyles();
     const bull = <span className={classes.bullet}>•</span>;
@@ -48,29 +50,103 @@ function Profile() {
                 // alert(typeof error.message);
             })
     }
+
+    function ChPass() {
+        
+        var password = document.getElementById('password').value;
+        var repassword = document.getElementById('repassword').value;
+
+
+        if (password == '' || repassword == '') {
+            alert("Укажите все поля!");
+
+        }
+        else if (password !== repassword) {
+            alert("Пароли не совпадают!");
+        }
+        else {
+
+            axios.post('/reset', {
+                userid: userData.id,
+                password: password
+
+            }, { headers: {"Authorization": 'Bearer ' + getToken() } })
+                .then(function (response) {
+
+                    alert("Пароль изменен!");
+                    document.getElementById('password').value = '';
+                    document.getElementById('repassword').value = '';
+
+
+                })
+                .catch(function (error) {
+                    // handle error
+                    if (error.message.indexOf('404') > 0) {
+                        alert("Пользователь не найден!");
+
+                    }
+                    else {
+                        alert(error);
+                    }
+                    // alert(typeof error.message);
+                })
+        }
+    }
     return (
 
         <div>
-            <Container maxWidth="sm">
-                <font size="5">Профиль</font>
-                <br /><br />
-                <font size="4">{userData.name}</font>
-                <br />
-                <font size="2">{userData.email}</font>
-                <br /><br />
-                <Card className={classes.rootForm} variant="outlined">
-                    <CardContent>
-                        <Typography className={classes.title} color="textSecondary" gutterBottom>
-                            Смена пароля
-                    </Typography>
 
+            <font size="5">Профиль</font>
+            <br /><br />
+            <font size="4">{userData.name}</font>
+            <br />
+            <font size="2">{userData.email}</font>
+            <br /><br />
+            <Card className={classes.rootForm} variant="outlined">
+                <CardContent>
+                    <Typography className={classes.title} color="textSecondary" gutterBottom>
+                        Смена пароля
+                        </Typography>
+                    <form className={classes.container} noValidate id='chForm' onSubmit={ChPass}>
+                        <TextField
+                            size="small"
+                            fullWidth
+                            id="password"
+                            label="Пароль"
+                            type="password"
+                            //defaultValue="1980-11-21"
+                            className={classes.textField}
+                            // InputLabelProps={{
+                            //     shrink: true,
+                            // }}
+                            variant="outlined"
+                        />
+                        <br /><br />
+                        <TextField
+                            size="small"
+                            fullWidth
+                            id="repassword"
+                            label="Пароль повторно"
+                            type="password"
+                            //defaultValue="1980-11-21"
+                            className={classes.textField}
+                            // InputLabelProps={{
+                            //     shrink: true,
+                            // }}
+                            variant="outlined"
+                        />
+                        <br/><br/>
+                        <Button variant="contained" color="primary" type="submit" fullWidth>
+                            Сменить пароль
+                        </Button>
+                    </form>
 
-                    </CardContent>
-                    <CardActions>
-                        <Button size="small">Learn More</Button>
-                    </CardActions>
-                </Card>
-            </Container>
+                </CardContent>
+                <CardActions>
+
+                </CardActions>
+            </Card>
+
         </div>
 
 

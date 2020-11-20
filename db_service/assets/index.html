@@ -119,13 +119,22 @@
 <body>
 
     <script>
-        $(document).ready(function () {
+        $(window).on('load', function () {
+
+
             $('#reсForm').on('submit', function (e) {
+                e.preventDefault();
+            });
+            $('#chForm').on('submit', function (e) {
+
                 e.preventDefault();
 
 
             });
         });
+
+
+
     </script>
     <script>
         document.createElement('aside');
@@ -157,7 +166,7 @@
             MenuItem,
             Card,
             CardActions,
-            CardContent 
+            CardContent
         } = MaterialUI;
 
         const {
@@ -216,28 +225,7 @@
             );
         }
 
-        const useStyles = makeStyles(theme => ({
-            root: {
-                margin: theme.spacing(6, 0, 3),
-            },
-            lightBulb: {
-                verticalAlign: 'middle',
-                marginRight: theme.spacing(1),
-            },
-            wrap: {
-                backgroundColor: '#F8F8F8',
-                height: '100%'
-            },
-            paper: {
-                padding: 30,
-                width: '100%'
-            }
 
-
-
-
-
-        }));
 
         function Login() {
             const classes = useStyles();
@@ -324,6 +312,28 @@
         }
 
         function App() {
+            const useStyles = makeStyles(theme => ({
+                root: {
+                    margin: theme.spacing(6, 0, 3),
+                },
+                lightBulb: {
+                    verticalAlign: 'middle',
+                    marginRight: theme.spacing(1),
+                },
+                wrap: {
+                    backgroundColor: '#F8F8F8',
+                    height: '100%'
+                },
+                paper: {
+                    padding: 30,
+                    width: '100%'
+                }
+
+
+
+
+
+            }));
             const classes = useStyles();
             const [userData, setUserData] = useState({ name: '' });
             const [anchorEl, setAnchorEl] = React.useState(null);
@@ -440,12 +450,12 @@
                             <div id="sideMenu"></div>
                             <div id="content_wrap">
                                 <Paper className={classes.paper} >
-                                    <div id="content_profile" hidden = {!profilePage}></div>
-                                    <div id="content_orderlist" hidden = {!orderListPage}></div>
-                                    <div id="content_order" hidden = {!orderPage}></div>
-                                    <div id="content_neworder" hidden = {!newOrderPage}></div>
-                                    <div id="content_account" hidden = {!accountPage}></div>
-                                    <div id="content_payment" hidden = {!paymentPage}></div>
+                                    <div id="content_profile" hidden={!profilePage}></div>
+                                    <div id="content_orderlist" hidden={!orderListPage}></div>
+                                    <div id="content_order" hidden={!orderPage}></div>
+                                    <div id="content_neworder" hidden={!newOrderPage}></div>
+                                    <div id="content_account" hidden={!accountPage}></div>
+                                    <div id="content_payment" hidden={!paymentPage}></div>
 
 
                                 </Paper>
