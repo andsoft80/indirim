@@ -1,7 +1,7 @@
 
 const useStyles = makeStyles({
     rootForm: {
-        maxWidth: 500
+        maxWidth: 300
 
     },
     bullet: {
@@ -52,7 +52,7 @@ function Profile() {
     }
 
     function ChPass() {
-        
+
         var password = document.getElementById('password').value;
         var repassword = document.getElementById('repassword').value;
 
@@ -70,7 +70,7 @@ function Profile() {
                 userid: userData.id,
                 password: password
 
-            }, { headers: {"Authorization": 'Bearer ' + getToken() } })
+            }, { headers: { "Authorization": 'Bearer ' + getToken() } })
                 .then(function (response) {
 
                     alert("Пароль изменен!");
@@ -92,6 +92,15 @@ function Profile() {
                 })
         }
     }
+
+    function newCompany() {
+        setOpen(true);
+    }
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+    const [open, setOpen] = React.useState(false);
     return (
 
         <div>
@@ -135,17 +144,98 @@ function Profile() {
                             // }}
                             variant="outlined"
                         />
-                        <br/><br/>
+                        <br /><br />
                         <Button variant="contained" color="primary" type="submit" fullWidth>
                             Сменить пароль
                         </Button>
                     </form>
+
 
                 </CardContent>
                 <CardActions>
 
                 </CardActions>
             </Card>
+            <br /><br />
+            <div id='newCompany' hidden={userData.companyid}>
+                <font size="4">Хотите стать продавцом?</font>
+                <br /><br />
+                <Button variant="contained" color="primary" onClick={newCompany}>
+                    Добавитьт счет
+                        </Button>
+
+            </div>
+
+            <Dialog
+                fullWidth={false}
+                maxWidth={"sm"}
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="max-width-dialog-title"
+            >
+                <DialogTitle id="max-width-dialog-title">Добавить счет</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Чтобы стать продавцом, вы должны указать интересы какого юридического лица вы представляете
+                    </DialogContentText>
+                    <form className={classes.form} noValidate>
+                        <br />
+                        <TextField
+                            required 
+                            size="small"
+                            fullWidth
+                            id="companyName"
+                            label="Название компании или ИП"
+                            
+                            //defaultValue="1980-11-21"
+                            className={classes.textField}
+                            // InputLabelProps={{
+                            //     shrink: true,
+                            // }}
+                            variant="outlined"
+                        />
+                        <br /><br />
+                        <TextField
+                            required 
+                            size="small"
+                            fullWidth
+                            id="inn"
+                            label="ИНН"
+                            
+                            //defaultValue="1980-11-21"
+                            className={classes.textField}
+                            // InputLabelProps={{
+                            //     shrink: true,
+                            // }}
+                            variant="outlined"
+                        />
+                        <br /><br />
+                        <TextField
+                            size="small"
+                            fullWidth
+                            id="kpp"
+                            label="КПП"
+                            
+                            //defaultValue="1980-11-21"
+                            className={classes.textField}
+                            // InputLabelProps={{
+                            //     shrink: true,
+                            // }}
+                            variant="outlined"
+                        />
+
+
+                    </form>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                        Добавить
+                    </Button>
+                    <Button onClick={handleClose} color="primary">
+                        Отмена
+                    </Button>
+                </DialogActions>
+            </Dialog>
 
         </div>
 

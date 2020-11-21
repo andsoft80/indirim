@@ -163,7 +163,7 @@
 
 
             if (email == '' ) {
-                alert("Укажите все поля!");
+                alert("Укажите email!");
 
             }
 
@@ -215,6 +215,7 @@
                             <Login />
                             <form className={classes.container} noValidate onSubmit = {Recovery} id = 'reсForm'>
                                 <TextField
+                                    required 
                                     size="small"
                                     fullWidth
                                     id="email"
