@@ -1,56 +1,19 @@
 import React, {useEffect, useState} from "react";
-import {useDispatch} from "react-redux";
-import {Link as RouterLink, useLocation} from 'react-router-dom';
-import {makeStyles} from "@material-ui/styles";
+import {useDispatch, useSelector} from "react-redux";
+import {Link as RouterLink, useLocation, withRouter} from 'react-router-dom';
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
 import {validate} from "validate.js";
-import {authActions} from "../../redux/actions/auth-actions";
-import {withAuthService} from "../hoc";
-
-const useStyles = makeStyles(theme => ({
-  root: {
-	backgroundColor: theme.palette.background.default,
-	height: '100%'
-  },
-  content: {
-	height: '100%',
-	display: 'flex',
-	flexDirection: 'column'
-  },
-  contentBody: {
-	flexGrow: 1,
-	display: 'flex',
-	alignItems: 'center',
-	[theme.breakpoints.down('md')]: {
-	  justifyContent: 'center'
-	}
-  },
-  form: {
-	paddingLeft: 100,
-	paddingRight: 100,
-	paddingBottom: 125,
-	flexBasis: 700,
-	[theme.breakpoints.down('sm')]: {
-	  paddingLeft: theme.spacing(2),
-	  paddingRight: theme.spacing(2)
-	}
-  },
-  textField: {
-	marginTop: theme.spacing(2)
-  },
-  title: {
-	marginTop: theme.spacing(3)
-  },
-  signInButton: {
-	margin: theme.spacing(2, 0)
-  }
-}));
+import {authActions} from "../../../redux/actions/auth-actions";
+import {withAuthService} from "../../hoc";
+import SignInError from "./sign-in-error";
+import {useTranslation} from "react-i18next";
+import useStyles from "../use-styles";
 
 const schema = {
-  email: {
+  login: {
 	presence: { allowEmpty: false, message: 'is required' },
 	email: true,
 	length: {
@@ -68,33 +31,38 @@ const schema = {
 
 const SignIn = ({authService, ...rest}) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   
   const [credentials, setCredentials] = useState({
-	login: "andsoft80@gmail.com",
-	password: "death666"
+	// login: "andsoft80@gmail.com",
+	// password: "death666"
+	login: "",
+	password: ""
   });
   const [touched, setTouch] = useState({});
   const [errors, setErrors] = useState({});
-  // const [email, setEmail] = useState("andsoft80@gmail.com");
-  // const [password, setPassword] = useState("death666");
   const [valid, setValid] = useState(false);
- 
   
   const dispatch = useDispatch();
   const location = useLocation();
+  const isError = useSelector(state => state.auth.isError);
   
   useEffect(() => {
 	const errors = validate({
-	  email: credentials.login,
+	  login: credentials.login,
 	  password: credentials.password
 	}, schema);
 	
-	setValid(!errors);
-	setErrors(errors);
+	setValid(errors ? false : true);
+	setErrors(errors || {});
+ 
+	dispatch(authActions.fetchSignOut(authService));
+	console.info('useEffect errors:', errors);
   }, [credentials]);
   
   const handleChange = event => {
     event.persist();
+    console.log('handleChange event', event.target.name, event.target.value);
     setCredentials({
 	  ...credentials,
 	  [event.target.name]:
@@ -105,13 +73,15 @@ const SignIn = ({authService, ...rest}) => {
 	setTouch({
 	  ...touched,
 	  [event.target.name]: true
-	})
+	});
+	console.log('handleChange', credentials, touched);
   }
   
-  const hasError = field =>
-	touched[field] && errors[field] ? true : false;
+  const hasError = field => {
+	return !!(touched[field] && errors[field]);
+  };
   
-  const onSignIn = (e) => {
+  const handleSignIn = (e) => {
 	e.preventDefault();
 	const { login, password} = credentials;
 	if (login && password) {
@@ -124,19 +94,19 @@ const SignIn = ({authService, ...rest}) => {
 	<div className={classes.root}>
 	  <div className={classes.content}>
 		<div className={classes.contentBody}>
-		  <form className={classes.form} name="form" onSubmit={onSignIn}>
+		  <form className={classes.form} name="form" onSubmit={handleSignIn}>
 			<Typography className={classes.title} variant="h2">
-			  Sign in
+			  {t('signIn.title')}
 			</Typography>
 			<TextField
 			  className={classes.textField}
-			  error={hasError('email')}
+			  error={hasError('login')}
 			  fullWidth
 			  helperText={
-				hasError('email') ? errors.login[0] : null
+				hasError('login') ? errors.login[0] : null
 			  }
-			  label="Email address"
-			  name="email"
+			  label={t('signIn.login')}
+			  name="login"
 			  onChange={handleChange}
 			  type="text"
 			  value={credentials.login || ''}
@@ -149,7 +119,7 @@ const SignIn = ({authService, ...rest}) => {
 			  helperText={
 				hasError('password') ? errors.password[0] : null
 			  }
-			  label="Password"
+			  label={t('signIn.password')}
 			  name="password"
 			  onChange={handleChange}
 			  type="password"
@@ -157,7 +127,7 @@ const SignIn = ({authService, ...rest}) => {
 			  variant="outlined"
 			/>
 			<Button
-			  className={classes.signInButton}
+			  className={classes.submitButton}
 			  color="primary"
 			  disabled={!valid}
 			  fullWidth
@@ -165,21 +135,21 @@ const SignIn = ({authService, ...rest}) => {
 			  type="submit"
 			  variant="contained"
 			>
-			  Sign in now
+			  {t('signIn.onSignIn')}
 			</Button>
-			<Typography
-			  color="textSecondary"
-			  variant="body1"
-			>
-			  Don't have an account?{' '}
-			  <Link
-				component={RouterLink}
-				to="/signUp"
-				variant="h6"
-			  >
-				Sign up
+			<Typography color="textSecondary" variant="body2">
+			  {t('signIn.dontHaveAccount')}{' '}
+			  <Link component={RouterLink} to="/signUp" variant="body2">
+				{t('signIn.signUpLink')}
 			  </Link>
 			</Typography>
+			<Typography color="textSecondary" variant="body2">
+			  {t('signIn.forgotPassword')}{' '}
+			  <Link component={RouterLink} to="/recovery" variant="body2">
+				{t('signIn.recoveryLink')}
+			  </Link>
+			</Typography>
+			{ isError && <SignInError/>}
 		  </form>
 		</div>
 	  </div>
@@ -187,4 +157,5 @@ const SignIn = ({authService, ...rest}) => {
   );
 }
 
-export default withAuthService()(SignIn);
+export default withAuthService()(withRouter(SignIn));
+// export default withAuthService()(SignIn);

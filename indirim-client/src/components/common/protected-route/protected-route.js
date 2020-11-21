@@ -1,38 +1,32 @@
-import React from "react";
-import PropTypes from 'prop-types';
-import { Redirect, Route } from 'react-router-dom';
-// import {bindActionCreators, compose} from "redux";
-import RouteWithLayout from "../route-with-layout";
-// import {withAuthService} from "../../hoc";
-import {connect} from "react-redux";
+import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
+import { useSelector} from "react-redux";
 
-const ProtectedRoute = ({ component: Component, isLoggedIn, ...rest }) => {
-  console.log("ProtectedRoute: render: isLoggedIn=",isLoggedIn);
+const ProtectedRoute = (props) => {
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const { layout: Layout, component: Component, ...rest } = props;
+  
+  console.info(`ProtectedRoute ${Component.name} ${Layout.name} ${isAuthenticated}`);
+  
   return (
 	<Route
 	  {...rest}
-	  render={props => (
-	    isLoggedIn
-		  ? <Component {...props} />
-		  : <Redirect to={{ pathname: '/signIn', state: { from: props.location } }} />
-		  )
-	  } />
+	  render={
+	    matchProps => {
+	      if(isAuthenticated) {
+	        return (
+			  <Layout>
+				<Component {...matchProps}/>
+			  </Layout>
+			)
+		  } else {
+			console.info(`ProtectedRoute redirected to /signIn`);
+			return (<Redirect to='/signIn'/>)
+		  }
+		}
+	  }
+	/>
   );
-};
+}
 
-ProtectedRoute.propTypes = {
-  component: PropTypes.any.isRequired,
-  layout: PropTypes.any.isRequired,
-  path: PropTypes.string
-};
-
-const mapStateToProps = ({ auth: { isLoggedIn }}) => {
-  console.log("ProtectedRoute: mapStateToProps: isLoggedIn=",isLoggedIn);
-  return { isLoggedIn }
-};
-
-// const mapDispatchToProps = (dispatch, { authService }) => {
-//   return bindActionCreators({}, dispatch);
-// };
-
-export default connect(mapStateToProps)(ProtectedRoute);
+export default ProtectedRoute;

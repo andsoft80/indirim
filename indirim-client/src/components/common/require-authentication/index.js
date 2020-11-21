@@ -1,3 +1,3 @@
-import requireAuthentication from './require-authentication';
+import withAuthentication from '../../hoc/with-authentication';
 
-export default requireAuthentication;
+export default withAuthentication;

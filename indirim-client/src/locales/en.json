@@ -1,0 +1,28 @@
+{
+  "errorIndicator": {
+    "boom": "BOOM",
+    "title": "something has gone terribly wrong",
+    "subTitle": "(but we already sent droids to fix it)"
+  },
+  "signIn": {
+    "title": "Sign In",
+    "login": "Email address",
+    "password": "Password",
+    "onSignIn": "Sign In Now",
+    "dontHaveAccount": "Don't have an account?",
+    "signUpLink": "Sign up"
+  },
+  "signUp": {
+    "title": "Create new account",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email address",
+    "password": "Password",
+    "confirmation": "(confirm)",
+    "iHaveRead": "I have read the",
+    "termsConditions": "Terms and Conditions",
+    "onSignUp": "Sign up now",
+    "haveAccount": "Have an account?",
+    "signInLink": "Sign in"
+  }
+}

@@ -1,5 +1,5 @@
-import {fetchSignIn} from "./auth-actions";
+import {authActions} from "./auth-actions";
 
 export {
-  fetchSignIn,
+  authActions
 };

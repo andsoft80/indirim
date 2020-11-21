@@ -5,39 +5,48 @@ const authReducer = (state, action) => {
   if (state === undefined) {
 	const token = localStorage.getItem("indirim_token");
 	console.info("authReducer. Initial State: Token", token);
-    return token
-	  ? { token: token, isAuthenticated: true, error: {} }
-	  : { token: {}, isAuthenticated: false, error: {} };
+	if ((token === null) || (token === undefined)) {
+	  console.log("token in localstorage is null or undefined");
+	  return { token: {}, signingIn: false, isAuthenticated: false, isError: false, error: {} };
+	}
+    return { token: token, signingIn: false, isAuthenticated: true, isError: false, error: {} };
   }
 
   switch (action.type) {
 	case SIGN_IN_REQUEST:
 	  return {
 	    token: null,
-		isAuthenticated: true,
+		signingIn: true,
+		isAuthenticated: false,
+		isError: false,
 		error: null
 	  };
 
 	case SIGN_IN_SUCCESS:
 	  const { data } = action.payload;
-	  localStorage.setItem("indirim_token", data);
 	  return {
 	    token: data,
+		signingIn: false,
 		isAuthenticated: true,
+		isError: false,
 		error: null
 	  };
 
 	case SIGN_IN_FAIL:
 	  return {
 	    token: null,
+		signingIn: false,
 		isAuthenticated: false,
-		error: action.payload
+		isError: true,
+		error: action.payload.message
 	  };
 
 	case SIGN_OUT:
 	  return {
 	    token: null,
+		signingIn: false,
 		isAuthenticated: false,
+		isError: false,
 		error: null
 	  };
 

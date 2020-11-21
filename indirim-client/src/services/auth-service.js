@@ -24,11 +24,20 @@ class AuthService {
       });
   };
   
-  signOut = () => {
-    localStorage.removeItem("indirim_token");
+  signUp = async (newUser) => {
+	return axios
+	  .post(this._API_URL + "signup", newUser)
+	  .then((res) => {
+		console.info("AuthService.signUp res => ", res);
+		if (res) localStorage.setItem("indirim_token", res);
+		return res;
+	  });
   };
   
-  signOn = async () => {};
+  signOut = () => {
+	console.info("AuthService.signOut");
+    localStorage.removeItem("indirim_token");
+  };
 
 }
 
