@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="description" content="Webpage description goes here" />
+    <meta charset="utf-8">
+    <title>Change_me</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="">
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react@latest/umd/react.development.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react-dom@latest/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@material-ui/core@latest/umd/material-ui.development.js"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/babel-standalone@latest/babel.min.js" crossorigin="anonymous"></script>
+    <!-- Fonts to support Material Design -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <!-- Icons to support Material Design -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="Authcontrol.js"></script>
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        #header {
+            /* background-color: blueviolet; */
+            display: flex;
+            height: 60px;
+
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 15px;
+            padding-right: 30px;
+        }
+
+        #leftside {
+            /* background-color: blueviolet; */
+            display: flex;
+            height: 60px;
+
+
+            align-items: center;
+
+        }
+
+        #rightside {
+            /* background-color: blueviolet; */
+            display: flex;
+            height: 60px;
+
+
+            align-items: center;
+
+        }
+
+        #sideMenu {
+
+            display: flex;
+            width: 250px;
+            border-right: 0.5px solid silver;
+            padding-left: 30px;
+
+
+
+        }
+
+        #footer {
+            /* background-color: rgb(226, 43, 104); */
+            text-align: center;
+            padding-bottom: 10px;
+
+        }
+
+        #content_wrap {
+            /* background-color: blue; */
+            width: 100%;
+            display: flex;
+            padding: 20px;
+
+
+        }
+
+        #content {
+            background-color: white;
+
+
+
+        }
+
+        #vertical_wrap {
+            height: 100%;
+            display: -webkit-flex;
+            display: flex;
+            flex-direction: column;
+
+
+
+
+            justify-content: space-between;
+        }
+
+        #horizontal_wrap {
+
+            display: -webkit-flex;
+            display: flex;
+            height: 100%;
+
+
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <script>
+        $(window).on('load', function () {
+
+
+            $('#reсForm').on('submit', function (e) {
+                e.preventDefault();
+            });
+            $('#chForm').on('submit', function (e) {
+
+                e.preventDefault();
+
+
+            });
+        });
+
+
+
+    </script>
+    <script>
+        document.createElement('aside');
+        document.createElement('article');
+    </script>
+    <script type="text/babel">
+        const {
+            colors,
+            CssBaseline,
+            ThemeProvider,
+            Typography,
+            Container,
+            makeStyles,
+            createMuiTheme,
+            Box,
+            SvgIcon,
+            Link,
+            Icon,
+            TextField,
+            Grid,
+            Button,
+            Checkbox,
+            FormControlLabel,
+            Paper,
+            MenuIcon,
+            Fab,
+            IconButton,
+            Menu,
+            MenuItem,
+            Card,
+            CardActions,
+            CardContent
+        } = MaterialUI;
+
+        const {
+
+            useState
+        } = React;
+
+
+
+        // Create a theme instance.
+        const theme = createMuiTheme({
+            palette: {
+                primary: {
+                    main: '#556cd6',
+                },
+                secondary: {
+                    main: '#19857b',
+                },
+                error: {
+                    main: colors.red.A400,
+                },
+                background: {
+                    default: '#fff',
+                },
+            },
+            typography: {
+                button: {
+                    textTransform: 'none'
+                }
+            },
+            MuiTypography: {
+
+                variantMapping: {
+                    h1: 'h2',
+                    h2: 'h2',
+                    h3: 'h2',
+                    h4: 'h2',
+                    h5: 'h2',
+                    h6: 'h2',
+                    subtitle1: 'h2',
+                    subtitle2: 'h2',
+                    body1: 'span',
+                    body2: 'span',
+                },
+            },
+
+
+
+        });
+
+        function LightBulbIcon(props) {
+            return (
+                <SvgIcon {...props}>
+                    <path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z" />
+                </SvgIcon>
+            );
+        }
+
+
+
+        function Login() {
+            const classes = useStyles();
+            return (
+                <Typography className={classes.root} color="textPrimary" align="center" variant="h5">
+                    Восстановление доступа
+                </Typography>
+            );
+        }
+        function Import() {
+            const classes = useStyles();
+            return (
+                <Typography className={classes.root} color="textPrimary" align="center" variant="h5">
+                    Загрузка статусов оплат из Excel
+                </Typography>
+            );
+        }
+
+        function Copyright() {
+            return (
+                <Typography variant="body2" color="textSecondary" align="center">
+                    {'Copyright © '}
+                    <Link color="inherit" href="https://material-ui.com/">
+                        Your Website
+      </Link>{' '}
+                    {new Date().getFullYear()}
+                    {'.'}
+                </Typography>
+            );
+        }
+
+
+
+        function getPayments() {
+            var parcel = {};
+            parcel.ds = document.getElementById("date_start").value;
+            parcel.de = document.getElementById("date_end").value;
+            parcel.oo = document.getElementById("onlyOpen").checked;
+
+
+            alert(JSON.stringify(parcel));
+        }
+
+        function loadFile(e) {
+            var filename = e.target.files[0].name;
+            alert(filename);
+        }
+        function Recovery() {
+
+            var email = document.getElementById('email').value;
+
+
+            if (email == '') {
+                alert("Укажите все поля!");
+
+            }
+
+            else {
+
+                axios.post('/recovery', {
+
+                    email: email,
+
+
+                }, { headers: {} })
+                    .then(function (response) {
+
+                        alert("Ваш новый пароль выслан на указанный электронный ящик!");
+                        window.location = '/login.html';
+
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        if (error.message.indexOf('400') > 0) {
+                            alert("Ошибка");
+
+                        }
+                        else {
+                            alert(error);
+                        }
+                        // alert(typeof error.message);
+                    })
+            }
+        }
+
+        function App() {
+            const useStyles = makeStyles(theme => ({
+                root: {
+                    margin: theme.spacing(6, 0, 3),
+                },
+                lightBulb: {
+                    verticalAlign: 'middle',
+                    marginRight: theme.spacing(1),
+                },
+                wrap: {
+                    backgroundColor: '#F8F8F8',
+                    height: '100%'
+                },
+                paper: {
+                    padding: 30,
+                    width: '100%'
+                }
+
+
+
+
+
+            }));
+            const classes = useStyles();
+            const [userData, setUserData] = useState({ name: '' });
+            const [anchorEl, setAnchorEl] = React.useState(null);
+            //////////////////////pages////////////////////////
+            const [profilePage, setProfilePage] = React.useState(true);
+            const [orderListPage, setListOrderPage] = React.useState(false);
+            const [orderPage, setOrderPage] = React.useState(false);
+            const [accountPage, setAccountPage] = React.useState(false);
+            const [paymentPage, setPaymentPage] = React.useState(false);
+            const [newOrderPage, setNewOrderPage] = React.useState(false);
+
+            const hideAllPage = () => {
+                setProfilePage(false);
+                setListOrderPage(false);
+                setOrderPage(false);
+                setAccountPage(false);
+                setPaymentPage(false);
+                setNewOrderPage(false);
+            }
+
+            ///////////////////////////////////////////////////
+
+
+
+            const handleClick = (event) => {
+                setAnchorEl(event.currentTarget);
+            };
+
+            const handleCloseProfile = () => {
+                setAnchorEl(null);
+                hideAllPage();
+                setProfilePage(true);
+            };
+            const handleCloseAccount = () => {
+                setAnchorEl(null);
+                hideAllPage();
+                setAccountPage(true);
+            };
+            const handleCloseLogout = () => {
+                setAnchorEl(null);
+                deauthenticateUser();
+                window.location = '/login.html';
+            };
+            const handleClose = () => {
+                setAnchorEl(null);
+            };
+
+            React.useEffect(() => {
+                getUserData();
+            }, []);
+            function getUserData() {
+                axios.post('/userinfo', {
+
+
+
+
+                }, { headers: { "Authorization": 'Bearer ' + getToken() } })
+                    .then(function (response) {
+
+                        setUserData(response.data.data);
+
+
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        if (error.message.indexOf('400') > 0) {
+                            window.location = '/login.html';
+                        }
+                        else {
+                            // alert(error);
+                            window.location = '/login.html';
+                        }
+                        // alert(typeof error.message);
+                    })
+            }
+            return (
+
+                <div className={classes.wrap}>
+                    <div id="vertical_wrap">
+                        <div id='header'>
+                            <div id='leftside'>
+                                <div>
+                                    <IconButton >
+                                        <Icon>menu</Icon>
+                                    </IconButton>
+                                </div>
+                                <div>
+                                    <b><font size="5">Datamix </font></b>
+                                    <font size="5">Сделка будет</font>
+                                </div>
+                            </div>
+                            <div id='rightside'>
+
+                                <Icon>fingerprint</Icon>
+                                <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                                    {userData.name}
+                                </Button>
+                                <Menu
+                                    id="simple-menu"
+                                    anchorEl={anchorEl}
+                                    keepMounted
+                                    open={Boolean(anchorEl)}
+                                    onClose={handleClose}
+                                >
+                                    <MenuItem onClick={handleCloseProfile}>Профиль</MenuItem>
+                                    <MenuItem onClick={handleCloseAccount}>Мой счет</MenuItem>
+                                    <MenuItem onClick={handleCloseLogout}>Выйти</MenuItem>
+                                </Menu>
+
+                            </div>
+
+                        </div>
+                        <div id="horizontal_wrap">
+                            <div id="sideMenu"></div>
+                            <div id="content_wrap">
+                                <Paper className={classes.paper} >
+                                    <div id="content_profile" hidden={!profilePage}></div>
+                                    <div id="content_orderlist" hidden={!orderListPage}></div>
+                                    <div id="content_order" hidden={!orderPage}></div>
+                                    <div id="content_neworder" hidden={!newOrderPage}></div>
+                                    <div id="content_account" hidden={!accountPage}></div>
+                                    <div id="content_payment" hidden={!paymentPage}></div>
+
+
+                                </Paper>
+                            </div>
+                        </div>
+                        <div id="footer"  >Datamix Studio Project</div>
+                    </div>
+
+
+
+
+
+                </div >
+
+
+            );
+        }
+
+        ReactDOM.render(
+            <ThemeProvider theme={theme}>
+                {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+                <CssBaseline />
+                <App />
+            </ThemeProvider>,
+            document.querySelector('#root'),
+        );
+    </script>
+    <script type="text/babel" src="sidemenu.js"></script>
+    <script type="text/babel" src="profile.js"></script>
+    <script type="text/babel" src="account.js"></script>
+
+    <div id="root" style="height: 100%;"></div>
+
+</body>
+
+</html>

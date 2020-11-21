@@ -131,7 +131,10 @@ app.post('/signin', function (req, res) {
                     id: result[0].id,
 
                     name: result[0].name,
-                    email: result[0].email
+                    email: result[0].email,
+                    firstName: result[0].firstName,
+                    lastName: result[0].lastName,
+                    companyid: result[0].companyid,
 
 
 
@@ -288,6 +291,14 @@ app.post('/signup', function (req, res) {
     var password = req.body.password;
     var name = req.body.name;
 
+    var firstName = '';
+    if (req.body.firstName)
+        firstName = req.body.firstName;
+
+    var lastName = '';
+    if (req.body.lastName)
+        lastName = req.body.lastName;
+
 
     sqlStr = "select * from users where email = '" + email + "'";
     con.query(sqlStr, function (err, result) {
@@ -301,7 +312,7 @@ app.post('/signup', function (req, res) {
 
         }
         else {
-            sqlStr = "insert into users (email, password, name) values('" + email + "','" + bcrypt.hashSync(password, salt) + "','" + name + "')";
+            sqlStr = "insert into users (email, password, name, firstName, lastName) values('" + email + "','" + bcrypt.hashSync(password, salt) + "','" + name + "','" + firstName + "','" + lastName + "')";
             con.query(sqlStr, function (err, result) {
                 if (err)
                     res.end(JSON.stringify(err));
@@ -327,10 +338,10 @@ function generate(len) {
     for (var i = 0; i < len; i++) {
         var ch = Math.random(1, 2);
         if (ch < 0.5) {
-            var ch2 = Math.ceil(Math.random(1, ints.length-1) * 10);
+            var ch2 = Math.ceil(Math.random(1, ints.length - 1) * 10);
             out += ints[ch2];
         } else {
-            var ch2 = Math.ceil(Math.random(1, chars.length-1) * 10);
+            var ch2 = Math.ceil(Math.random(1, chars.length - 1) * 10);
             out += chars[ch2];
         }
     }
@@ -356,7 +367,7 @@ app.post('/recovery', function (req, res) {
             console.log(password);
             var hash_pass = bcrypt.hashSync(password, salt);
             console.log(hash_pass);
-            sqlStr = "update users set password = '" + hash_pass + "' where email = '" + email+"'";
+            sqlStr = "update users set password = '" + hash_pass + "' where email = '" + email + "'";
             con.query(sqlStr, function (err, result) {
                 if (err)
                     res.end(JSON.stringify(err));
@@ -368,16 +379,16 @@ app.post('/recovery', function (req, res) {
                     port: 465,
                     secure: true, // true for 465, false for other ports
                     auth: {
-                        user: 'realestate-rus@yandex.ru',
-                        pass: 'Profession@l1',
+                        user: 'realestate-rus',
+                        pass: 'mpueakcygkrafefw',
                     },
                 });
                 let info = transporter.sendMail({
-                    from: 'Сделка будет <ceo@datamixstudio.com>', // sender address
+                    from: 'Сделка будет <realestate-rus@yandex.ru>', // sender address
                     to: email, // list of receivers
                     subject: "Восстановление пароля на портале Сделка Будет", // Subject line
                     text: "Ваш новый пароль", // plain text body
-                    html: "<b>"+password+"</b>", // html body
+                    html: "<b>Ваш новый пароль : " + password + "</b>", // html body
                 });
 
 
@@ -388,8 +399,60 @@ app.post('/recovery', function (req, res) {
 
 
     });
+});
+
+app.post('/reset', function (req, res) {
+    console.log('reg cpass...');
+    let userid = req.body.userid;
+    let password = req.body.password;
+    sqlStr = "select * from users where id = '" + userid + "'";
+    con.query(sqlStr, function (err, result) {
+        if (err) {
+            res.end(JSON.stringify(err));
+        }
+        else if (result.length == 0) {
+            res.statusCode = 404;
+            res.end();
 
 
+        }
+        else {
+
+            var hash_pass = bcrypt.hashSync(password, salt);
+            console.log(hash_pass);
+
+            sqlStr = "update users set password = '" + hash_pass + "' where id = '" + userid + "'";
+            con.query(sqlStr, function (err, result) {
+                if (err)
+                    res.end(JSON.stringify(err));
+
+
+                res.end(JSON.stringify(result));
+                // let transporter = nodemailer.createTransport({
+                //     host: "smtp.yandex.ru",
+                //     port: 465,
+                //     secure: true, // true for 465, false for other ports
+                //     auth: {
+                //         user: 'realestate-rus',
+                //         pass: 'mpueakcygkrafefw',
+                //     },
+                // });
+                // let info = transporter.sendMail({
+                //     from: 'Сделка будет <realestate-rus@yandex.ru>', // sender address
+                //     to: email, // list of receivers
+                //     subject: "Восстановление пароля на портале Сделка Будет", // Subject line
+                //     text: "Ваш новый пароль", // plain text body
+                //     html: "<b>Ваш новый пароль : "+password+"</b>", // html body
+                // });
+
+
+
+            });
+
+        }
+
+
+    });
 
 
 
