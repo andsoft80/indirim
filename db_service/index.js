@@ -270,7 +270,33 @@ app.post('/userinfo', function (req, res) {
     getTokenFromHeader(req).then(function (response) {
 
 
+
+
         res.end(JSON.stringify(response));
+    });
+
+
+
+
+});
+
+app.post('/userdbinfo', function (req, res) {
+
+    getTokenFromHeader(req).then(function (response) {
+        // console.log(response);
+        let id = response.data.id;
+        sqlStr = "select * from users where id = '" + id + "'";
+        con.query(sqlStr, function (err, result) {
+            if (err)
+                res.end(JSON.stringify(err));
+                // console.log(result[0]);     
+            res.end(JSON.stringify(result[0]));
+
+        });
+
+
+
+        // res.end(JSON.stringify(response));
     });
 
 
@@ -402,7 +428,7 @@ app.post('/recovery', function (req, res) {
 });
 
 app.post('/reset', function (req, res) {
-    console.log('reg cpass...');
+    console.log('req cpass...');
     let userid = req.body.userid;
     let password = req.body.password;
     sqlStr = "select * from users where id = '" + userid + "'";
@@ -454,6 +480,55 @@ app.post('/reset', function (req, res) {
 
     });
 
+
+
+});
+
+app.post('/addcompany', function (req, res) {
+    console.log('req addcompany...');
+    let name = req.body.name;
+    let inn = req.body.inn;
+    let kpp = req.body.kpp;
+    let address = req.body.address;
+    let site = req.body.site;
+
+    if(kpp){
+        sqlStr = "select * from companies where inn = '" + inn + "' and kpp = '"+kpp+"'"; 
+
+    }
+    else{
+        sqlStr = "select * from companies where inn = '" + inn + "'";
+    }
+
+
+    con.query(sqlStr, function (err, result) {
+        if (err) {
+            res.end(JSON.stringify(err));
+        }
+        else if (result.length > 0) {
+            res.statusCode = 400;
+            res.end();
+
+
+        }
+        else {
+
+
+            sqlStr = sqlStr = "insert into companies (name, inn, kpp, address, site) values('" + name + "','" + inn + "','" + kpp + "','" + address + "','" + site + "')";
+            con.query(sqlStr, function (err, result) {
+                
+                if (err)
+                    res.end(JSON.stringify(err));
+
+
+                res.end(JSON.stringify(result));
+
+            });
+
+        }
+
+
+    });
 
 
 });
