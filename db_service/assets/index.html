@@ -167,7 +167,7 @@
             Card,
             CardActions,
             CardContent,
-            Dialog, DialogActions ,DialogContent ,DialogContentText ,DialogTitle 
+            Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle
 
         } = MaterialUI;
 
@@ -375,6 +375,7 @@
                 setAccountPage(true);
             };
             const handleCloseLogout = () => {
+
                 setAnchorEl(null);
                 deauthenticateUser();
                 window.location = '/login.html';
@@ -387,6 +388,7 @@
                 getUserData();
             }, []);
             function getUserData() {
+
                 axios.post('/userinfo', {
 
 
@@ -400,17 +402,38 @@
 
                     })
                     .catch(function (error) {
+
                         // handle error
                         if (error.message.indexOf('400') > 0) {
+
                             window.location = '/login.html';
                         }
                         else {
                             // alert(error);
+
                             window.location = '/login.html';
                         }
                         // alert(typeof error.message);
                     })
             }
+
+
+            //////////////////catch account button click in external component///////////////
+
+            function handleClickOutside(e) {
+                // alert(e.target.parentNode.id);
+                if(e.target.parentNode.id ==='acc_btn'){
+                    handleCloseAccount();
+
+                }
+            }
+
+            // Bind the event listener
+            document.addEventListener("mousedown", handleClickOutside);
+
+            ////////////////////////////////////////////////////////////
+
+
             return (
 
                 <div className={classes.wrap}>
@@ -485,11 +508,12 @@
             document.querySelector('#root'),
         );
     </script>
+    <div id="root" style="height: 100%;"></div>
     <script type="text/babel" src="sidemenu.js"></script>
     <script type="text/babel" src="profile.js"></script>
     <script type="text/babel" src="account.js"></script>
 
-    <div id="root" style="height: 100%;"></div>
+
 
 </body>
 

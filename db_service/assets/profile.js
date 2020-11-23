@@ -23,11 +23,13 @@ function Profile() {
 
     const [userData, setUserData] = useState({ name: '' });
     React.useEffect(() => {
+        
         getUserData();
     }, []);
     function getUserData() {
+        
         axios.post('/userdbinfo', {
-
+           
 
 
 
@@ -45,10 +47,12 @@ function Profile() {
                 // handle error
                 
                 if (error.message.indexOf('400') > 0) {
+                    
                     window.location = '/login.html';
                 }
                 else {
                     // alert(error);
+                    
                     window.location = '/login.html';
                 }
                 // alert(typeof error.message);
@@ -117,7 +121,7 @@ function Profile() {
 
         }, { headers: { "Authorization": 'Bearer ' + getToken() } })
             .then(function (response) {
-
+                
                 if(response.data[0])
                 setCompanyData(response.data[0]);
 
@@ -292,7 +296,7 @@ function Profile() {
                 <br /><br />
                 <b><font size="5">{companyData.name}</font></b>
                 <br />
-                <Button  color="primary" variant="outlined">
+                <Button  id = "acc_btn" color="primary" variant="outlined" >
                     Управлять счетом
                 </Button>
 
