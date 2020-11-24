@@ -168,7 +168,8 @@
             Card,
             CardActions,
             CardContent,
-            Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle
+            Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
+            Tabs, Tab, AppBar, Grow
 
         } = MaterialUI;
 
@@ -423,9 +424,14 @@
 
             function handleClickOutside(e) {
                 // alert(e.target.parentNode.id);
-                if(e.target.parentNode.id ==='acc_btn'){
+                if (e.target.parentNode.id === 'acc_btn') {
                     handleCloseAccount();
 
+                }
+                if ($('.MuiTabs-indicator').width()===0) {
+                    let w = $('.MuiTabs-indicator').prev().children().outerWidth();
+
+                    $('.MuiTabs-indicator').width(w);
                 }
             }
 
