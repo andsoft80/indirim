@@ -3,11 +3,11 @@ function Account() {
     const [companyData, setCompanyData] = React.useState({ name: '' });
     React.useEffect(() => {
         getUserData();
-        
+
     }, []);
     React.useEffect(() => {
 
-      }, [Tab]);
+    }, [Tab]);
     function getUserData() {
 
         axios.post('/userdbinfo', {
@@ -104,15 +104,61 @@ function Account() {
         root: {
             flexGrow: 1,
             backgroundColor: theme.palette.background.paper,
-        },
+        }
     }));
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
     ///////////////////////////////////////
+    const [companyEdit, setCompanyEdit] = React.useState(true);
+    const handleCompanyEdit = () => {
+        setCompanyEdit(false);
+
+    }
+
+    const formSub = (e) => {
+        e.preventDefault();
+
+        var name = document.getElementById('companyName').value;
+        var inn = document.getElementById('companyINN').value;
+        var kpp = document.getElementById('companyKPP').value;
+
+
+        axios.post('/table/companies/action/put', {
+            id: companyData.id,
+            name: name,
+            inn: inn,
+            kpp: kpp
+
+
+        }, { headers: { "Authorization": 'Bearer ' + getToken() } })
+            .then(function (response) {
+
+
+                alert('Данные сохранены!');
+                setCompanyEdit(true);
+                getCompanyById(companyData.id);
+
+
+
+
+            })
+            .catch(function (error) {
+                // handle error
+                if (error.message.indexOf('400') > 0) {
+                    alert("Не удалось обработать запрос");
+
+                }
+                else {
+                    alert(error);
+                }
+                // alert(typeof error.message);
+            })
+    }
     return (
 
 
@@ -123,17 +169,67 @@ function Account() {
             <br /><br />
             <div className={classes.root}>
                 <Paper position="static" square>
-                    
-                        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" indicatorColor="primary"
-                            textColor="primary" >
-                            <Tab label="Item One" {...a11yProps(0)} />
-                            <Tab label="Item Two" {...a11yProps(1)} />
-                            <Tab label="Item Three" {...a11yProps(2)} />
-                        </Tabs>
-                    
+
+                    <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" indicatorColor="primary"
+                        textColor="primary" >
+                        <Tab label="Данные продавца" {...a11yProps(0)} />
+                        <Tab label="Менеджеры" {...a11yProps(1)} />
+                        <Tab label="Операции по счету" {...a11yProps(2)} />
+                    </Tabs>
+
                 </Paper>
                 <TabPanel value={value} index={0}>
-                    Item One
+                    <div id="companyWrap" >
+                        <div>
+                            <form id="companyForm" onSubmit={formSub}>
+                                <TextField
+                                    autoFocus
+                                    id="companyName"
+                                    label="Название компании "
+                                    InputProps={{
+                                        readOnly: companyEdit,
+                                    }}
+                                    defaultValue={companyData.name}
+                                />
+                                <br /><br />
+                                <TextField
+                                    id="companyINN"
+                                    label="ИНН компании "
+                                    InputProps={{
+                                        readOnly: companyEdit,
+                                    }}
+                                    defaultValue={companyData.inn}
+                                />
+                                <br /><br />
+                                <TextField
+                                    id="companyKPP"
+                                    label="КПП компании "
+                                    InputProps={{
+                                        readOnly: companyEdit,
+                                    }}
+                                    defaultValue={companyData.kpp}
+                                />
+
+                                <br /><br />
+                                <div hidden={companyEdit}>
+                                    <Button variant="contained" color="primary" type="submit" >
+                                        Сохранить
+                                </Button>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div>
+
+                            <Fab color="secondary" onClick={handleCompanyEdit}>
+                                <Icon>edit</Icon>
+                            </Fab>
+                        </div>
+
+
+
+
+                    </div>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     Item Two

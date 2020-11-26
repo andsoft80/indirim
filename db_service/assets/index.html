@@ -47,6 +47,16 @@
 
             align-items: center;
 
+
+        }
+
+        #companyWrap {
+            /* background-color: blueviolet; */
+            display: flex;
+            justify-content: space-between;
+            align-items: top;
+
+
         }
 
         #rightside {
@@ -132,6 +142,12 @@
 
 
             });
+            // $('#companyForm').on('submit', function (e) {
+            //     alert('cform');
+            //     e.preventDefault();
+
+
+            // });
         });
 
 
@@ -169,7 +185,7 @@
             CardActions,
             CardContent,
             Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
-            Tabs, Tab, AppBar, Grow
+            Tabs, Tab, AppBar, Grow, AddIcon, EditIcon, FavoriteIcon
 
         } = MaterialUI;
 
@@ -428,7 +444,7 @@
                     handleCloseAccount();
 
                 }
-                if ($('.MuiTabs-indicator').width()===0) {
+                if ($('.MuiTabs-indicator').width() === 0) {
                     let w = $('.MuiTabs-indicator').prev().children().outerWidth();
 
                     $('.MuiTabs-indicator').width(w);
