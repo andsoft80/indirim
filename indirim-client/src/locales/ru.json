@@ -1,4 +1,12 @@
 {
+  "accountSidebar": {
+    "orders": "Заказы",
+    "offers": "Предложения",
+    "subscription": "Подписки",
+    "profile": "Профиль",
+    "settings": "Настройки",
+    "signOut": "Выйти из профиля"
+  },
   "reset": {
     "title": "Установка нового пароля",
     "password": "Новый пароль",

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Link as RouterLink, withRouter} from 'react-router-dom';
+import {Link as RouterLink} from 'react-router-dom';
 import {useTranslation} from "react-i18next";
 import Typography from "@material-ui/core/Typography";
 import {validate} from "validate.js";
@@ -47,7 +47,7 @@ const schema = {
 const SignUp = () => {
   const classes = useStyles();
   const { t } = useTranslation();
-  
+
   const [registration, setRegistration] = useState({
 	firstName: '',
 	lastName: '',
@@ -58,16 +58,16 @@ const SignUp = () => {
   const [touched, setTouch] = useState({});
   const [errors, setErrors] = useState({});
   const [valid, setValid] = useState(false);
-  
+
   useEffect(() => {
 	const errors = validate(registration, schema);
 
 	setValid(errors ? false : true);
 	setErrors(errors || {});
   }, [registration]);
-  
+
   const hasError = field => !!(touched[field] && errors[field]);
-  
+
   const handleChange = event => {
 	event.persist();
 	setRegistration({
@@ -82,11 +82,11 @@ const SignUp = () => {
 	  [event.target.name]: true
 	});
   };
-  
+
   const handleSignUp = event => {
 	return {};
   };
-  
+
   return(
 	<div className={classes.root}>
 	  <div className={classes.content}>
@@ -200,4 +200,4 @@ const SignUp = () => {
   );
 }
 
-export default withAuthService()(withRouter(SignUp));
+export default withAuthService()(SignUp);

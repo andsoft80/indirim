@@ -1,13 +1,12 @@
 import React, {Fragment, useEffect} from 'react';
-import {Redirect} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import {routeToPage} from "../../redux/actions/route-actions";
+import {routeToPage} from "../../store/actions/route-actions";
 
 const withAuthentication = () => (Wrapped) => {
   return () => {
 	const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 	const dispatch = useDispatch();
- 
+
 	useEffect(() => {
 	  checkAuth(isAuthenticated);
 	});
@@ -21,7 +20,7 @@ const withAuthentication = () => (Wrapped) => {
 		dispatch(routeToPage(route));
 	  }
 	};
- 
+
 	return (
 	  <Fragment>
 		{

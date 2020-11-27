@@ -1,5 +1,5 @@
 import React from 'react';
-import icon from "../../../assets/svg/error.svg";
+// import icon from "/images/svg/error.svg";
 import {useTranslation} from "react-i18next";
 import Typography from "@material-ui/core/Typography";
 import {makeStyles} from "@material-ui/core/styles";
@@ -38,7 +38,8 @@ const ErrorIndicator = () => {
             <Typography variant="body2" gutterBottom>
               {t("errorIndicator.subTitle")}
             </Typography>
-            <img className={classes.image} src={icon} alt="error icon"/>
+            {/*<img className={classes.image} src={icon} alt="error icon"/>*/}
+            <img className={classes.image} src={"/images/svg/error.svg"} alt="error icon"/>
           </div>
         </Grid>
       </Grid>

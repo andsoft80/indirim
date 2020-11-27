@@ -1,5 +1,5 @@
 import React from 'react';
-import {AuthServiceConsumer} from '../common/service-context';
+import {AuthServiceConsumer} from '../contexts';
 
 const withAuthService = () => (Wrapped) => {
   return (props) => {

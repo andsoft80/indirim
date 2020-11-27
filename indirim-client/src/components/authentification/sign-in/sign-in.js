@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {Link as RouterLink, useLocation, withRouter} from 'react-router-dom';
+import {Link as RouterLink, useLocation, useNavigate} from 'react-router-dom';
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
 import {validate} from "validate.js";
-import {authActions} from "../../../redux/actions/auth-actions";
 import {withAuthService} from "../../hoc";
 import SignInError from "./sign-in-error";
 import {useTranslation} from "react-i18next";
 import useStyles from "../use-styles";
+import {fetchSignIn, fetchSignOut} from "../../../store/actions";
 
 const schema = {
   login: {
@@ -32,7 +32,7 @@ const schema = {
 const SignIn = ({authService, ...rest}) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  
+
   const [credentials, setCredentials] = useState({
 	// login: "andsoft80@gmail.com",
 	// password: "death666"
@@ -42,24 +42,29 @@ const SignIn = ({authService, ...rest}) => {
   const [touched, setTouch] = useState({});
   const [errors, setErrors] = useState({});
   const [valid, setValid] = useState(false);
-  
+  // const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
   const isError = useSelector(state => state.auth.isError);
-  
+
+  useEffect(() => {
+	console.info('1st useEffect ');
+	dispatch(fetchSignOut(authService));
+  }, []);
+
   useEffect(() => {
 	const errors = validate({
 	  login: credentials.login,
 	  password: credentials.password
 	}, schema);
-	
+
 	setValid(errors ? false : true);
 	setErrors(errors || {});
- 
-	dispatch(authActions.fetchSignOut(authService));
-	console.info('useEffect errors:', errors);
+
+	console.info('2nd useEffect errors:', errors);
   }, [credentials]);
-  
+
   const handleChange = event => {
     event.persist();
     console.log('handleChange event', event.target.name, event.target.value);
@@ -76,20 +81,22 @@ const SignIn = ({authService, ...rest}) => {
 	});
 	console.log('handleChange', credentials, touched);
   }
-  
+
   const hasError = field => {
 	return !!(touched[field] && errors[field]);
   };
-  
+
   const handleSignIn = (e) => {
 	e.preventDefault();
 	const { login, password} = credentials;
 	if (login && password) {
 	  const { from } = location.state || { from: { pathname: "/" } };
-	  dispatch(authActions.fetchSignIn(authService, credentials, from));
+	  dispatch(fetchSignIn(authService, credentials, from));
+	  navigate('/', { replace: true })
+	  // history.push('/')
 	}
   };
-  
+
   return (
 	<div className={classes.root}>
 	  <div className={classes.content}>
@@ -157,5 +164,5 @@ const SignIn = ({authService, ...rest}) => {
   );
 }
 
-export default withAuthService()(withRouter(SignIn));
-// export default withAuthService()(SignIn);
+// export default withAuthService()(withRouter(SignIn));
+export default withAuthService()(SignIn);

@@ -1,17 +1,18 @@
 import React, {StrictMode} from 'react';
 import ReactDOM from 'react-dom';
-import { Router } from "react-router";
+import {BrowserRouter as Router } from "react-router-dom";
+// import { Router } from "react-router-dom";
 import {Provider} from "react-redux";
 import {I18nextProvider} from "react-i18next";
 import {ThemeProvider} from "@material-ui/styles";
 import {AuthService} from "./services/auth-service";
 import ErrorBoundary from "./components/common/error-boundary";
-import {AuthServiceProvider} from "./components/common/service-context";
+import {AuthServiceProvider} from "./components/contexts";
 import App from "./components/app";
 
-import store from "./redux";
+import store from "./store";
 import theme from "./theme";
-import { history } from "./utils";
+import history from "./history";
 import i18n from "./services/translate-service";
 import * as serviceWorker from './serviceWorker';
 

@@ -1,9 +1,10 @@
-import React, {Fragment} from "react";
-import { Link as RouterLink, withRouter } from 'react-router-dom';
+import React, {Fragment, useEffect} from "react";
 import Typography from "@material-ui/core/Typography";
 import {makeStyles} from "@material-ui/styles";
-import Link from "@material-ui/core/Link";
-import withAuthentication from "../common/require-authentication";
+import {useDispatch, useSelector} from "react-redux";
+import Button from "@material-ui/core/Button";
+import {fetchSignOut, redirectToSignIn} from "../../store/actions";
+import {withAuthService} from "../hoc";
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -11,8 +12,18 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Welcome = () => {
+const Welcome = ({authService, ...rest}) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  
+  useEffect(() => {
+	console.info("Welcome useEffect");
+  }, [isAuthenticated]);
+  
+  const handleSignOut = () => {
+	dispatch(fetchSignOut(authService));
+  };
   
   return(
     <Fragment>
@@ -20,15 +31,17 @@ const Welcome = () => {
 		Это вы видите если авторизация была успешной
 	  </Typography>
 	  
-	  <Typography color="textSecondary" variant="body1">
-		<Link component={RouterLink} to="/signIn" variant="h6">
-		  Выйти
-		</Link>
-	  </Typography>
+	  <Button
+		variant="contained"
+		color="secondary"
+		onClick={handleSignOut}
+	  >
+		Выйти
+	  </Button>
 	</Fragment>
   );
 };
 
 // export default withAuthentication()(withRouter(Welcome));
 // export default withRouter(Welcome);
-export default Welcome;
+export default withAuthService()(Welcome);
