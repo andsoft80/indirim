@@ -15,6 +15,7 @@ class AuthService {
   };
   
   signUp = async (newUser) => {
+    console.log("AuthService.signUp newUser", newUser)
 	return axios
 	  .post(this._API_URL + "signup", newUser)
 	  .then((res) => {

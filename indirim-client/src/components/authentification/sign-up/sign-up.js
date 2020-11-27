@@ -1,15 +1,14 @@
-import React, {useEffect, useState} from "react";
-import {Link as RouterLink} from 'react-router-dom';
-import {useTranslation} from "react-i18next";
-import Typography from "@material-ui/core/Typography";
+import React, {useContext, useEffect, useState} from "react";
 import {validate} from "validate.js";
-import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
-import Checkbox from "@material-ui/core/Checkbox";
-import Button from "@material-ui/core/Button";
-import {withAuthService} from "../../hoc";
 import useStyles from "../use-styles";
-
+import SignUpError from "./sign-up-error";
+import {useTranslation} from "react-i18next";
+import {AuthServiceContext} from "../../contexts";
+import {fetchSignUp} from "../../../store/actions";
+import {useDispatch, useSelector} from "react-redux";
+import {Link as RouterLink} from 'react-router-dom';
+import {Button, Checkbox, Link, TextField, Typography} from "@material-ui/core";
+import SignUpSuccess from "./sign-up-success";
 
 const schema = {
   firstName: {
@@ -58,7 +57,10 @@ const SignUp = () => {
   const [touched, setTouch] = useState({});
   const [errors, setErrors] = useState({});
   const [valid, setValid] = useState(false);
-
+  const dispatch = useDispatch();
+  const authService = useContext(AuthServiceContext);
+  const {isError, isRegistered} = useSelector(state => state.auth);
+  
   useEffect(() => {
 	const errors = validate(registration, schema);
 
@@ -84,7 +86,8 @@ const SignUp = () => {
   };
 
   const handleSignUp = event => {
-	return {};
+	event.preventDefault();
+	dispatch(fetchSignUp(authService, registration));
   };
 
   return(
@@ -193,6 +196,8 @@ const SignUp = () => {
 				{t('signUp.signInLink')}
 			  </Link>
 			</Typography>
+			{ isError && <SignUpError/>}
+			{ isRegistered && <SignUpSuccess/>}
 		  </form>
 		</div>
 	  </div>
@@ -200,4 +205,4 @@ const SignUp = () => {
   );
 }
 
-export default withAuthService()(SignUp);
+export default SignUp;

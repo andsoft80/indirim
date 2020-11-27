@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {Link as RouterLink, useLocation, useNavigate} from 'react-router-dom';
+import {Link as RouterLink, useNavigate} from 'react-router-dom';
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -29,7 +29,7 @@ const schema = {
   }
 };
 
-const SignIn = ({authService, ...rest}) => {
+const SignIn = ({authService}) => {
   const classes = useStyles();
   const { t } = useTranslation();
 
@@ -42,10 +42,8 @@ const SignIn = ({authService, ...rest}) => {
   const [touched, setTouch] = useState({});
   const [errors, setErrors] = useState({});
   const [valid, setValid] = useState(false);
-  // const history = useHistory();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const location = useLocation();
   const isError = useSelector(state => state.auth.isError);
 
   useEffect(() => {
@@ -86,14 +84,12 @@ const SignIn = ({authService, ...rest}) => {
 	return !!(touched[field] && errors[field]);
   };
 
-  const handleSignIn = (e) => {
-	e.preventDefault();
+  const handleSignIn = (event) => {
+	event.preventDefault();
 	const { login, password} = credentials;
 	if (login && password) {
-	  const { from } = location.state || { from: { pathname: "/" } };
-	  dispatch(fetchSignIn(authService, credentials, from));
+	  dispatch(fetchSignIn(authService, credentials));
 	  navigate('/', { replace: true })
-	  // history.push('/')
 	}
   };
 
@@ -164,5 +160,4 @@ const SignIn = ({authService, ...rest}) => {
   );
 }
 
-// export default withAuthService()(withRouter(SignIn));
 export default withAuthService()(SignIn);

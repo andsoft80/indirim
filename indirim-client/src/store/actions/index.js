@@ -1,9 +1,7 @@
-import {fetchSignIn, fetchSignOut} from "./auth-actions";
-import {redirectToSignIn, redirectToMain} from "./route-actions";
+import {fetchSignIn, fetchSignUp, fetchSignOut} from "./auth-actions";
 
 export {
   fetchSignIn,
+  fetchSignUp,
   fetchSignOut,
-  redirectToSignIn,
-  redirectToMain,
 };

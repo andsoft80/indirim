@@ -1,5 +1,4 @@
 import React, {useContext} from "react";
-import {useTranslation} from "react-i18next";
 import {makeStyles} from "@material-ui/styles";
 import {Link as RouterLink} from "react-router-dom";
 import {Avatar, Box, Divider, List, Typography} from "@material-ui/core";
@@ -21,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
 
 const SidebarContent = () => {
   const classes = useStyles();
-  const {t} = useTranslation();
   const {firstName, lastName, items} = useContext(SidebarItemContext);
   
   return(

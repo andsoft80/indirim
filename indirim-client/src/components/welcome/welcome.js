@@ -3,7 +3,7 @@ import Typography from "@material-ui/core/Typography";
 import {makeStyles} from "@material-ui/styles";
 import {useDispatch, useSelector} from "react-redux";
 import Button from "@material-ui/core/Button";
-import {fetchSignOut, redirectToSignIn} from "../../store/actions";
+import {fetchSignOut} from "../../store/actions";
 import {withAuthService} from "../hoc";
 
 const useStyles = makeStyles(theme => ({
@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Welcome = ({authService, ...rest}) => {
+const Welcome = ({authService}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);

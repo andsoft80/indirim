@@ -1,9 +1,9 @@
 import React from "react";
 import {makeStyles} from "@material-ui/styles";
 import { Alert, AlertTitle } from '@material-ui/lab';
+import {Typography} from "@material-ui/core";
 import {useTranslation} from "react-i18next";
 import {useSelector} from "react-redux";
-import {Typography} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   alert: {
@@ -14,17 +14,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignInError = () => {
+const SignUpError = () => {
   const classes = useStyles();
   const {t} = useTranslation();
   const error = useSelector(state => state.auth.error);
   
   return(
-    <div className={classes.alert}>
+	<div className={classes.alert}>
 	  <Alert severity="error" variant="outlined">
-		<AlertTitle>{t("signInError.title")}</AlertTitle>
+		<AlertTitle>{t("signUpError.title")}</AlertTitle>
 		<Typography variant="caption" display="block" gutterBottom>
-		  {t("signInError.message")}
+		  {t("signUpError.message")}
 		  <br/>
 		  {error}
 		</Typography>
@@ -33,4 +33,4 @@ const SignInError = () => {
   );
 }
 
-export default SignInError;
+export default SignUpError;

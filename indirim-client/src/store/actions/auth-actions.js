@@ -38,17 +38,13 @@ const userSignOut= () => {
   };
 };
 
-const fetchSignIn = (authService, credentials, from) => {
+const fetchSignIn = (authService, credentials) => {
   return dispatch => {
 	const {login, password} = credentials;
 	dispatch(signInRequested());
 	authService.signIn(login, password)
 	  .then((data) => {
 		dispatch(signInLoaded(data));
-		// dispatch(routeToPage({
-		//   method: 'push',
-		//   nextUrl: '/'
-		// }));
 	  })
 	  .catch((error) => dispatch(signInError(error)));
   };

@@ -1,4 +1,12 @@
-import {SIGN_IN_FAIL, SIGN_IN_REQUEST, SIGN_IN_SUCCESS, SIGN_OUT} from "../types";
+import {
+  SIGN_IN_FAIL,
+  SIGN_IN_REQUEST,
+  SIGN_IN_SUCCESS,
+  SIGN_OUT,
+  SIGN_UP_FAIL,
+  SIGN_UP_REQUEST,
+  SIGN_UP_SUCCESS
+} from "../types";
 
 const authReducer = (state, action) => {
 
@@ -7,9 +15,23 @@ const authReducer = (state, action) => {
 	console.info("authReducer. Initial State: Token", token);
 	if ((token === null) || (token === undefined)) {
 	  console.log("token in localstorage is null or undefined");
-	  return { token: {}, loading: false, isAuthenticated: false, isError: false, error: {} };
+	  return {
+	    token: {},
+		loading: false,
+		isAuthenticated: false,
+		isRegistered: false,
+		isError: false,
+		error: {}
+	  };
 	}
-    return { token: token, loading: false, isAuthenticated: true, isError: false, error: {} };
+    return {
+	  token: token,
+	  loading: false,
+	  isAuthenticated: true,
+	  isRegistered: false,
+	  isError: false,
+	  error: {}
+	};
   }
 
   switch (action.type) {
@@ -40,12 +62,36 @@ const authReducer = (state, action) => {
 		isError: true,
 		error: action.payload.message
 	  };
-
+	case SIGN_UP_REQUEST:
+	  return {
+	    ...state.auth,
+		loading: true,
+		isRegistered: false,
+		isError: false,
+		error: null
+	  };
+  
+	case SIGN_UP_SUCCESS:
+	  return {
+		...state.auth,
+		loading: false,
+		isRegistered: true,
+	  };
+  
+	case SIGN_UP_FAIL:
+	  return {
+		...state.auth,
+		loading: false,
+		isRegistered: false,
+		isError: true,
+		error: action.payload.message
+	  };
 	case SIGN_OUT:
 	  return {
 	    token: null,
 		loading: false,
 		isAuthenticated: false,
+		isRegistered: false,
 		isError: false,
 		error: null
 	  };
