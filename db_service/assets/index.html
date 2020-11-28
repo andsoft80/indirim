@@ -407,12 +407,7 @@
             }, []);
             function getUserData() {
 
-                axios.post('/userinfo', {
-
-
-
-
-                }, { headers: { "Authorization": 'Bearer ' + getToken() } })
+                axios.get('/userinfo', {params:{token:getToken()}})
                     .then(function (response) {
 
                         setUserData(response.data.data);
@@ -420,6 +415,7 @@
 
                     })
                     .catch(function (error) {
+                        alert(error);
 
                         // handle error
                         if (error.message.indexOf('400') > 0) {
