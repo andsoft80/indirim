@@ -19,6 +19,10 @@ app.use(express.static('assets'));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cors());
+app.options('*', cors());
+
+
 
 
 //var con = mysql.createConnection(config);
@@ -36,14 +40,16 @@ app.listen(port);
 console.log('The magic happens on port ' + port);
 
 async function getTokenFromHeader(req) {
+    
     var token = '';
-
+    
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
         token = req.headers.authorization.split(' ')[1];
-        // console.log(token)
+         
     }
     let promise = new Promise((resolve, reject) => {
         jwt_sign.verify(token, 'secret', function (err, decoded) {
+            
 
             resolve(decoded);
 
@@ -265,10 +271,20 @@ app.post('/table/:tableName/action/:action', function (req, res) {
 
 
 
-app.post('/userinfo', function (req, res) {
+app.get('/userinfo', function (req, res) {
+    
+    // let token = req.query.token;
+    
+    // jwt_sign.verify(token, 'secret', function (err, decoded) {
+       
+
+    //     res.end(JSON.stringify(decoded));
+
+
+    // });
 
     getTokenFromHeader(req).then(function (response) {
-
+        
 
 
 
@@ -280,11 +296,13 @@ app.post('/userinfo', function (req, res) {
 
 });
 
-app.post('/userdbinfo', function (req, res) {
+app.get('/userdbinfo', function (req, res) {
 
-    getTokenFromHeader(req).then(function (response) {
-        // console.log(response);
-        let id = response.data.id;
+    let token = req.query.token;
+        jwt_sign.verify(token, 'secret', function (err, decoded) {
+         
+
+        let id = decoded.data.id;
         sqlStr = "select * from users where id = '" + id + "'";
         con.query(sqlStr, function (err, result) {
             if (err)
@@ -295,9 +313,24 @@ app.post('/userdbinfo', function (req, res) {
         });
 
 
-
-        // res.end(JSON.stringify(response));
     });
+
+    // getTokenFromHeader(req).then(function (response) {
+        
+    //     let id = response.data.id;
+    //     sqlStr = "select * from users where id = '" + id + "'";
+    //     con.query(sqlStr, function (err, result) {
+    //         if (err)
+    //             res.end(JSON.stringify(err));
+    //             // console.log(result[0]);     
+    //         res.end(JSON.stringify(result[0]));
+
+    //     });
+
+
+
+    //     // res.end(JSON.stringify(response));
+    // });
 
 
 
