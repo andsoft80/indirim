@@ -28,7 +28,7 @@ function Profile() {
     }, []);
     function getUserData() {
         
-        axios.get('/userdbinfo', {params:{token:getToken()}})
+        axios.get('/userdbinfo', { headers: { "Authorization": 'Bearer ' + getToken() } })
             .then(function (response) {
                 
                 setUserData(response.data);

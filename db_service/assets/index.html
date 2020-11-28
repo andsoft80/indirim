@@ -407,7 +407,7 @@
             }, []);
             function getUserData() {
 
-                axios.get('/userinfo', {params:{token:getToken()}})
+                axios.get('/userinfo', { headers: { "Authorization": 'Bearer ' + getToken() } })
                     .then(function (response) {
 
                         setUserData(response.data.data);

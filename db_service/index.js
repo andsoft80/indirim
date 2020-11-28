@@ -273,15 +273,7 @@ app.post('/table/:tableName/action/:action', function (req, res) {
 
 app.get('/userinfo', function (req, res) {
     
-    // let token = req.query.token;
-    
-    // jwt_sign.verify(token, 'secret', function (err, decoded) {
-       
 
-    //     res.end(JSON.stringify(decoded));
-
-
-    // });
 
     getTokenFromHeader(req).then(function (response) {
         
@@ -298,11 +290,11 @@ app.get('/userinfo', function (req, res) {
 
 app.get('/userdbinfo', function (req, res) {
 
-    let token = req.query.token;
-        jwt_sign.verify(token, 'secret', function (err, decoded) {
-         
 
-        let id = decoded.data.id;
+
+    getTokenFromHeader(req).then(function (response) {
+        
+        let id = response.data.id;
         sqlStr = "select * from users where id = '" + id + "'";
         con.query(sqlStr, function (err, result) {
             if (err)
@@ -313,24 +305,9 @@ app.get('/userdbinfo', function (req, res) {
         });
 
 
+
+        // res.end(JSON.stringify(response));
     });
-
-    // getTokenFromHeader(req).then(function (response) {
-        
-    //     let id = response.data.id;
-    //     sqlStr = "select * from users where id = '" + id + "'";
-    //     con.query(sqlStr, function (err, result) {
-    //         if (err)
-    //             res.end(JSON.stringify(err));
-    //             // console.log(result[0]);     
-    //         res.end(JSON.stringify(result[0]));
-
-    //     });
-
-
-
-    //     // res.end(JSON.stringify(response));
-    // });
 
 
 

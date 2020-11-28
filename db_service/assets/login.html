@@ -182,7 +182,7 @@
                         authenticateUser(token);
                         // alert(JSON.stringify(response.data));
 
-                        axios.get('/userinfo', {params:{token:token}})
+                        axios.get('/userinfo', { headers: { "Authorization": 'Bearer ' + getToken() } })
                             .then(function (response) {
 
                                 // alert(JSON.stringify(response.data));
