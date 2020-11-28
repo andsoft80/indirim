@@ -139,7 +139,7 @@ function Profile() {
 
     const handleAddCompany = () => {
        
-        var name = document.getElementById('companyName').value;
+        var name = document.getElementById('company').value;
         var inn = document.getElementById('inn').value;
         var kpp = document.getElementById('kpp').value;
 
@@ -166,7 +166,7 @@ function Profile() {
 
                     alert("Компания добавлена!");
                     setOpen(false);
-                    document.getElementById('companyName').value = '';
+                    document.getElementById('company').value = '';
                     document.getElementById('inn').value = '';
                     document.getElementById('kpp').value = '';
                     document.getElementById('address').value = '';
@@ -315,7 +315,7 @@ function Profile() {
                             required
                             size="small"
                             fullWidth
-                            id="companyName"
+                            id="company"
                             label="Название компании или ИП"
 
                             //defaultValue="1980-11-21"
