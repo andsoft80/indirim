@@ -277,14 +277,6 @@ function Profile() {
                 </CardActions>
             </Card>
             <br /><br />
-            <div id='newCompany' hidden={haveCompany}>
-                <font size="4">Хотите стать продавцом?</font>
-                <br /><br />
-                <Button variant="contained" color="primary" onClick={newCompany}>
-                    Добавить счет
-                </Button>
-
-            </div>
             
             <div id='currCompany' hidden={!haveCompany}>
                 <font size="4">Вы привязаны к компании : </font>
@@ -297,104 +289,7 @@ function Profile() {
 
             </div>
 
-            <Dialog
-                fullWidth={false}
-                maxWidth={"sm"}
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="max-width-dialog-title"
-            >
-                <DialogTitle id="max-width-dialog-title">Добавить счет</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Чтобы стать продавцом и получить счет, вы должны указать интересы какого юридического лица вы представляете
-                    </DialogContentText>
-                    <form className={classes.form} noValidate>
-                        <br />
-                        <TextField
-                            required
-                            size="small"
-                            fullWidth
-                            id="company"
-                            label="Название компании или ИП"
 
-                            //defaultValue="1980-11-21"
-                            className={classes.textField}
-                            // InputLabelProps={{
-                            //     shrink: true,
-                            // }}
-                            variant="outlined"
-                        />
-                        <br /><br />
-                        <TextField
-                            required
-                            size="small"
-                            fullWidth
-                            id="inn"
-                            label="ИНН"
-
-                            //defaultValue="1980-11-21"
-                            className={classes.textField}
-                            // InputLabelProps={{
-                            //     shrink: true,
-                            // }}
-                            variant="outlined"
-                        />
-                        <br /><br />
-                        <TextField
-                            size="small"
-                            fullWidth
-                            id="kpp"
-                            label="КПП"
-
-                            //defaultValue="1980-11-21"
-                            className={classes.textField}
-                            // InputLabelProps={{
-                            //     shrink: true,
-                            // }}
-                            variant="outlined"
-                        />
-                        <br /><br />
-                        <TextField
-                            size="small"
-                            fullWidth
-                            id="address"
-                            label="Адрес"
-
-                            //defaultValue="1980-11-21"
-                            className={classes.textField}
-                            // InputLabelProps={{
-                            //     shrink: true,
-                            // }}
-                            variant="outlined"
-                        />
-                        <br /><br />
-                        <TextField
-                            size="small"
-                            fullWidth
-                            id="site"
-                            label="Веб сайт"
-
-                            //defaultValue="1980-11-21"
-                            className={classes.textField}
-                            // InputLabelProps={{
-                            //     shrink: true,
-                            // }}
-                            variant="outlined"
-                        />
-
-
-                    </form>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleAddCompany} color="primary">
-                        Добавить
-                    </Button>
-                    <Button onClick={handleClose} color="primary">
-                        Отмена
-                    </Button>
-                </DialogActions>
-            </Dialog>
 
         </div>
 

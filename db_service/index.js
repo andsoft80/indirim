@@ -494,7 +494,7 @@ app.post('/reset', function (req, res) {
 
 });
 
-app.post('/addcompany', function (req, res) {
+app.post('/company', function (req, res) {
     console.log('req addcompany...');
     let name = req.body.name;
     let inn = req.body.inn;
@@ -536,6 +536,32 @@ app.post('/addcompany', function (req, res) {
             });
 
         }
+
+
+    });
+
+
+});
+
+app.get('/companyusers', function (req, res) {
+
+    let companyid = req.query.companyid;
+
+
+
+    sqlStr = "select id, name from users where companyid = '" + companyid + "'";
+
+
+
+    con.query(sqlStr, function (err, result) {
+        if (err) {
+            res.statusCode = 500;
+            res.end();
+        }
+        else{
+            res.end(JSON.stringify(result));
+        }
+
 
 
     });
