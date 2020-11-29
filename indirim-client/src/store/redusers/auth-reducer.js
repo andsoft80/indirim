@@ -46,6 +46,8 @@ const authReducer = (state, action) => {
 
 	case SIGN_IN_SUCCESS:
 	  const { data } = action.payload;
+	  localStorage.setItem("indirim_token", data);
+	  console.log('reducer SIGN_IN_SUCCESS',data)
 	  return {
 	    token: data,
 		loading: false,

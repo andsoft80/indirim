@@ -1,15 +1,22 @@
-import React from "react";
-import {useSelector} from "react-redux";
+import React, {useContext, useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import items from "./items";
 import {AccountLayout} from "../../layouts";
+import {AccountServiceContext} from "../../contexts";
+import {fetchAccountInfo} from "../../../store/actions";
 
 const PersonalAccount = () => {
+  const dispatch = useDispatch();
+  const accountService = useContext(AccountServiceContext);
+  const { data: {firstName, lastName, email} } = useSelector(state => state.account);
   
-  const {firstName, lastName} = useSelector(state => state.account.info.data);
+  useEffect(() => {
+    dispatch(fetchAccountInfo(accountService));
+  }, [fetchAccountInfo]);
   
   const context = {
-	firstName,
-	lastName,
+	title: `${firstName} ${lastName}`,
+	subTitle: email,
 	items
   };
   

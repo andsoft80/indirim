@@ -1,3 +1,7 @@
-import PageWithImage from "./page-with-image";
+import PageWithLeftImage from "./page-with-left-image";
+import PageWithBottomImage from "./page-with-bottom-image";
 
-export default PageWithImage;
+export {
+  PageWithLeftImage,
+  PageWithBottomImage
+};

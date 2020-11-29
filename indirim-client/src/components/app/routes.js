@@ -1,17 +1,23 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { MinimalLayout } from "../layouts";
-import { PersonalAccount } from "../accounts";
+import { CompanyAccount, PersonalAccount } from "../accounts";
 import {RecoveryPasswordPage, ResetPasswordPage, SignInPage, SignUpPage} from "../authentification";
-import Welcome from "../welcome";
 import ErrorNotFound from "../common/error-not-found";
+import UnderConstruction from "../common/under-construction";
+import OrderList from "../orders";
 
 
-const routes = (isAuthenticated) => {
+const routes = (config) => {
+  const {isAuthenticated, isSeller} = config;
+  console.log('routes isSeller', isSeller);
+  
   return [
 	{
 	  path: '/',
-	  element: !isAuthenticated ? <MinimalLayout/> : <Navigate to='/account'/>,
+	  element: !isAuthenticated
+		? <MinimalLayout/>
+		: !isSeller ? <Navigate to='/account'/> : <Navigate to='/seller'/>,
 	  children: [
 		{ path: 'signIn', element: <SignInPage/>},
 		{ path: 'signUp', element: <SignUpPage/>},
@@ -26,16 +32,31 @@ const routes = (isAuthenticated) => {
 	},
 	{
 	  path: '/account',
-	  element: isAuthenticated ? <PersonalAccount/> : <Navigate to='/signIn'/>,
+	  element: isAuthenticated && !isSeller ? <PersonalAccount/> : <Navigate to='/signIn'/>,
 	  children: [
 		{ path: '/', element: <Navigate to='/account/welcome'/>},
-		{ path: 'orders', element: <Navigate to='/account/welcome'/>},
+		{ path: 'orders', element: <OrderList/>},
 		{ path: 'offers', element: <Navigate to='/account/welcome'/>},
 		{ path: 'profile', element: <Navigate to='/account/welcome'/>},
-		{ path: 'welcome', element: <Welcome/>},
+		{ path: 'welcome', element: <UnderConstruction/>},
 		{ path: 'settings', element: <Navigate to='/account/welcome'/>},
-		{ path: 'dashboard', element: <Navigate to='/account/dashboard'/>},
+		{ path: 'dashboard', element: <Navigate to='/account/welcome'/>},
 		{ path: 'subscription', element: <Navigate to='/account/welcome'/>},
+		{ path: 'seller', element: <Navigate to='/account/welcome'/>},
+		{ path: '*', element: <Navigate to="/404" /> }
+	  ]
+	},
+	{
+	  path: '/seller',
+	  element: isAuthenticated && isSeller ? <CompanyAccount/> : <Navigate to='/signIn'/>,
+	  children: [
+		{ path: '/', element: <Navigate to='/seller/welcome'/>},
+		{ path: 'offers', element: <Navigate to='/seller/welcome'/>},
+		{ path: 'profile', element: <Navigate to='/seller/welcome'/>},
+		{ path: 'welcome', element: <UnderConstruction/>},
+		{ path: 'settings', element: <Navigate to='/seller/welcome'/>},
+		{ path: 'dashboard', element: <Navigate to='/seller/welcome'/>},
+		{ path: 'subscription', element: <Navigate to='/seller/welcome'/>},
 		{ path: '*', element: <Navigate to="/404" /> }
 	  ]
 	},

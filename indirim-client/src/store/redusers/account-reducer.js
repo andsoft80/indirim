@@ -1,25 +1,13 @@
-import {SIGN_OUT} from "../types";
+import {ACCOUNT_INFO_FAILURE, ACCOUNT_INFO_REQUESTED, ACCOUNT_INFO_SUCCESS, SIGN_OUT} from "../types";
 
 const initialState = {
-  info: {
-	loading: false,
-	error: {},
-	data: {
-	  firstName: "John",
-	  lastName: "Doe",
-	  email: "john.doe@fakemail.com"
-	}
+  loading: false,
+  data: {
+    firstName: "John",
+	lastName: "Doe",
+	email: "john.doe@fakemail.com"
   },
-  orders: {
-	loading: false,
-	error: {},
-	data: []
-  },
-  offers: {
-	loading: false,
-	error: {},
-	data: []
-  }
+  error: {},
 };
 
 const accountReducer = (state, action) => {
@@ -28,6 +16,29 @@ const accountReducer = (state, action) => {
   }
   
   switch (action.type) {
+  
+	case ACCOUNT_INFO_REQUESTED:
+	  return {
+		loading: true,
+		data: {},
+		error: {},
+	  };
+	  
+	case ACCOUNT_INFO_SUCCESS:
+	  const { data } = action.payload;
+	  return {
+	    loading: false,
+		data: data,
+		error: {}
+	  };
+	  
+	case ACCOUNT_INFO_FAILURE:
+	  const {message} = action.payload;
+	  return {
+		loading: false,
+		data: {},
+		error: message,
+	  };
   
 	case SIGN_OUT:
 	  return initialState;

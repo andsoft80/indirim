@@ -25,13 +25,13 @@ const orderError = (error) => {
   };
 };
 
-const fetchOrder = (accountService, accountId) => (dispatch) => {
+const fetchMyOrder = (accountService) => (dispatch) => {
   dispatch(orderRequested());
-  accountService.getOrders(accountId)
+  accountService.getOrders()
     .then(data => dispatch(orderLoaded(data)))
     .catch(error => dispatch(orderError(error)));
 };
 
 export {
-  fetchOrder,
+  fetchMyOrder,
 };
