@@ -1,9 +1,5 @@
 import React from "react";
-import PageWithImage from "../common/page-with-image";
-// import signInImage from "/images/svg/sign-in.svg";
-// import signUpImage from "/images/svg/sign-up.svg";
-// import recoveryImage from "/images/svg/forgot-password.svg";
-// import resetPasswordImage from '/images/svg/forgot-password.svg';
+import {PageWithLeftImage} from "../common/page-with-image";
 import SignIn from "./sign-in";
 import SignUp from "./sign-up";
 import RecoveryPassword from "./recovery-password";
@@ -11,25 +7,25 @@ import ResetPassword from "./reset-password";
 
 
 const SignInPage = () => (
-  <PageWithImage
+  <PageWithLeftImage
     Component={SignIn}
     image={"/images/svg/sign-in.svg"}
   />);
 
 const SignUpPage = () => (
-  <PageWithImage
+  <PageWithLeftImage
     Component={SignUp}
     image={"/images/svg/sign-up.svg"}
   />);
 
 const RecoveryPasswordPage = () => (
-  <PageWithImage
+  <PageWithLeftImage
     Component={RecoveryPassword}
     image={"/images/svg/forgot-password.svg"}
   />);
 
 const ResetPasswordPage = () => (
-  <PageWithImage
+  <PageWithLeftImage
     Component={ResetPassword}
     image={"/images/svg/forgot-password.svg"}
   />);

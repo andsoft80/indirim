@@ -2,11 +2,11 @@ import axios from "axios";
 
 class AuthService {
   
-  _API_URL = "http://194.87.101.39:8080/";
+  _apiBase = "http://194.87.101.39:8080/";
   
   signIn = async (login, password) => {
     return axios
-      .post(this._API_URL + "signin", {login, password})
+      .post(this._apiBase + "signin", {login, password})
       .then((res) => {
         console.info("AuthService.signIn res => ", res);
         if (res) localStorage.setItem("indirim_token", res);
@@ -20,7 +20,6 @@ class AuthService {
 	  .post(this._API_URL + "signup", newUser)
 	  .then((res) => {
 		console.info("AuthService.signUp res => ", res);
-		if (res) localStorage.setItem("indirim_token", res);
 		return res;
 	  });
   };

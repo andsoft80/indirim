@@ -1,14 +1,27 @@
-import AuthServiceContext, { AuthServiceProvider, AuthServiceConsumer } from "./auth-service-context";
-import SidebarItemContext, { SidebarItemProvider, SidebarItemConsumer } from "./sidebar-item-context";
+import AccountServiceContext, {
+  AccountServiceProvider,
+  AccountServiceConsumer }  from "./account-service-context";
+import AuthServiceContext, {
+  AuthServiceProvider,
+  AuthServiceConsumer } from "./auth-service-context";
+import SidebarItemContext, {
+  SidebarItemProvider,
+  SidebarItemConsumer } from "./sidebar-item-context";
+import UniversalServiceContext, {
+  UniversalServiceProvider,
+  UniversalServiceConsumer } from "./universal-service-context";
+
 
 export {
-  AuthServiceProvider,
-  AuthServiceConsumer,
-  SidebarItemProvider,
-  SidebarItemConsumer
+  AccountServiceProvider, AccountServiceConsumer,
+  AuthServiceProvider, AuthServiceConsumer,
+  SidebarItemProvider, SidebarItemConsumer,
+  UniversalServiceProvider, UniversalServiceConsumer
 };
 
 export {
+  AccountServiceContext,
   AuthServiceContext,
-  SidebarItemContext
+  SidebarItemContext,
+  UniversalServiceContext
 };

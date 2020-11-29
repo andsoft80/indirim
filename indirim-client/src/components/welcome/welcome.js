@@ -1,36 +1,37 @@
-import React, {Fragment, useEffect} from "react";
+import React, {Fragment, useContext, useEffect} from "react";
 import Typography from "@material-ui/core/Typography";
 import {makeStyles} from "@material-ui/styles";
 import {useDispatch, useSelector} from "react-redux";
 import Button from "@material-ui/core/Button";
 import {fetchSignOut} from "../../store/actions";
-import {withAuthService} from "../hoc";
+import {AuthServiceContext} from "../contexts";
 
 const useStyles = makeStyles(theme => ({
   title: {
-	marginTop: theme.spacing(3)
+	marginTop: theme.spacing(3),
+	marginBottom: theme.spacing(3)
   },
 }));
 
-const Welcome = ({authService}) => {
+const Welcome = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const authService = useContext(AuthServiceContext)
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-  
+
   useEffect(() => {
 	console.info("Welcome useEffect");
   }, [isAuthenticated]);
-  
+
   const handleSignOut = () => {
 	dispatch(fetchSignOut(authService));
   };
-  
+
   return(
     <Fragment>
 	  <Typography className={classes.title} variant="h2">
-		Это вы видите если авторизация была успешной
+		Если вы это видите, то значит авторизация прошла успешно
 	  </Typography>
-	  
 	  <Button
 		variant="contained"
 		color="secondary"
@@ -42,6 +43,4 @@ const Welcome = ({authService}) => {
   );
 };
 
-// export default withAuthentication()(withRouter(Welcome));
-// export default withRouter(Welcome);
-export default withAuthService()(Welcome);
+export default Welcome;

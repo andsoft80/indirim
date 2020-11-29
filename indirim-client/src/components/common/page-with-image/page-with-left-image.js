@@ -30,12 +30,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const PageWithImage = ({image, Component, ...rest}) => {
+const PageWithLeftImage = ({image, Component, ...rest}) => {
   const classes = useStyles();
   const loading = useSelector(state => state.auth.loading);
 
   useEffect(() => {
-    console.info("PageWithImage useEffect");
+    console.info("PageWithLeftImage useEffect");
   }, [loading]);
 
   return (
@@ -56,4 +56,4 @@ const PageWithImage = ({image, Component, ...rest}) => {
   );
 }
 
-export default PageWithImage;
+export default PageWithLeftImage;

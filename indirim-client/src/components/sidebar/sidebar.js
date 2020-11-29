@@ -16,7 +16,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Sidebar = ({ onMobileClose, openMobile, items }) => {
+const Sidebar = ({ onMobileClose, openMobile }) => {
   const classes = useStyles();
   
   return(
@@ -29,7 +29,7 @@ const Sidebar = ({ onMobileClose, openMobile, items }) => {
 		  open={openMobile}
 		  variant="temporary"
 		>
-		  <SidebarContent items={items}/>
+		  <SidebarContent/>
 		</Drawer>
 	  </Hidden>
 	  <Hidden mdDown>

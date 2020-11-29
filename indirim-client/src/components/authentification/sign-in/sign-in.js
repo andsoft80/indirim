@@ -65,7 +65,6 @@ const SignIn = ({authService}) => {
 
   const handleChange = event => {
     event.persist();
-    console.log('handleChange event', event.target.name, event.target.value);
     setCredentials({
 	  ...credentials,
 	  [event.target.name]:
@@ -77,7 +76,6 @@ const SignIn = ({authService}) => {
 	  ...touched,
 	  [event.target.name]: true
 	});
-	console.log('handleChange', credentials, touched);
   }
 
   const hasError = field => {

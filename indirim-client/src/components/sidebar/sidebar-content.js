@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SidebarContent = () => {
   const classes = useStyles();
-  const {firstName, lastName, items} = useContext(SidebarItemContext);
+  const {title, subTitle, items} = useContext(SidebarItemContext);
   
   return(
 	<Box height="100%" display="flex" flexDirection="column">
@@ -30,11 +30,11 @@ const SidebarContent = () => {
 		  component={RouterLink}
 		  src={""}
 		  to="/account"/>
-		<Typography
-		  className={classes.name}
-		  variant="h5"
-		>
-		  {`${firstName} ${lastName}`}
+		<Typography className={classes.name} variant="h5">
+		  {title}
+		</Typography>
+		<Typography className={classes.name} variant="caption">
+		  {subTitle}
 		</Typography>
 	  </Box>
 	  <Divider />

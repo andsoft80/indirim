@@ -1,13 +1,13 @@
 {
   "errorIndicator": {
-    "boom": "BOOM",
-    "title": "something has gone terribly wrong",
-    "subTitle": "(but we already sent droids to fix it)"
+    "title": "BOOM",
+    "subTitle": "something has gone terribly wrong",
+    "comment": "(but we already sent droids to fix it)"
   },
   "errorNotFound": {
     "title": "404: The page you are looking for isn’t here",
     "subTitle": "You either tried some shady route or you came here by mistake.",
-    "subTitle2": "Whichever it is, try using the navigation"
+    "comment": "Whichever it is, try using the navigation"
   },
   "signIn": {
     "title": "Sign In",

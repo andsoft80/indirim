@@ -1,50 +1,27 @@
 import React from 'react';
-// import icon from "/images/svg/error.svg";
+import PropTypes from "prop-types";
 import {useTranslation} from "react-i18next";
-import Typography from "@material-ui/core/Typography";
-import {makeStyles} from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
+import {PageWithBottomImage} from "../page-with-image";
 
-const useStyles = makeStyles(() => ({
-  root: {
-    height: '100vh',
-  },
-  content: {
-    paddingTop: 150,
-    textAlign: 'center'
-  },
-  image: {
-    marginTop: 50,
-    display: 'inline-block',
-    maxWidth: '100%',
-    width: 560
-  }
-}));
-
-const ErrorIndicator = () => {
-  const classes = useStyles();
+const ErrorIndicator = ({message}) => {
   const { t } = useTranslation();
+  const content = {
+    title: t("errorIndicator.title"),
+    subTitle: t("errorIndicator.subTitle"),
+    comment: message !== "" ? message : t("errorIndicator.comment"),
+  };
+  
   return (
-    <div className={classes.root}>
-      <Grid container justify="center" spacing={4}>
-        <Grid item lg={6} xs={12}>
-          <div className={classes.content}>
-            <Typography variant="h4">
-              {t("errorIndicator.boom")}
-            </Typography>
-            <Typography variant="button" gutterBottom>
-              {t("errorIndicator.title")}
-            </Typography>
-            <Typography variant="body2" gutterBottom>
-              {t("errorIndicator.subTitle")}
-            </Typography>
-            {/*<img className={classes.image} src={icon} alt="error icon"/>*/}
-            <img className={classes.image} src={"/images/svg/error.svg"} alt="error icon"/>
-          </div>
-        </Grid>
-      </Grid>
-    </div>
+    <PageWithBottomImage content={content} image={"/images/svg/error.svg"} />
   );
 };
+
+ErrorIndicator.propTypes = {
+  message: PropTypes.string
+}
+
+ErrorIndicator.defaultProps = {
+  message: ''
+}
 
 export default ErrorIndicator;
