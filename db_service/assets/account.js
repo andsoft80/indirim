@@ -316,6 +316,34 @@ function Account() {
                 // alert(typeof error.message);
             })
     }
+
+
+
+
+    const [selected, setSelected] = React.useState({});
+    const [haveSelected, setHaveSelected] = React.useState(false);
+
+
+
+    const handleClick = (e, id) => {
+        var selectedIts = selected;
+        if (selectedIts[id] && !e.target.checked) {
+            delete selectedIts[id];
+        }
+        else if (e.target.checked) {
+            selectedIts[id] = true;
+        }
+        setSelected(selectedIts);
+
+        if (Object.keys(selectedIts).length > 0) {
+            setHaveSelected(true);
+
+        }
+        else {
+            setHaveSelected(false);
+        }
+
+    }
     return (
 
 
@@ -526,7 +554,52 @@ function Account() {
                         </div>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
+                        <div id = "usersTable">
+                            <div style={{ width: 500 }}>
+                                <TableContainer >
+                                    <Table className={classes.table} aria-label="simple table">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell padding="checkbox">
+                                                    <div hidden={!haveSelected}>
+                                                        <Fab size="small" >
+                                                            <Icon>delete</Icon>
+                                                        </Fab>
+                                                    </div>
 
+                                                </TableCell>
+                                                <TableCell>Код</TableCell>
+                                                <TableCell >Имя пользователя</TableCell>
+
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {companyUsers.map((row) => (
+                                                <TableRow key={row.id} hover>
+                                                    <TableCell padding="checkbox">
+                                                        <Checkbox
+                                                            onClick={(event) => handleClick(event, row.id)}
+                                                            checked={selected[row.id]}
+
+                                                        />
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row" >
+                                                        {row.id}
+                                                    </TableCell>
+                                                    <TableCell >{row.name}</TableCell>
+
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            </div>
+                            <div >
+                                <Fab color="secondary" >
+                                    <Icon>add</Icon>
+                                </Fab>
+                            </div>
+                        </div>
                     </TabPanel>
                     <TabPanel value={value} index={2}>
                         Item Three
