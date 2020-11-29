@@ -1,6 +1,7 @@
 
 
 
+
 function Account() {
 
     // var observer = new MutationObserver(function (mutations) {
@@ -11,6 +12,9 @@ function Account() {
     //     attributes: true
 
     // });
+
+
+
 
     function newCompany() {
         setOpen(true);
@@ -26,6 +30,36 @@ function Account() {
 
     const [userData, setUserData] = useState({ name: '' });
     const [companyData, setCompanyData] = React.useState({ name: '' });
+    const [companyUsers, setCompanyUsers] = React.useState([]);
+
+
+    const getCompanyUsers = (id) => {
+
+
+
+
+        axios.get('/companyusers', { headers: { "Authorization": 'Bearer ' + getToken() }, params: { companyid: id } })
+            .then(function (response) {
+
+                setCompanyUsers(response.data);
+                // alert(JSON.stringify(response));
+
+
+
+            })
+            .catch(function (error) {
+                // handle error
+
+                if (error.message.indexOf('500') > 0) {
+                    alert(error.message);
+                }
+
+            })
+
+
+
+
+    }
 
     const handleAddCompany = () => {
 
@@ -44,7 +78,7 @@ function Account() {
 
         else {
 
-            axios.post('/addcompany', {
+            axios.post('/company', {
                 name: name,
                 inn: inn,
                 kpp: kpp,
@@ -115,10 +149,9 @@ function Account() {
     React.useEffect(() => {
         getUserData();
 
-    }, []);
-    React.useEffect(() => {
 
-    }, [Tab]);
+    }, []);
+
     function getUserData() {
 
         axios.get('/userdbinfo', { headers: { "Authorization": 'Bearer ' + getToken() } })
@@ -126,12 +159,14 @@ function Account() {
 
                 if (response.data.companyid) {
                     setHaveCompany(true);
+
+                    setUserData(response.data);
+
+
+                    getCompanyById(response.data.companyid);
+                    getCompanyUsers(response.data.companyid);
                 }
 
-                setUserData(response.data);
-
-
-                getCompanyById(response.data.companyid);
 
 
 
@@ -157,8 +192,10 @@ function Account() {
         }, { headers: { "Authorization": 'Bearer ' + getToken() } })
             .then(function (response) {
 
-                if (response.data[0])
+                if (response.data[0]) {
                     setCompanyData(response.data[0]);
+
+                }
 
 
             })
@@ -251,8 +288,8 @@ function Account() {
             name: name,
             inn: inn,
             kpp: kpp,
-            address:address,
-            site:site
+            address: address,
+            site: site
 
 
         }, { headers: { "Authorization": 'Bearer ' + getToken() } })
@@ -464,12 +501,12 @@ function Account() {
                                     />
 
                                     <br /><br />
-                                    <div  hidden={companyEdit} >
+                                    <div hidden={companyEdit} >
                                         <Button variant="contained" color="primary" type="submit" >
                                             Сохранить
                                         </Button>
-                                        
-                                        <Button color="primary" onClick={handleCompanyCancelEdit} style ={{marginLeft:20}}>
+
+                                        <Button color="primary" onClick={handleCompanyCancelEdit} style={{ marginLeft: 20 }}>
                                             Отмена
                                         </Button>
                                     </div>
@@ -489,8 +526,8 @@ function Account() {
                         </div>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        Item Two
-                </TabPanel>
+
+                    </TabPanel>
                     <TabPanel value={value} index={2}>
                         Item Three
                 </TabPanel>
