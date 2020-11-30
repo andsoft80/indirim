@@ -1,10 +1,61 @@
-function SideMenu(){
+const useStyles = makeStyles((theme) => ({
+    root: {
+        width: '100%',
+        maxWidth: 360,
+        backgroundColor: theme.palette.background.paper,
+        marginLeft: 10
+    },
+}));
+
+function ListItemLink(props) {
+    return <ListItem button component="a" {...props} />;
+}
+
+function SideMenu() {
+    const classes = useStyles();
     return (
+        <div id="content_wrap">
 
-        <div>
-            Menu
+            <div style={{ height: '100%', width: '100%' }}>
+                {/* <Paper style={{ height: '100%' }}> */}
+                <List component="nav" aria-label="main mailbox folders">
+                    <ListItem button>
+                        <ListItemIcon>
+                            <Icon>shopping_cart</Icon>
+                        </ListItemIcon>
+                        <ListItemText primary="Заказы" />
+                    </ListItem>
+                    <ListItem button>
+                        <ListItemIcon>
+                            <Icon>gavel</Icon>
+                        </ListItemIcon>
+                        <ListItemText primary="Предложения" />
+                    </ListItem>
+                </List>
+                <Divider />
+                <List component="nav" aria-label="secondary mailbox folders">
+                    <ListItem button>
+                        <ListItemIcon>
+                            <Icon>face</Icon>
+                        </ListItemIcon>
+                        <ListItemText primary="Профиль" />
+                    </ListItem>
+                    <ListItemLink >
+                        <ListItemIcon>
+                            <Icon>account_balance_wallet</Icon>
+                        </ListItemIcon>
+                        <ListItemText primary="Мой счет" />
+                    </ListItemLink>
+                    <ListItemLink >
+                        <ListItemIcon>
+                            <Icon>exit_to_app</Icon>
+                        </ListItemIcon>
+                        <ListItemText primary="Выйти" />
+                    </ListItemLink>
+                </List>
+                {/* </Paper> */}
+            </div>
         </div>
-
 
     );
 

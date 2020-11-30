@@ -40,16 +40,16 @@ app.listen(port);
 console.log('The magic happens on port ' + port);
 
 async function getTokenFromHeader(req) {
-    
+
     var token = '';
-    
+
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
         token = req.headers.authorization.split(' ')[1];
-         
+
     }
     let promise = new Promise((resolve, reject) => {
         jwt_sign.verify(token, 'secret', function (err, decoded) {
-            
+
 
             resolve(decoded);
 
@@ -272,11 +272,11 @@ app.post('/table/:tableName/action/:action', function (req, res) {
 
 
 app.get('/userinfo', function (req, res) {
-    
+
 
 
     getTokenFromHeader(req).then(function (response) {
-        
+
 
 
 
@@ -293,13 +293,13 @@ app.get('/userdbinfo', function (req, res) {
 
 
     getTokenFromHeader(req).then(function (response) {
-        
+
         let id = response.data.id;
         sqlStr = "select * from users where id = '" + id + "'";
         con.query(sqlStr, function (err, result) {
             if (err)
                 res.end(JSON.stringify(err));
-                // console.log(result[0]);     
+            // console.log(result[0]);     
             res.end(JSON.stringify(result[0]));
 
         });
@@ -326,6 +326,7 @@ app.post('/signup', function (req, res) {
     var email = req.body.email;
     var password = req.body.password;
     var name = req.body.name;
+    var companyid = req.body.companyid;
 
     var firstName = '';
     if (req.body.firstName)
@@ -348,7 +349,12 @@ app.post('/signup', function (req, res) {
 
         }
         else {
-            sqlStr = "insert into users (email, password, name, firstName, lastName) values('" + email + "','" + bcrypt.hashSync(password, salt) + "','" + name + "','" + firstName + "','" + lastName + "')";
+            if (!companyid) {
+                sqlStr = "insert into users (email, password, name, firstName, lastName) values('" + email + "','" + bcrypt.hashSync(password, salt) + "','" + name + "','" + firstName + "','" + lastName + "')";
+            }
+            else{
+                sqlStr = "insert into users (email, password, name, firstName, lastName, companyid) values('" + email + "','" + bcrypt.hashSync(password, salt) + "','" + name + "','" + firstName + "','" + lastName +"','"+companyid+ "')";
+            }
             con.query(sqlStr, function (err, result) {
                 if (err)
                     res.end(JSON.stringify(err));
@@ -502,11 +508,11 @@ app.post('/company', function (req, res) {
     let address = req.body.address;
     let site = req.body.site;
 
-    if(kpp){
-        sqlStr = "select * from companies where inn = '" + inn + "' and kpp = '"+kpp+"'"; 
+    if (kpp) {
+        sqlStr = "select * from companies where inn = '" + inn + "' and kpp = '" + kpp + "'";
 
     }
-    else{
+    else {
         sqlStr = "select * from companies where inn = '" + inn + "'";
     }
 
@@ -526,7 +532,7 @@ app.post('/company', function (req, res) {
 
             sqlStr = sqlStr = "insert into companies (name, inn, kpp, address, site) values('" + name + "','" + inn + "','" + kpp + "','" + address + "','" + site + "')";
             con.query(sqlStr, function (err, result) {
-                
+
                 if (err)
                     res.end(JSON.stringify(err));
 
@@ -558,7 +564,7 @@ app.get('/companyusers', function (req, res) {
             res.statusCode = 500;
             res.end();
         }
-        else{
+        else {
             res.end(JSON.stringify(result));
         }
 
