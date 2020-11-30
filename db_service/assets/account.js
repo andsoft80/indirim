@@ -326,14 +326,17 @@ function Account() {
 
 
     const handleClick = (e, id) => {
-        var selectedIts = selected;
+
+        var selectedIts = { ...selected };
         if (selectedIts[id] && !e.target.checked) {
             delete selectedIts[id];
         }
         else if (e.target.checked) {
             selectedIts[id] = true;
         }
-        setSelected(selectedIts);
+
+
+
 
         if (Object.keys(selectedIts).length > 0) {
             setHaveSelected(true);
@@ -343,6 +346,115 @@ function Account() {
             setHaveSelected(false);
         }
 
+        // alert(JSON.stringify(selected));
+        setSelected(selectedIts);
+
+    }
+
+    const deleteCompanyUsersById = (id) => {
+        axios.post('/table/users/action/delete', {
+            id: id
+
+        }, { headers: { "Authorization": 'Bearer ' + getToken() } })
+            .then(function (response) {
+                delete selected[id];
+                if (Object.keys(selected).length === 0) {
+                    // alert("Все пользователи удалены!");
+                    getCompanyUsers(companyData.id);
+                }
+
+
+            })
+            .catch(function (error) {
+                // handle error
+                if (error.message.indexOf('400') > 0) {
+                    alert("Пользователь с таким email уже существует");
+
+                }
+                else {
+                    alert(error);
+                }
+                // alert(typeof error.message);
+            })
+
+
+    }
+
+    const deleteCompanyUsers = () => {
+
+        if (selected[userData.id]) {
+            alert("Вы не можете удалить сами себя!");
+        }
+        else {
+            if (confirm("Удалить все выделенные записи?")) {
+                for (var i = 0; i < Object.keys(selected).length; i++) {
+                    deleteCompanyUsersById(Object.keys(selected)[i]);
+                    
+
+                }
+            }
+
+        }
+
+    }
+
+    const [openAddUsers, setOpenAddUsers] = React.useState(false);
+
+    const addCompanyUser = () => {
+        setOpenAddUsers(true);
+
+    }
+    const addCompanyUserClose = () => {
+        setOpenAddUsers(false);
+
+    }
+
+    function handleAddCompanyUser() {
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password1').value;
+        var repassword = document.getElementById('repassword1').value;
+        var name = document.getElementById('name').value;
+        var companyid = companyData.id;
+
+
+
+
+        if (email == '' || password == '' || repassword == '' || name == '') {
+            alert("Укажите все поля!");
+
+        }
+        else if (password !== repassword) {
+            alert("Пароли не совпадают!");
+        }
+        else {
+
+            axios.post('/signup', {
+                name: name,
+                email: email,
+                password: password,
+                companyid: companyid
+
+            }, { headers: {} })
+                .then(function (response) {
+
+                    // alert("Пользователь успешно зарегистрирован!");
+                    setOpenAddUsers(false);
+                    getCompanyUsers(companyData.id);
+
+
+                })
+                .catch(function (error) {
+                    // handle error
+                    if (error.message.indexOf('400') > 0) {
+                        alert("Пользователь с таким email уже существует");
+
+                    }
+                    else {
+                        alert(error);
+                    }
+                    // alert(typeof error.message);
+                })
+        }
     }
     return (
 
@@ -359,6 +471,93 @@ function Account() {
 
             </div>
 
+            <Dialog
+                fullWidth={false}
+                maxWidth={"sm"}
+                open={openAddUsers}
+                onClose={addCompanyUserClose}
+                aria-labelledby="max-width-dialog-title1"
+            >
+                <DialogTitle id="max-width-dialog-title1">Добавить пользователя компании</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Новый пользователь сможет делать предложения от лица вашей компании
+                    </DialogContentText>
+                    <form className={classes.form} noValidate>
+                        <br />
+                        <TextField
+                            required
+                            size="small"
+                            fullWidth
+                            id="name"
+                            label="Имя"
+                            type="textField"
+                            //defaultValue="1980-11-21"
+                            className={classes.textField}
+                            // InputLabelProps={{
+                            //     shrink: true,
+                            // }}
+                            variant="outlined"
+                        />
+                        <br /><br />
+                        <TextField
+                            required
+                            size="small"
+                            fullWidth
+                            id="email"
+                            label="E-mail"
+                            type="textField"
+                            //defaultValue="1980-11-21"
+                            className={classes.textField}
+                            // InputLabelProps={{
+                            //     shrink: true,
+                            // }}
+                            variant="outlined"
+                        />
+                        <br /><br />
+                        <TextField
+                            required
+                            size="small"
+                            fullWidth
+                            id="password1"
+                            label="Пароль"
+                            type="password"
+                            //defaultValue="1980-11-21"
+                            className={classes.textField}
+                            // InputLabelProps={{
+                            //     shrink: true,
+                            // }}
+                            variant="outlined"
+                        />
+                        <br /><br />
+                        <TextField
+                            required
+                            size="small"
+                            fullWidth
+                            id="repassword1"
+                            label="Пароль повторно"
+                            type="password"
+                            //defaultValue="1980-11-21"
+                            className={classes.textField}
+                            // InputLabelProps={{
+                            //     shrink: true,
+                            // }}
+                            variant="outlined"
+                        />
+
+
+
+                    </form>
+                </DialogContent>
+                <DialogActions>
+                    <Button color="primary" onClick={handleAddCompanyUser}>
+                        Добавить
+                    </Button>
+                    <Button onClick={addCompanyUserClose} color="primary">
+                        Отмена
+                    </Button>
+                </DialogActions>
+            </Dialog>
             <Dialog
                 fullWidth={false}
                 maxWidth={"sm"}
@@ -457,7 +656,6 @@ function Account() {
                     </Button>
                 </DialogActions>
             </Dialog>
-
             <div hidden={!haveCompany}>
                 <font size="5">Состояние счета</font>
                 <br />
@@ -554,7 +752,7 @@ function Account() {
                         </div>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <div id = "usersTable">
+                        <div id="usersTable">
                             <div style={{ width: 500 }}>
                                 <TableContainer >
                                     <Table className={classes.table} aria-label="simple table">
@@ -562,7 +760,7 @@ function Account() {
                                             <TableRow>
                                                 <TableCell padding="checkbox">
                                                     <div hidden={!haveSelected}>
-                                                        <Fab size="small" >
+                                                        <Fab size="small" onClick={deleteCompanyUsers}>
                                                             <Icon>delete</Icon>
                                                         </Fab>
                                                     </div>
@@ -595,7 +793,7 @@ function Account() {
                                 </TableContainer>
                             </div>
                             <div >
-                                <Fab color="secondary" >
+                                <Fab color="secondary" onClick={addCompanyUser}>
                                     <Icon>add</Icon>
                                 </Fab>
                             </div>
