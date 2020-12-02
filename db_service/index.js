@@ -254,6 +254,17 @@ function api_impl(req, res) {
 
 
     }
+    if (action === 'sql') {
+        var sqlStr = req.body.sql;
+        con.query(sqlStr, function (err, result) {
+            if (err)
+                res.end(JSON.stringify(err));
+            res.end(JSON.stringify(result));
+
+        });
+
+
+    }
 }
 
 app.post('/table/:tableName/action/:action', function (req, res) {
@@ -352,8 +363,8 @@ app.post('/signup', function (req, res) {
             if (!companyid) {
                 sqlStr = "insert into users (email, password, name, firstName, lastName) values('" + email + "','" + bcrypt.hashSync(password, salt) + "','" + name + "','" + firstName + "','" + lastName + "')";
             }
-            else{
-                sqlStr = "insert into users (email, password, name, firstName, lastName, companyid) values('" + email + "','" + bcrypt.hashSync(password, salt) + "','" + name + "','" + firstName + "','" + lastName +"','"+companyid+ "')";
+            else {
+                sqlStr = "insert into users (email, password, name, firstName, lastName, companyid) values('" + email + "','" + bcrypt.hashSync(password, salt) + "','" + name + "','" + firstName + "','" + lastName + "','" + companyid + "')";
             }
             con.query(sqlStr, function (err, result) {
                 if (err)
