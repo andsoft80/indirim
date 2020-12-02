@@ -21,8 +21,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="Authcontrol.js"></script>
-    
-    
+
+
 
     <style>
         html,
@@ -71,7 +71,7 @@
 
         }
 
-        
+
 
 
 
@@ -88,10 +88,10 @@
 
         #sideMenu {
 
-            display: flex;
+            /* display: flex; */
             width: 250px;
             border-right: 0.5px solid silver;
-            
+
 
 
 
@@ -203,8 +203,8 @@
             CardContent,
             Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
             Tabs, Tab, AppBar, Grow, AddIcon, EditIcon, FavoriteIcon,
-            Table,TableContainer ,TableHead, TableRow, TableCell,TableBody,
-            List, ListItem , ListItemIcon ,ListItemText , Divider 
+            Table, TableContainer, TableHead, TableRow, TableCell, TableBody,
+            List, ListItem, ListItemIcon, ListItemText, Divider
 
         } = MaterialUI;
 
@@ -382,6 +382,12 @@
             const classes = useStyles();
             const [userData, setUserData] = useState({ name: '' });
             const [anchorEl, setAnchorEl] = React.useState(null);
+            const [showMenu, setShowMenu] = React.useState(true);
+            const handleShowMenu = () => {
+
+                setShowMenu(!showMenu);
+            }
+
             //////////////////////pages////////////////////////
             const [profilePage, setProfilePage] = React.useState(true);
             const [orderListPage, setListOrderPage] = React.useState(false);
@@ -429,6 +435,8 @@
 
             React.useEffect(() => {
                 getUserData();
+                // Bind the event listener
+                document.addEventListener("click", handleClickOutside);
             }, []);
             function getUserData() {
 
@@ -460,11 +468,21 @@
             //////////////////catch account button click in external component///////////////
 
             function handleClickOutside(e) {
+               
                 // alert(e.target.parentNode.id);
-                if (e.target.parentNode.id === 'acc_btn') {
+                if (e.target.parentNode.id === 'acc_btn' || e.target.parentNode.id === 'menu_account') {
                     handleCloseAccount();
 
                 }
+                if (e.target.parentNode.id === 'menu_profile') {
+                    handleCloseProfile();
+
+                }
+                if (e.target.parentNode.id === 'menu_exit') {
+                    handleCloseLogout();
+
+                }
+
                 if ($('.MuiTabs-indicator').width() === 0) {
                     let w = $('.MuiTabs-indicator').prev().children().outerWidth();
 
@@ -472,8 +490,7 @@
                 }
             }
 
-            // Bind the event listener
-            document.addEventListener("click", handleClickOutside);
+
 
             ////////////////////////////////////////////////////////////
 
@@ -485,7 +502,7 @@
                         <div id='header'>
                             <div id='leftside'>
                                 <div>
-                                    <IconButton >
+                                    <IconButton onClick={handleShowMenu}>
                                         <Icon>menu</Icon>
                                     </IconButton>
                                 </div>
@@ -516,7 +533,7 @@
 
                         </div>
                         <div id="horizontal_wrap">
-                            <div id="sideMenu"></div>
+                            <div id="sideMenu" hidden={!showMenu}></div>
                             <div id="content_wrap">
                                 <Paper className={classes.paper} >
 

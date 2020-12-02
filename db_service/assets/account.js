@@ -150,6 +150,7 @@ function Account() {
         getUserData();
 
 
+
     }, []);
 
     function getUserData() {
@@ -165,6 +166,8 @@ function Account() {
 
                     getCompanyById(response.data.companyid);
                     getCompanyUsers(response.data.companyid);
+                    getCompanyBalance(response.data.companyid);
+                    getCompanyTrx(response.data.companyid);
                 }
 
 
@@ -322,7 +325,58 @@ function Account() {
 
     const [selected, setSelected] = React.useState({});
     const [haveSelected, setHaveSelected] = React.useState(false);
+    const [companyTrx, setCompanyTrx] = React.useState([]);
+    const [companyBalance, setCompanyBalance] = React.useState(0);
 
+
+    const getCompanyTrx = (id) => {
+        axios.post('/table/free/action/sql', {
+            sql: 'select * from transactions where companyid = ' + id
+
+        }, { headers: { "Authorization": 'Bearer ' + getToken() } })
+            .then(function (response) {
+
+                if (response.data)
+                    setCompanyTrx(response.data);
+
+
+            })
+            .catch(function (error) {
+
+                alert(error);
+
+            })
+
+    }
+
+    const getCompanyBalance = (id) => {
+
+
+
+        axios.post('/table/free/action/sql', {
+            sql: 'select SUM(CASE WHEN isadd = 1 THEN qty else 0 END ) - SUM(CASE WHEN isadd = 0 THEN qty else 0 END ) balance from transactions where companyid = ' + id
+
+        }, { headers: { "Authorization": 'Bearer ' + getToken() } })
+            .then(function (response) {
+
+                if (response.data[0])
+                    setCompanyBalance(response.data[0].balance);
+                // alert(response.data[0].balance);
+
+            })
+            .catch(function (error) {
+
+                alert(error);
+
+            })
+
+
+
+    }
+
+    const addCredits = () => {
+
+    }
 
 
     const handleClick = (e, id) => {
@@ -389,7 +443,7 @@ function Account() {
             if (confirm("Удалить все выделенные записи?")) {
                 for (var i = 0; i < Object.keys(selected).length; i++) {
                     deleteCompanyUsersById(Object.keys(selected)[i]);
-                    
+
 
                 }
             }
@@ -659,7 +713,14 @@ function Account() {
             <div hidden={!haveCompany}>
                 <font size="5">Состояние счета</font>
                 <br />
-                {companyData.name}
+                <div style={{display:'flex', justifyContent: 'space-between'}}>
+                    <div>
+                        {companyData.name}
+                    </div>
+                    <div>
+                        {companyBalance} баллов
+                </div>
+                </div>
                 <br /><br />
                 <div className={classes.root}>
                     <Paper position="static" square>
@@ -800,8 +861,47 @@ function Account() {
                         </div>
                     </TabPanel>
                     <TabPanel value={value} index={2}>
-                        Item Three
-                </TabPanel>
+                        <div id="usersTable">
+                            <div style={{ width: 500 }}>
+                                <TableContainer >
+                                    <Table className={classes.table} aria-label="simple table">
+                                        <TableHead>
+                                            <TableRow>
+
+                                                <TableCell>Код</TableCell>
+                                                <TableCell >Дата</TableCell>
+                                                <TableCell >Приход</TableCell>
+                                                <TableCell >Расход</TableCell>
+                                                <TableCell >Примечание</TableCell>
+
+
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {companyTrx.map((row) => (
+                                                <TableRow key={row.id} hover>
+
+                                                    <TableCell component="th" scope="row" >
+                                                        {row.id}
+                                                    </TableCell>
+                                                    <TableCell >{row.datetime}</TableCell>
+                                                    <TableCell >{row.isadd ? row.qty : ''}</TableCell>
+                                                    <TableCell >{!row.isadd ? row.qty : ''}</TableCell>
+                                                    <TableCell >{row.note}</TableCell>
+
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            </div>
+                            <div >
+                                <Fab color="secondary" onClick={addCredits}>
+                                    <Icon>add</Icon>
+                                </Fab>
+                            </div>
+                        </div>
+                    </TabPanel>
                 </div>
             </div>
         </div>

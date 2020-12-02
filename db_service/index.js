@@ -255,6 +255,7 @@ function api_impl(req, res) {
 
     }
     if (action === 'sql') {
+        console.log('req sql');
         var sqlStr = req.body.sql;
         con.query(sqlStr, function (err, result) {
             if (err)

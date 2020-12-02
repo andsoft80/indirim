@@ -34,24 +34,24 @@ function SideMenu() {
                 </List>
                 <Divider />
                 <List component="nav" aria-label="secondary mailbox folders">
-                    <ListItem button>
-                        <ListItemIcon>
+                    <ListItem button id="menu_profile">
+                        <ListItemIcon id="menu_profile">
                             <Icon>face</Icon>
                         </ListItemIcon>
-                        <ListItemText primary="Профиль" />
+                        <ListItemText primary="Профиль" id="menu_profile"/>
                     </ListItem>
-                    <ListItemLink >
-                        <ListItemIcon>
+                    <ListItem button id="menu_account">
+                        <ListItemIcon id="menu_account">
                             <Icon>account_balance_wallet</Icon>
                         </ListItemIcon>
-                        <ListItemText primary="Мой счет" />
-                    </ListItemLink>
-                    <ListItemLink >
-                        <ListItemIcon>
+                        <ListItemText primary="Мой счет" id="menu_account"/>
+                    </ListItem>
+                    <ListItem button id="menu_exit">
+                        <ListItemIcon id="menu_exit">
                             <Icon>exit_to_app</Icon>
                         </ListItemIcon>
-                        <ListItemText primary="Выйти" />
-                    </ListItemLink>
+                        <ListItemText primary="Выйти" id="menu_exit"/>
+                    </ListItem>
                 </List>
                 {/* </Paper> */}
             </div>
