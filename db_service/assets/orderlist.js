@@ -36,10 +36,7 @@ function OrderList() {
 
         axios.get('/userdbinfo', { headers: { "Authorization": 'Bearer ' + getToken() } })
             .then(function (response) {
-                if (response.data === 'need_auth') {
-                    window.location = '/login.html';
-                    return;
-                }
+
                 setUserData(response.data);
 
 
@@ -48,9 +45,17 @@ function OrderList() {
             })
             .catch(function (error) {
                 // handle error
-
-                alert(error);
-
+                
+                if (error.message.indexOf('401') > 0) {
+                    
+                    window.location = '/login.html';
+                }
+                else {
+                     alert(error);
+                    
+                    
+                }
+                // alert(typeof error.message);
             })
     }
 
@@ -59,10 +64,7 @@ function OrderList() {
         axios.post('/table/orders/action/get', {}, { headers: { "Authorization": 'Bearer ' + getToken() } })
             .then(function (response) {
                 // alert(JSON.stringify(response.data));
-                if (response.data === 'need_auth') {
-                    window.location = '/login.html';
-                    return;
-                }
+
                 setOrders(response.data);
 
 
@@ -71,10 +73,17 @@ function OrderList() {
             })
             .catch(function (error) {
                 // handle error
-
-                alert(error);
-
-
+                
+                if (error.message.indexOf('401') > 0) {
+                    
+                    window.location = '/login.html';
+                }
+                else {
+                     alert(error);
+                    
+                    
+                }
+                // alert(typeof error.message);
             })
     }
     function getTypes() {
@@ -82,10 +91,7 @@ function OrderList() {
         axios.post('/table/types/action/get', {}, { headers: { "Authorization": 'Bearer ' + getToken() } })
             .then(function (response) {
                 // alert(JSON.stringify(response.data));
-                if (response.data === 'need_auth') {
-                    window.location = '/login.html';
-                    return;
-                }
+
                 setTypes(response.data);
                 // alert(response.data.filter(function (el) {
                 //     return el.id==2;
@@ -98,10 +104,17 @@ function OrderList() {
             })
             .catch(function (error) {
                 // handle error
-
-                alert(error);
-
-
+                
+                if (error.message.indexOf('401') > 0) {
+                    
+                    window.location = '/login.html';
+                }
+                else {
+                     alert(error);
+                    
+                    
+                }
+                // alert(typeof error.message);
             })
     }
 

@@ -40,10 +40,7 @@ function Account() {
 
         axios.get('/companyusers', { headers: { "Authorization": 'Bearer ' + getToken() }, params: { companyid: id } })
             .then(function (response) {
-                if(response.data==='need_auth'){
-                    window.location = '/login.html';
-                    return;
-                }
+
                 setCompanyUsers(response.data);
                 // alert(JSON.stringify(response));
 
@@ -52,11 +49,17 @@ function Account() {
             })
             .catch(function (error) {
                 // handle error
-
-                if (error.message.indexOf('500') > 0) {
-                    alert(error.message);
+                
+                if (error.message.indexOf('401') > 0) {
+                    
+                    window.location = '/login.html';
                 }
-
+                else {
+                     alert(error);
+                    
+                    
+                }
+                // alert(typeof error.message);
             })
 
 
@@ -180,7 +183,7 @@ function Account() {
             .catch(function (error) {
                 // handle error
                 alert(error);
-                if (error.message.indexOf('400') > 0) {
+                if (error.message.indexOf('400') > 0 || error.message.indexOf('401') > 0) {
                     window.location = '/login.html';
                 }
                 else {
@@ -207,12 +210,15 @@ function Account() {
             })
             .catch(function (error) {
                 // handle error
-                if (error.message.indexOf('404') > 0) {
-                    alert("Пользователь не найден!");
-
+                
+                if (error.message.indexOf('401') > 0) {
+                    
+                    window.location = '/login.html';
                 }
                 else {
-                    alert(error);
+                     alert(error);
+                    
+                    
                 }
                 // alert(typeof error.message);
             })
@@ -345,9 +351,18 @@ function Account() {
 
             })
             .catch(function (error) {
-
-                alert(error);
-
+                // handle error
+                
+                if (error.message.indexOf('401') > 0) {
+                    
+                    window.location = '/login.html';
+                }
+                else {
+                     alert(error);
+                    
+                    
+                }
+                // alert(typeof error.message);
             })
 
     }
@@ -368,9 +383,18 @@ function Account() {
 
             })
             .catch(function (error) {
-
-                alert(error);
-
+                // handle error
+                
+                if (error.message.indexOf('401') > 0) {
+                    
+                    window.location = '/login.html';
+                }
+                else {
+                     alert(error);
+                    
+                    
+                }
+                // alert(typeof error.message);
             })
 
 

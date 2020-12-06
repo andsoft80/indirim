@@ -31,10 +31,10 @@ function Profile() {
         
         axios.get('/userdbinfo', { headers: { "Authorization": 'Bearer ' + getToken() } })
             .then(function (response) {
-                if(response.data==='need_auth'){
-                    window.location = '/login.html';
-                    return;
-                }
+                // if(response.data==='need_auth'){
+                //     window.location = '/login.html';
+                //     return;
+                // }
                 setUserData(response.data);
                 setHaveCompany(response.data.companyid !== null);
                 getCompanyById(response.data.companyid);
@@ -45,14 +45,14 @@ function Profile() {
             .catch(function (error) {
                 // handle error
                 
-                if (error.message.indexOf('400') > 0) {
+                if (error.message.indexOf('401') > 0) {
                     
                     window.location = '/login.html';
                 }
                 else {
-                    // alert(error);
+                     alert(error);
                     
-                    window.location = '/login.html';
+                    
                 }
                 // alert(typeof error.message);
             })
@@ -128,12 +128,15 @@ function Profile() {
             })
             .catch(function (error) {
                 // handle error
-                if (error.message.indexOf('404') > 0) {
-                    alert("Пользователь не найден!");
-
+                
+                if (error.message.indexOf('401') > 0) {
+                    
+                    window.location = '/login.html';
                 }
                 else {
-                    alert(error);
+                     alert(error);
+                    
+                    
                 }
                 // alert(typeof error.message);
             })
