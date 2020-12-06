@@ -22,13 +22,13 @@ function OrderList() {
     const classes = useStyles();
     const [userData, setUserData] = useState({ name: '' });
     const [orders, setOrders] = useState([]);
-    const [types, setTypes] = useState([]);
+    const [ordertypes, setTypes] = useState([]);
 
     React.useEffect(() => {
 
         getUserData();
-        getOrders();
-        getTypes();
+
+
     }, []);
 
 
@@ -38,22 +38,22 @@ function OrderList() {
             .then(function (response) {
 
                 setUserData(response.data);
-
+                getOrders();
 
 
 
             })
             .catch(function (error) {
                 // handle error
-                
+
                 if (error.message.indexOf('401') > 0) {
-                    
+
                     window.location = '/login.html';
                 }
                 else {
-                     alert(error);
-                    
-                    
+                    alert(error);
+
+
                 }
                 // alert(typeof error.message);
             })
@@ -66,22 +66,22 @@ function OrderList() {
                 // alert(JSON.stringify(response.data));
 
                 setOrders(response.data);
-
+                getTypes();
 
 
 
             })
             .catch(function (error) {
                 // handle error
-                
+
                 if (error.message.indexOf('401') > 0) {
-                    
+
                     window.location = '/login.html';
                 }
                 else {
-                     alert(error);
-                    
-                    
+                    alert(error);
+
+
                 }
                 // alert(typeof error.message);
             })
@@ -93,7 +93,10 @@ function OrderList() {
                 // alert(JSON.stringify(response.data));
 
                 setTypes(response.data);
-                // alert(response.data.filter(function (el) {
+
+
+
+                // alert(ordertypes.filter(function (el) {
                 //     return el.id==2;
                 // })[0]['name']
                 // );
@@ -104,15 +107,15 @@ function OrderList() {
             })
             .catch(function (error) {
                 // handle error
-                
+
                 if (error.message.indexOf('401') > 0) {
-                    
+
                     window.location = '/login.html';
                 }
                 else {
-                     alert(error);
-                    
-                    
+                    alert(error);
+
+
                 }
                 // alert(typeof error.message);
             })
@@ -135,6 +138,20 @@ function OrderList() {
                 </Paper>
 
             </div>
+            <br /><br />
+            <div className={classes.orderList}>
+                {orders.map((order) => (
+                    <Paper square key={order.id}>
+                        {ordertypes.filter(function (el) {
+                            return el.id == order.id;
+                        })[0]['name']}
+
+                    </Paper>
+
+                ))}
+
+            </div>
+
 
 
         </div>
