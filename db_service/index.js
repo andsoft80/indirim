@@ -74,6 +74,7 @@ function check(req, res, next) {
             // console.log(Math.floor(Date.now() / 1000));
             // console.log(value);
             if (value === undefined || value.exp < now) {
+                res.statusCode = 401;
                 res.end("need_auth");
             }
             else {
