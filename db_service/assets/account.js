@@ -128,7 +128,7 @@ function Account() {
 
                             }
                             else {
-                                alert(error);
+                                alert(error);//no
                             }
                             // alert(typeof error.message);
                         })
@@ -143,7 +143,7 @@ function Account() {
 
                     }
                     else {
-                        alert(error);
+                        alert(error);//no
                     }
                     // alert(typeof error.message);
                 })
@@ -182,7 +182,7 @@ function Account() {
             })
             .catch(function (error) {
                 // handle error
-                alert(error);
+                // alert(error);
                 if (error.message.indexOf('400') > 0 || error.message.indexOf('401') > 0) {
                     window.location = '/login.html';
                 }

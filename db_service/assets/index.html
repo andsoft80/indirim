@@ -318,43 +318,43 @@
             var filename = e.target.files[0].name;
             alert(filename);
         }
-        function Recovery() {
+        // function Recovery() {
 
-            var email = document.getElementById('email').value;
-
-
-            if (email == '') {
-                alert("Укажите все поля!");
-
-            }
-
-            else {
-
-                axios.post('/recovery', {
-
-                    email: email,
+        //     var email = document.getElementById('email').value;
 
 
-                }, { headers: {} })
-                    .then(function (response) {
+        //     if (email == '') {
+        //         alert("Укажите все поля!");
 
-                        alert("Ваш новый пароль выслан на указанный электронный ящик!");
-                        window.location = '/login.html';
+        //     }
 
-                    })
-                    .catch(function (error) {
-                        // handle error
-                        if (error.message.indexOf('400') > 0) {
-                            alert("Ошибка");
+        //     else {
 
-                        }
-                        else {
-                            alert(error);
-                        }
-                        // alert(typeof error.message);
-                    })
-            }
-        }
+        //         axios.post('/recovery', {
+
+        //             email: email,
+
+
+        //         }, { headers: {} })
+        //             .then(function (response) {
+
+        //                 alert("Ваш новый пароль выслан на указанный электронный ящик!");
+        //                 window.location = '/login.html';
+
+        //             })
+        //             .catch(function (error) {
+        //                 // handle error
+        //                 if (error.message.indexOf('400') > 0) {
+        //                     alert("Ошибка");
+
+        //                 }
+        //                 else {
+        //                     alert(error);
+        //                 }
+        //                 // alert(typeof error.message);
+        //             })
+        //     }
+        // }
 
         function App() {
             const useStyles = makeStyles(theme => ({
@@ -460,7 +460,7 @@
                             window.location = '/login.html';
                         }
                         else {
-                             alert(error);
+                             alert(error);//no
 
                             
                         }
