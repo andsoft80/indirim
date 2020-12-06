@@ -191,7 +191,7 @@
             Grid,
             Button,
             Checkbox,
-            FormControlLabel,
+            FormControlLabel,FormGroup,
             Paper,
             MenuIcon,
             Fab,
@@ -389,8 +389,8 @@
             }
 
             //////////////////////pages////////////////////////
-            const [profilePage, setProfilePage] = React.useState(true);
-            const [orderListPage, setListOrderPage] = React.useState(false);
+            const [profilePage, setProfilePage] = React.useState(false);
+            const [orderListPage, setListOrderPage] = React.useState(true);
             const [orderPage, setOrderPage] = React.useState(false);
             const [accountPage, setAccountPage] = React.useState(false);
             const [paymentPage, setPaymentPage] = React.useState(false);
@@ -407,7 +407,11 @@
 
             ///////////////////////////////////////////////////
 
-
+            const handleOrderList = () => {
+                
+                hideAllPage();
+                setListOrderPage(true);
+            };
 
             const handleClick = (event) => {
                 setAnchorEl(event.currentTarget);
@@ -469,7 +473,7 @@
 
             function handleClickOutside(e) {
                
-                // alert(e.target.parentNode.id);
+                
                 if (e.target.parentNode.id === 'acc_btn' || e.target.parentNode.id === 'menu_account') {
                     handleCloseAccount();
 
@@ -480,6 +484,11 @@
                 }
                 if (e.target.parentNode.id === 'menu_exit') {
                     handleCloseLogout();
+
+                }
+
+                if (e.target.parentNode.id === 'menu_orderlist') {
+                    handleOrderList();
 
                 }
 
@@ -573,8 +582,10 @@
     </script>
     <div id="root" style="height: 100%;"></div>
     <script type="text/babel" src="sidemenu.js"></script>
-    <script type="text/babel" src="profile.js"></script>
+   
     <script type="text/babel" src="account.js"></script>
+    <script type="text/babel" src="orderlist.js"></script>
+    <script type="text/babel" src="profile.js"></script>
 
 
 

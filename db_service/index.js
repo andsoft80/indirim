@@ -83,7 +83,7 @@ function check(req, res, next) {
     }
 }
 
-app.post('*', function (req, res, next) {
+app.all('*', function (req, res, next) {
     // console.log(req.url);
     check(req, res, next);
 })

@@ -19,11 +19,11 @@ function SideMenu() {
             <div style={{ height: '100%', width: '100%' }}>
                 {/* <Paper style={{ height: '100%' }}> */}
                 <List component="nav" aria-label="main mailbox folders">
-                    <ListItem button>
-                        <ListItemIcon>
+                    <ListItem button id="menu_orderlist">
+                        <ListItemIcon id="menu_orderlist">
                             <Icon>shopping_cart</Icon>
                         </ListItemIcon>
-                        <ListItemText primary="Заказы" />
+                        <ListItemText primary="Заказы" id="menu_orderlist"/>
                     </ListItem>
                     <ListItem button>
                         <ListItemIcon>

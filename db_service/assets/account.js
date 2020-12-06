@@ -40,7 +40,10 @@ function Account() {
 
         axios.get('/companyusers', { headers: { "Authorization": 'Bearer ' + getToken() }, params: { companyid: id } })
             .then(function (response) {
-
+                if(response.data==='need_auth'){
+                    window.location = '/login.html';
+                    return;
+                }
                 setCompanyUsers(response.data);
                 // alert(JSON.stringify(response));
 

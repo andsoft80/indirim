@@ -1,24 +1,25 @@
 
-const useStyles = makeStyles({
-    rootForm: {
-        maxWidth: 300
 
-    },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-    },
-    title: {
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
-    },
-});
 
 
 function Profile() {
+    const useStyles = makeStyles({
+        rootForm: {
+            maxWidth: 300
+    
+        },
+        bullet: {
+            display: 'inline-block',
+            margin: '0 2px',
+            transform: 'scale(0.8)',
+        },
+        title: {
+            fontSize: 14,
+        },
+        pos: {
+            marginBottom: 12,
+        },
+    });
     const classes = useStyles();
 
     const [userData, setUserData] = useState({ name: '' });
@@ -30,7 +31,10 @@ function Profile() {
         
         axios.get('/userdbinfo', { headers: { "Authorization": 'Bearer ' + getToken() } })
             .then(function (response) {
-                
+                if(response.data==='need_auth'){
+                    window.location = '/login.html';
+                    return;
+                }
                 setUserData(response.data);
                 setHaveCompany(response.data.companyid !== null);
                 getCompanyById(response.data.companyid);
@@ -277,6 +281,7 @@ function Profile() {
                 </CardActions>
             </Card>
             <br /><br />
+
             
             <div id='currCompany' hidden={!haveCompany}>
                 <font size="4">Вы привязаны к компании : </font>
