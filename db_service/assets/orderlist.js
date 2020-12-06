@@ -11,18 +11,31 @@ function OrderList() {
             marginLeft: 10
         },
         filters: {
-            height: 100,
+            // height: 100,
             // backgroundColor: 'silver'
         },
         filters_content: {
             marginLeft: 20
+        },
+        orderList :{
+            display:"flex",
+            flexWrap: 'wrap',
+            
+            //justifyContent:"space-around"
+        },
+
+        orderCard:{
+            minWidth:320,
+            minHeight:500,
+            margin: 10
         }
+
 
     }));
     const classes = useStyles();
     const [userData, setUserData] = useState({ name: '' });
     const [orders, setOrders] = useState([]);
-    const [ordertypes, setTypes] = useState([]);
+    const [ordertypes, setOredrTypes] = useState([]);
 
     React.useEffect(() => {
 
@@ -32,7 +45,7 @@ function OrderList() {
     }, []);
 
 
-    function getUserData() {
+    const getUserData = () => {
 
         axios.get('/userdbinfo', { headers: { "Authorization": 'Bearer ' + getToken() } })
             .then(function (response) {
@@ -59,7 +72,7 @@ function OrderList() {
             })
     }
 
-    function getOrders() {
+    const getOrders = () => {
 
         axios.post('/table/orders/action/get', {}, { headers: { "Authorization": 'Bearer ' + getToken() } })
             .then(function (response) {
@@ -86,18 +99,18 @@ function OrderList() {
                 // alert(typeof error.message);
             })
     }
-    function getTypes() {
+    const getTypes = () => {
 
         axios.post('/table/types/action/get', {}, { headers: { "Authorization": 'Bearer ' + getToken() } })
             .then(function (response) {
-                // alert(JSON.stringify(response.data));
 
-                setTypes(response.data);
+
+                setOredrTypes(response.data);
 
 
 
                 // alert(ordertypes.filter(function (el) {
-                //     return el.id==2;
+                //     return el.id == 2;
                 // })[0]['name']
                 // );
 
@@ -138,13 +151,13 @@ function OrderList() {
                 </Paper>
 
             </div>
-            <br /><br />
+            <br />
             <div className={classes.orderList}>
                 {orders.map((order) => (
-                    <Paper square key={order.id}>
-                        {ordertypes.filter(function (el) {
-                            return el.id == order.id;
-                        })[0]['name']}
+                    <Paper  key={order.id} className={classes.orderCard}>
+                        {ordertypes.length > 0 ? ordertypes.filter(function (el) {
+                            return el.id == order.typeid;
+                        })[0]['name'] : ""}
 
                     </Paper>
 

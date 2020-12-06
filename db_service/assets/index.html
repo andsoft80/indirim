@@ -104,14 +104,16 @@
 
         }
 
-        #content_wrap {
-            /* background-color: blue; */
+        /* #content_wrap {
+            
             width: 100%;
             display: flex;
             padding: 20px;
+            min-height: 100vh;
+            
 
 
-        }
+        } */
 
         #content {
             background-color: white;
@@ -127,16 +129,17 @@
             flex-direction: column;
 
 
+            align-content: space-between;
 
-
-            justify-content: space-between;
+            /* justify-content: space-between; */
         }
 
         #horizontal_wrap {
 
             display: -webkit-flex;
             display: flex;
-            height: 100%;
+            /* min-height: 800px; */
+            flex-grow: 1;
 
 
 
@@ -372,6 +375,13 @@
                 paper: {
                     padding: 30,
                     width: '100%'
+                },
+                contentWrap:{
+                    width: '100%',
+                    display: 'flex',
+                    padding: 20,
+                    flexGrow: 1
+                
                 }
 
 
@@ -543,7 +553,7 @@
                         </div>
                         <div id="horizontal_wrap">
                             <div id="sideMenu" hidden={!showMenu}></div>
-                            <div id="content_wrap">
+                            <div  className={classes.contentWrap}>
                                 <Paper className={classes.paper} >
 
                                     <div id="content_profile" hidden={!profilePage}></div>
