@@ -589,24 +589,32 @@ app.get('/companyusers', function (req, res) {
 });
 
 app.get('/orders', function (req, res) {
-    let userid = req.query.userid;
+    
+
+    getTokenFromHeader(req).then(function (response) {
+
+        // console.log(response);
+        sqlStr = "select * from orders where userid = '" + response.data.id + "'";
+
+        con.query(sqlStr, function (err, result) {
+            if (err) {
+                res.statusCode = 500;
+                res.end();
+            }
+            else {
+                res.end(JSON.stringify(result));
+            }
+    
+    
+    
+        });
+
+        
+    });    
 
 
 
-    sqlStr = "select * from orders where userid = '" + userid + "'";
 
-    con.query(sqlStr, function (err, result) {
-        if (err) {
-            res.statusCode = 500;
-            res.end();
-        }
-        else {
-            res.end(JSON.stringify(result));
-        }
-
-
-
-    });
     
 
 });
