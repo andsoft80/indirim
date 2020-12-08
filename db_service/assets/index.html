@@ -194,7 +194,7 @@
             Grid,
             Button,
             Checkbox,
-            FormControlLabel,FormGroup,
+            FormControlLabel, FormGroup,
             Paper,
             MenuIcon,
             Fab,
@@ -207,7 +207,8 @@
             Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
             Tabs, Tab, AppBar, Grow, AddIcon, EditIcon, FavoriteIcon,
             Table, TableContainer, TableHead, TableRow, TableCell, TableBody,
-            List, ListItem, ListItemIcon, ListItemText, Divider
+            List, ListItem, ListItemIcon, ListItemText, Divider,
+            ButtonGroup
 
         } = MaterialUI;
 
@@ -265,40 +266,13 @@
 
         });
 
-        function LightBulbIcon(props) {
-            return (
-                <SvgIcon {...props}>
-                    <path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z" />
-                </SvgIcon>
-            );
-        }
-
-
-
-        function Login() {
-            const classes = useStyles();
-            return (
-                <Typography className={classes.root} color="textPrimary" align="center" variant="h5">
-                    Восстановление доступа
-                </Typography>
-            );
-        }
-        function Import() {
-            const classes = useStyles();
-            return (
-                <Typography className={classes.root} color="textPrimary" align="center" variant="h5">
-                    Загрузка статусов оплат из Excel
-                </Typography>
-            );
-        }
-
         function Copyright() {
             return (
                 <Typography variant="body2" color="textSecondary" align="center">
                     {'Copyright © '}
-                    <Link color="inherit" href="https://material-ui.com/">
-                        Your Website
-      </Link>{' '}
+                    <Link color="inherit" href="https://www.datamixstudio.com/">
+                        Datamix Studio
+                    </Link>{' '}
                     {new Date().getFullYear()}
                     {'.'}
                 </Typography>
@@ -317,10 +291,10 @@
             alert(JSON.stringify(parcel));
         }
 
-        function loadFile(e) {
-            var filename = e.target.files[0].name;
-            alert(filename);
-        }
+        // function loadFile(e) {
+        //     var filename = e.target.files[0].name;
+        //     alert(filename);
+        // }
         // function Recovery() {
 
         //     var email = document.getElementById('email').value;
@@ -376,12 +350,12 @@
                     padding: 30,
                     width: '100%'
                 },
-                contentWrap:{
+                contentWrap: {
                     width: '100%',
                     display: 'flex',
                     padding: 20,
                     flexGrow: 1
-                
+
                 }
 
 
@@ -418,7 +392,7 @@
             ///////////////////////////////////////////////////
 
             const handleOrderList = () => {
-                
+
                 hideAllPage();
                 setListOrderPage(true);
             };
@@ -460,6 +434,7 @@
                         setUserData(response.data.data);
 
 
+
                     })
                     .catch(function (error) {
 
@@ -470,9 +445,9 @@
                             window.location = '/login.html';
                         }
                         else {
-                             alert(error);//no
+                            alert(error);//no
 
-                            
+
                         }
                         // alert(typeof error.message);
                     })
@@ -482,8 +457,8 @@
             //////////////////catch account button click in external component///////////////
 
             function handleClickOutside(e) {
-               
-                
+
+
                 if (e.target.parentNode.id === 'acc_btn' || e.target.parentNode.id === 'menu_account') {
                     handleCloseAccount();
 
@@ -501,6 +476,12 @@
                     handleOrderList();
 
                 }
+                if (e.target.parentNode.id === 'createOrder_btn') {
+                    // alert('createOrder_btn');
+
+
+
+                }
 
                 if ($('.MuiTabs-indicator').width() === 0) {
                     let w = $('.MuiTabs-indicator').prev().children().outerWidth();
@@ -512,6 +493,7 @@
 
 
             ////////////////////////////////////////////////////////////
+
 
 
             return (
@@ -529,6 +511,7 @@
                                     <b><font size="5">Datamix </font></b>
                                     <font size="5">Сделка будет</font>
                                 </div>
+
                             </div>
                             <div id='rightside'>
 
@@ -553,7 +536,7 @@
                         </div>
                         <div id="horizontal_wrap">
                             <div id="sideMenu" hidden={!showMenu}></div>
-                            <div  className={classes.contentWrap}>
+                            <div className={classes.contentWrap}>
                                 <Paper className={classes.paper} >
 
                                     <div id="content_profile" hidden={!profilePage}></div>
@@ -568,8 +551,9 @@
                                 </Paper>
                             </div>
                         </div>
-                        <div id="footer"  >Datamix Studio Project</div>
+                        <div id="footer"  ><Copyright /></div>
                     </div>
+
 
 
 
@@ -592,7 +576,7 @@
     </script>
     <div id="root" style="height: 100%;"></div>
     <script type="text/babel" src="sidemenu.js"></script>
-   
+
     <script type="text/babel" src="account.js"></script>
     <script type="text/babel" src="orderlist.js"></script>
     <script type="text/babel" src="profile.js"></script>
