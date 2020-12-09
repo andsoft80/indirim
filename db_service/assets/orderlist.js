@@ -29,8 +29,8 @@ function OrderList() {
         },
 
         orderCard: {
-            minWidth: 320,
-            minHeight: 500,
+            minWidth: 200,
+            minHeight: 300,
             margin: 10
         }
 
@@ -146,7 +146,13 @@ function OrderList() {
     const [ordertypescreate, setOrderTypesCreate] = React.useState([]);
     const anchorRef = React.useRef(null);
     const [selectedIndex, setSelectedIndex] = React.useState(1);
+    const [selectedOrderType, setSelectedOrderType] = React.useState(1);
     const options = ['Create a merge commit', 'Squash and merge', 'Rebase and merge'];
+
+    const handleChangeSOT = (ev) => {
+        
+        setSelectedOrderType(ev.target.value);
+    };
     const handleClickCreate = () => {
         console.info(`You clicked ${options[selectedIndex]}`);
     };
@@ -217,7 +223,7 @@ function OrderList() {
 
     return (
         <div >
-            <div style={{display:"flex"}}>
+            <div style={{ display: "flex" }}>
                 <font size="5">Заказы</font>
 
                 <div style={{ marginLeft: 40 }}>
@@ -253,7 +259,7 @@ function OrderList() {
                     </Menu>
                 </div>
             </div>
-            <br/><br/>
+            <br /><br />
             <div id="filters" className={classes.filters}>
                 <Paper position="static" square>
                     <div>
@@ -294,6 +300,26 @@ function OrderList() {
                             </DialogContentText>
                     <form className={classes.form} noValidate>
                         <br />
+                        <FormControl style = {{width:100}}>
+                            <InputLabel id="demo-simple-select-label">Тип заказа</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="selectedOT"
+                                value={selectedOrderType ? selectedOrderType : " "}
+                                onChange={handleChangeSOT}
+                            >
+                                {ordertypescreate.map((option, index) => (
+                                    <MenuItem
+                                        key={option.id}
+                                        value = {option.id}
+                                        
+                                    >
+                                        {option.name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+
                         <TextField
                             required
                             size="small"
