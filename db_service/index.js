@@ -256,7 +256,7 @@ function api_impl(req, res) {
 
     }
     if (action === 'sql') {
-        console.log('req sql');
+        // console.log('req sql');
         var sqlStr = req.body.sql;
         con.query(sqlStr, function (err, result) {
             if (err)
@@ -638,6 +638,45 @@ app.get('/orders/all', function (req, res) {
 
 
     });
+
+  
     
+
+});
+
+app.get('/orders/page', function (req, res) {
+    
+    let page = req.query.page;//from 0
+    let rawsPerPage = req.query.rawsPerPage;
+    var sortDesc = req.query.sortDesc;
+    let allRowsCount = 0;
+    
+    
+
+    sqlStr = "select * from orders ";
+    
+
+    if(sortDesc=='true'){
+        sqlStr = sqlStr+"ORDER BY id DESC";
+    }
+    
+    con.query(sqlStr, function (err, result) {
+        if (err) {
+            res.statusCode = 500;
+            res.end();
+        }
+        else {
+            allRowsCount = result.length;
+            let arr = result.slice(rawsPerPage*page,rawsPerPage*page+rawsPerPage);
+            let parcel = {};
+            parcel.orders = arr;
+            parcel.allOrdersCount = allRowsCount;
+            // console.log(arr);
+            res.end(JSON.stringify(parcel));
+        }
+
+
+
+    });  
 
 });
