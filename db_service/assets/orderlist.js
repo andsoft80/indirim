@@ -55,7 +55,8 @@ function OrderList() {
             .then(function (response) {
 
                 setUserData(response.data);
-                getOrders(10,0);
+                setShowProgress(true);
+                getOrders(10, 0);
 
 
 
@@ -76,8 +77,8 @@ function OrderList() {
             })
     }
 
-    const getOrders = (rPP,p) => {
-        var params ={};
+    const getOrders = (rPP, p) => {
+        var params = {};
         params.page = p;
         params.rawsPerPage = rPP;
         params.sortDesc = true;
@@ -97,7 +98,7 @@ function OrderList() {
                 setPage(p);
                 setRowsPerPage(rPP);
                 setAllOrdersCount(response.data.allOrdersCount);
-                
+                setShowProgress(false);
 
 
 
@@ -291,15 +292,16 @@ function OrderList() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [viewOrdersArray, setViewOrdersArray] = React.useState([]);
-    allOrdersCount
     const [allOrdersCount, setAllOrdersCount] = React.useState(0);
-
+    
+    const [showProgress, setShowProgress] = React.useState(false);
 
     const handleChangePage = (event, newPage) => {
-        
+
         setPage(newPage);
         // setViewOrdersArray(orders.slice(rowsPerPage*newPage,rowsPerPage*newPage+rowsPerPage));
-        getOrders(rowsPerPage,newPage);
+        setShowProgress(true);
+        getOrders(rowsPerPage, newPage);
     };
 
     const handleChangeRowsPerPage = (event) => {
@@ -371,11 +373,11 @@ function OrderList() {
                     <div className={classes.orderList}>
                         {orders.map((order) => (
                             <Paper key={order.id} className={classes.orderCard}>
-                                
+
                                 {ordertypes.length > 0 ? ordertypes.filter(function (el) {
                                     return el.id == order.typeid;
                                 })[0]['name'] : ""}
-                                <br/>
+                                <br />
                                 {order.id}
 
                             </Paper>
@@ -385,7 +387,7 @@ function OrderList() {
                     </div>
 
                 </div>
-                <div id='footer-paginator' style={{borderTop:'1px solid silver'}}>
+                <div id='footer-paginator' style={{ borderTop: '1px solid silver' }}>
                     <TablePagination
                         component="div"
                         count={allOrdersCount}
@@ -395,8 +397,14 @@ function OrderList() {
                         onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                 </div>
+                <div style={{ position: "absolute",left: '50%',top: '50%' }} hidden = {!showProgress}>
+                    <CircularProgress />
+
+                </div>
             </div>
-            {/* ////////////////////////dialogs///////////////////////////////////////////// */}
+            {/* ////////////////////////dialogs and progress///////////////////////////////////////////// */}
+
+
 
             <Dialog
                 fullWidth={false}
