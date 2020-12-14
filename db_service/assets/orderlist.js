@@ -4,9 +4,10 @@
 
 function OrderList() {
 
-    const TestClick = () => {
-        alert('test click');
-    }
+
+
+
+
     const useStyles = makeStyles((theme) => ({
         root: {
             width: '100%',
@@ -31,6 +32,9 @@ function OrderList() {
         orderCard: {
             minWidth: 200,
             minHeight: 300,
+            maxWidth: 200,
+            maxHeight: 300,
+
             margin: 10
         }
 
@@ -293,7 +297,7 @@ function OrderList() {
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [viewOrdersArray, setViewOrdersArray] = React.useState([]);
     const [allOrdersCount, setAllOrdersCount] = React.useState(0);
-    
+
     const [showProgress, setShowProgress] = React.useState(false);
 
     const handleChangePage = (event, newPage) => {
@@ -307,6 +311,7 @@ function OrderList() {
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
+        getOrders(parseInt(event.target.value, 10), 0);
     };
 
     ///////////////////////////////////
@@ -370,21 +375,33 @@ function OrderList() {
 
                     </div>
                     <br />
+                    {/* ////////orders////////// */}
                     <div className={classes.orderList}>
                         {orders.map((order) => (
-                            <Paper key={order.id} className={classes.orderCard}>
+                            <Paper key={order.id} className={classes.orderCard} style={{ padding: 5 }}>
+                                <div id="orderWrap">
+                                    <div id="orderHeader" style={{display:"flex"}}>
+                                        <div id="orderHeaderLeft">
+                                            <b>
+                                            {ordertypes.length > 0 ? ordertypes.filter(function (el) {
+                                                return el.id == order.typeid;
+                                            })[0]['name'] : ""}
+                                            </b>
+                                                                                        
+                                        </div>
+                                        <div id="orderHeaderRight" style={{marginLeft:"auto", backgroundColor: order.enddate?"red":"green", color:"white", padding:5, height:30}}>
+                                            {order.enddate?"Закрыто":"Открыто"}
 
-                                {ordertypes.length > 0 ? ordertypes.filter(function (el) {
-                                    return el.id == order.typeid;
-                                })[0]['name'] : ""}
-                                <br />
-                                {order.id}
+                                        </div>
+                                    </div>
+                                </div>
 
                             </Paper>
 
                         ))}
 
                     </div>
+                    {/* ////////////////////////////////////////// */}
 
                 </div>
                 <div id='footer-paginator' style={{ borderTop: '1px solid silver' }}>
@@ -397,7 +414,7 @@ function OrderList() {
                         onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                 </div>
-                <div style={{ position: "absolute",left: '50%',top: '50%' }} hidden = {!showProgress}>
+                <div style={{ position: "absolute", left: '50%', top: '50%' }} hidden={!showProgress}>
                     <CircularProgress />
 
                 </div>
