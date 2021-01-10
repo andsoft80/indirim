@@ -255,6 +255,8 @@ function OrderList() {
             .then(function (response) {
                 alert("Заказ успешно добавлен!");
                 setOpenCreateDialog(false);
+                getOrders(10, 0);
+
 
 
 
@@ -378,21 +380,74 @@ function OrderList() {
                     {/* ////////orders////////// */}
                     <div className={classes.orderList}>
                         {orders.map((order) => (
-                            <Paper key={order.id} className={classes.orderCard} style={{ padding: 5 }}>
+                            <Paper key={order.id} className={classes.orderCard} style={{ padding: 5, backgroundColor:'#f5f5dc' }}>
                                 <div id="orderWrap">
-                                    <div id="orderHeader" style={{display:"flex"}}>
-                                        <div id="orderHeaderLeft">
-                                            <b>
-                                            {ordertypes.length > 0 ? ordertypes.filter(function (el) {
-                                                return el.id == order.typeid;
-                                            })[0]['name'] : ""}
-                                            </b>
-                                                                                        
+                                    <div id="orderHeader" style={{ display: "flex", justifyContent: 'space-between' }}>
+                                        <div>
+                                            <div id="orderHeaderLeft" style={{ height: 35 }}>
+                                                <b>
+                                                    {ordertypes.length > 0 ? ordertypes.filter(function (el) {
+                                                        return el.id == order.typeid;
+                                                    })[0]['name'] : ""}
+                                                </b>
+
+                                            </div>
+                                            <div>
+                                                <font size="1">{order.startdate.split(/\D/)[2] + '.' + order.startdate.split(/\D/)[1] + '.' + order.startdate.split(/\D/)[0]}</font>
+                                            </div>
                                         </div>
-                                        <div id="orderHeaderRight" style={{marginLeft:"auto", backgroundColor: order.enddate?"red":"green", color:"white", padding:5, height:30}}>
-                                            {order.enddate?"Закрыто":"Открыто"}
+                                        <div>
+                                            <div id="orderHeaderRight" style={{ marginLeft: "auto", backgroundColor: order.enddate ? "red" : "green", color: "white", padding: 5, height: 30 }}>
+                                                {order.enddate ? "Закрыто" : "Открыто"}
+
+                                            </div>
+
 
                                         </div>
+                                    </div>
+                                    <br />
+                                    <div id='orderCenter'>
+                                        <TextField
+                                            variant="outlined"
+                                            id="orderNote"
+                                            label="Описание заказа"
+                                            multiline
+                                            rows={4}
+                                            fullWidth
+                                            InputProps={{
+                                                readOnly: true,
+
+                                            }}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            value={order.note}
+                                            inputProps={{
+                                                style: { overflow: 'auto' },
+                                            }}
+
+
+
+                                        />
+
+                                    </div>
+
+                                    <div id="orderPriceWrap" style={{ backgroundColor: '#f5f5dc', display: "flex", marginTop: 5, alignItems: 'center', justifyContent: 'space-between', padding: 5 }}>
+                                        <div id="orderPriceWrapLeft" style={{ textAlign: "right" }}>
+                                            <font size="1">Цена</font>  <b>{order.price}</b>
+                                            <br />
+                                            <font size="1">Сумма</font> {order.amount}
+                                        </div>
+                                        <div id="orderPriceWrapRight">
+                                            <font size="3">X{order.qty}</font>
+                                        </div>
+                                        <div id="orderPriceWrapRight">
+                                            <font size="4">{order.currency}</font>
+
+                                        </div>
+
+                                    </div>
+                                    <div id='orderFoter'>
                                     </div>
                                 </div>
 
