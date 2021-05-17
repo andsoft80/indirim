@@ -47,14 +47,15 @@ import OrderList from './components/OrderList';
 import Account from './components/Account';
 
 
-const Main = props => (
-  
-  <Switch>
-      <Route exact path='/profile' component={Profile} />
-      <Route exact path='/orderlist' component={OrderList} />
-      <Route exact path='/account' component={Account} />
-      
-  </Switch>
+const Main = () => (
+  <main>
+    <Switch>
+      <Route  path='/profile' component={Profile} />
+      <Route  path='/orderlist' component={OrderList} />
+      <Route  path='/account' component={Account} />
+
+    </Switch>
+  </main>
 );
 
 
@@ -167,7 +168,8 @@ function Copyright() {
 //     }
 // }
 
-function App(props) {
+export default function App() {
+  // alert("App render");
   const useStyles = makeStyles(theme => ({
     root: {
       margin: theme.spacing(6, 0, 3),
@@ -370,11 +372,11 @@ function App(props) {
 
         </div>
         <div id="horizontal_wrap">
-          <div id="sideMenu" hidden={!showMenu}><SideMenu/></div>
+          <div id="sideMenu" hidden={!showMenu}><SideMenu /></div>
           <div className={classes.contentWrap}>
             <Paper className={classes.paper} >
-              
-            <Main/>
+
+              <Main />
 
 
 
@@ -398,4 +400,4 @@ function App(props) {
 
 
 
-export default App;
+

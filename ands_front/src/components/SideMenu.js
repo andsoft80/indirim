@@ -18,6 +18,7 @@ import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { Router, Route, Switch, Redirect, useHistory  } from "react-router-dom";
 import { createBrowserHistory } from "history";
+import History from '../historyImp';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,11 +34,22 @@ function ListItemLink(props) {
 }
 
 export default function SideMenu() {
+    
     const classes = useStyles();
     // const history = useHistory();
-    const hist = createBrowserHistory({forceRefresh:true});
+    // const hist = createBrowserHistory({forceRefresh:true});
     const viewOrderList = function() {
-        hist.push("/orderlist");
+        //props.history.push("/orderlist");
+        History.push("/orderlist");
+        
+       
+    };
+
+    const viewProfile = function() {
+        //props.history.push("/orderlist");
+        History.push("/profile");
+        
+       
     };
 
     return (
@@ -61,7 +73,7 @@ export default function SideMenu() {
                 </List>
                 <Divider />
                 <List component="nav" aria-label="secondary mailbox folders">
-                    <ListItem button id="menu_profile">
+                    <ListItem button id="menu_profile" onClick={viewProfile}>
                         <ListItemIcon id="menu_profile">
                             <FaceIcon/>
                         </ListItemIcon>

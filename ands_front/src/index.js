@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, Switch, Redirect, BrowserRouter  } from "react-router-dom";
-import { createBrowserHistory } from "history";
+// import { createBrowserHistory } from "history";
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -9,18 +9,20 @@ import Authcontrol from './Authcontrol';
 import Login from './components/Login';
 import Register from './components/Register';
 import Recovery from './components/Recovery';
+import History from './historyImp';
 
-const hist = createBrowserHistory({forceRefresh:true});
+// const hist = createBrowserHistory({forceRefresh:true});
 
 ReactDOM.render(
-  <Router history={hist}>
+  <Router history={History}>
     
 
 
 
     {Authcontrol.isUserAuthenticated() ?
       <Switch>
-        <Route  path="/" component={App} />
+        {/* <Route  path="*" render={ (props) => <App {...props} />}  /> */}
+        <Route  path="*" component = {App}  />
         
       </Switch>
       :
