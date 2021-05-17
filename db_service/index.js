@@ -171,12 +171,16 @@ app.post('/signin', function (req, res) {
 
 /////////////universal api//////////////////////////////////
 function api_impl(req, res) {
+
+    
     var tableName = req.params.tableName;
     var action = req.params.action;
     // var clientid = req.body.clientid;
     var idName = 'id';
     var sqlStr = '';
     var id = '';
+
+    console.log(tableName+" "+action);
 
     if (action === 'post') {
         sqlStr = "INSERT INTO " + tableName + " (";
@@ -191,9 +195,13 @@ function api_impl(req, res) {
         sqlStr = sqlStr.substring(0, sqlStr.length - 1);
         sqlStr = sqlStr + ")";
 
+        console.log(sqlStr);
+
         con.query(sqlStr, function (err, result) {
             if (err)
                 res.end(JSON.stringify(err));
+
+            console.log(result);    
             res.end(JSON.stringify(result));
 
         });
@@ -645,6 +653,7 @@ app.get('/orders/all', function (req, res) {
 });
 
 app.get('/orders/page', function (req, res) {
+    console.log('Get orders page...');
     
     let page = req.query.page;//from 0
     let rawsPerPage = req.query.rawsPerPage;
