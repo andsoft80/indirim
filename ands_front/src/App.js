@@ -50,9 +50,9 @@ import Account from './components/Account';
 const Main = props => (
   
   <Switch>
-      <Route path='/profile' component={Profile} />
-      <Route path='/orderlist' component={OrderList} />
-      <Route path='/account' component={Account} />
+      <Route exact path='/profile' component={Profile} />
+      <Route exact path='/orderlist' component={OrderList} />
+      <Route exact path='/account' component={Account} />
       
   </Switch>
 );
@@ -167,7 +167,7 @@ function Copyright() {
 //     }
 // }
 
-function App() {
+function App(props) {
   const useStyles = makeStyles(theme => ({
     root: {
       margin: theme.spacing(6, 0, 3),

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, Switch, Redirect } from "react-router-dom";
+import { Router, Route, Switch, Redirect, BrowserRouter  } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import './index.css';
 import App from './App';
@@ -10,10 +10,11 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Recovery from './components/Recovery';
 
-const hist = createBrowserHistory();
+const hist = createBrowserHistory({forceRefresh:true});
 
 ReactDOM.render(
   <Router history={hist}>
+    
 
 
 
@@ -50,7 +51,7 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-console.log(hist);
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

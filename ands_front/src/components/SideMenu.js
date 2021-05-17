@@ -35,7 +35,7 @@ function ListItemLink(props) {
 export default function SideMenu() {
     const classes = useStyles();
     // const history = useHistory();
-    const hist = createBrowserHistory();
+    const hist = createBrowserHistory({forceRefresh:true});
     const viewOrderList = function() {
         hist.push("/orderlist");
     };
