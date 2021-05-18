@@ -20,13 +20,17 @@ import { Router, Route, Switch, Redirect, useHistory, Link } from "react-router-
 import { createBrowserHistory } from "history";
 import History from '../historyImp';
 import Authcontrol from '../Authcontrol';
+import { red } from '@material-ui/core/colors';
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
         maxWidth: 360,
         backgroundColor: theme.palette.background.paper,
         marginLeft: 10
-    },
+    }
+
+
+
 }));
 
 function ListItemLink(props) {
@@ -71,7 +75,7 @@ export default function SideMenu() {
                 {/* <Paper style={{ height: '100%' }}> */}
                 <List component="nav" aria-label="main mailbox folders" >
                     
-                        <ListItem button id="menu_orderlist" onClick={viewOrderList}>
+                        <ListItem button id="menu_orderlist" onClick={viewOrderList} >
                             <ListItemIcon id="menu_orderlist" >
                                 <ShoppingCartIcon />
                             </ListItemIcon>

@@ -5,7 +5,7 @@ import {
 
   makeStyles,
   createMuiTheme,
-
+  MuiThemeProvider,
   Link,
 
   Icon,
@@ -98,6 +98,13 @@ const theme = createMuiTheme({
       body2: 'span',
     },
   },
+  ListItem: {
+    button: {
+      
+        backgroundColor: colors.red
+      
+    }
+  }
 
 
 
@@ -211,13 +218,13 @@ export default function App(props) {
 
   const handleCloseProfile = () => {
     setAnchorEl(null);
-    
+
     History.push('/profile');
   };
   const handleCloseAccount = () => {
-    
+
     setAnchorEl(null);
-    
+
     History.push('/account');
   };
   const handleCloseLogout = () => {
@@ -271,71 +278,71 @@ export default function App(props) {
 
 
   return (
+    <MuiThemeProvider theme={theme}>
+      <div className={classes.wrap}>
+        <div id="vertical_wrap">
+          <div id='header'>
+            <div id='leftside'>
+              <div>
+                <IconButton onClick={handleShowMenu}>
+                  {/* <Icon>menu</Icon> */}
+                  <MenuIcon />
+                </IconButton>
+              </div>
+              <div>
+                <b><font size="5" face="Roboto">Datamix </font></b>
+                <font size="5" face="Roboto">Сделка будет</font>
+              </div>
 
-    <div className={classes.wrap}>
-      <div id="vertical_wrap">
-        <div id='header'>
-          <div id='leftside'>
-            <div>
-              <IconButton onClick={handleShowMenu}>
-                {/* <Icon>menu</Icon> */}
-                <MenuIcon />
-              </IconButton>
             </div>
-            <div>
-              <b><font size="5" face="Roboto">Datamix </font></b>
-              <font size="5" face="Roboto">Сделка будет</font>
+            <div id='rightside'>
+
+              <FingerprintIcon />
+              <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                {userData.name}
+              </Button>
+              <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleCloseProfile}>Профиль</MenuItem>
+                <MenuItem onClick={handleCloseAccount}>Мой счет</MenuItem>
+                <MenuItem onClick={handleCloseLogout}>Выйти</MenuItem>
+              </Menu>
+
             </div>
 
           </div>
-          <div id='rightside'>
+          <div id="horizontal_wrap">
+            <div id="sideMenu" hidden={!showMenu}><SideMenu /></div>
+            <div className={classes.contentWrap}>
+              <Paper className={classes.paper} >
 
-            <FingerprintIcon />
-            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-              {userData.name}
-            </Button>
-            <Menu
-              id="simple-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              <MenuItem onClick={handleCloseProfile}>Профиль</MenuItem>
-              <MenuItem onClick={handleCloseAccount}>Мой счет</MenuItem>
-              <MenuItem onClick={handleCloseLogout}>Выйти</MenuItem>
-            </Menu>
+                {/* <Main /> */}
+                <NestComponent {...props} />
 
+
+
+
+
+
+
+              </Paper>
+            </div>
           </div>
-
+          <div id="footer"  ><Copyright /></div>
         </div>
-        <div id="horizontal_wrap">
-          <div id="sideMenu" hidden={!showMenu}><SideMenu /></div>
-          <div className={classes.contentWrap}>
-            <Paper className={classes.paper} >
-
-              {/* <Main /> */}
-              <NestComponent {...props} />
 
 
 
 
 
 
-
-            </Paper>
-          </div>
-        </div>
-        <div id="footer"  ><Copyright /></div>
-      </div>
-
-
-
-
-
-
-    </div >
-
+      </div >
+    </MuiThemeProvider>
 
   );
 }
