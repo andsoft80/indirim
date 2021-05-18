@@ -23,8 +23,15 @@ import Authcontrol from '../Authcontrol';
 import be_conf from '../be_config';
 import axios from 'axios';
 import $ from 'jquery';
-
+import History from '../historyImp';
 export default function Profile() {
+    const viewAccount = function () {
+        //props.history.push("/orderlist");
+        History.push("/account");
+
+
+    };
+
     const useStyles = makeStyles({
         rootForm: {
             maxWidth: 300
@@ -313,7 +320,7 @@ export default function Profile() {
                 <br /><br />
                 <b><font size="5">{companyData.name}</font></b>
                 <br />
-                <Button id="acc_btn" color="primary" variant="outlined" >
+                <Button id="acc_btn" color="primary" variant="outlined" onClick = {viewAccount} >
                     Управлять счетом
                 </Button>
 

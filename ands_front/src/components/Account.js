@@ -27,7 +27,7 @@ import Authcontrol from '../Authcontrol';
 import be_conf from '../be_config';
 import axios from 'axios';
 import $ from 'jquery';
-
+import History from '../historyImp';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';

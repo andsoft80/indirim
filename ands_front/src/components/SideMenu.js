@@ -16,10 +16,10 @@ import GavelIcon from '@material-ui/icons/Gavel';
 import FaceIcon from '@material-ui/icons/Face';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { Router, Route, Switch, Redirect, useHistory  } from "react-router-dom";
+import { Router, Route, Switch, Redirect, useHistory, Link } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import History from '../historyImp';
-
+import Authcontrol from '../Authcontrol';
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
@@ -34,39 +34,53 @@ function ListItemLink(props) {
 }
 
 export default function SideMenu() {
-    
+
     const classes = useStyles();
     // const history = useHistory();
     // const hist = createBrowserHistory({forceRefresh:true});
-    const viewOrderList = function() {
+    const viewOrderList = function () {
         //props.history.push("/orderlist");
         History.push("/orderlist");
-        
-       
+
+
     };
 
-    const viewProfile = function() {
+    const viewProfile = function () {
         //props.history.push("/orderlist");
         History.push("/profile");
-        
-       
+
+
     };
 
+    const viewAccount = function () {
+        //props.history.push("/orderlist");
+        History.push("/account");
+
+
+    };
+    const Logout = () => {
+
+       
+        Authcontrol.deauthenticateUser();
+        window.location = '/login';
+      };
     return (
         <div id="content_wrap">
 
             <div style={{ height: '100%', width: '100%' }}>
                 {/* <Paper style={{ height: '100%' }}> */}
                 <List component="nav" aria-label="main mailbox folders" >
-                    <ListItem button id="menu_orderlist" onClick={viewOrderList}>
-                        <ListItemIcon id="menu_orderlist" >
-                            <ShoppingCartIcon/>
-                        </ListItemIcon>
-                        <ListItemText primary="Заказы" id="menu_orderlist" />
-                    </ListItem>
+                    
+                        <ListItem button id="menu_orderlist" onClick={viewOrderList}>
+                            <ListItemIcon id="menu_orderlist" >
+                                <ShoppingCartIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Заказы" id="menu_orderlist" />
+                        </ListItem>
+                    
                     <ListItem button>
                         <ListItemIcon>
-                            <GavelIcon/>
+                            <GavelIcon />
                         </ListItemIcon>
                         <ListItemText primary="Предложения" />
                     </ListItem>
@@ -75,19 +89,19 @@ export default function SideMenu() {
                 <List component="nav" aria-label="secondary mailbox folders">
                     <ListItem button id="menu_profile" onClick={viewProfile}>
                         <ListItemIcon id="menu_profile">
-                            <FaceIcon/>
+                            <FaceIcon />
                         </ListItemIcon>
                         <ListItemText primary="Профиль" id="menu_profile" />
                     </ListItem>
-                    <ListItem button id="menu_account">
+                    <ListItem button id="menu_account" onClick={viewAccount}>
                         <ListItemIcon id="menu_account">
-                            <AccountBalanceWalletIcon/>
+                            <AccountBalanceWalletIcon />
                         </ListItemIcon>
                         <ListItemText primary="Мой счет" id="menu_account" />
                     </ListItem>
-                    <ListItem button id="menu_exit">
+                    <ListItem button id="menu_exit" onClick={Logout}>
                         <ListItemIcon id="menu_exit">
-                            <ExitToAppIcon/>
+                            <ExitToAppIcon />
                         </ListItemIcon>
                         <ListItemText primary="Выйти" id="menu_exit" />
                     </ListItem>

@@ -10,8 +10,13 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Recovery from './components/Recovery';
 import History from './historyImp';
+import Profile from './components/Profile';
+import OrderList from './components/OrderList';
+import Account from './components/Account';
 
 // const hist = createBrowserHistory({forceRefresh:true});
+
+
 
 ReactDOM.render(
   <Router history={History}>
@@ -21,8 +26,8 @@ ReactDOM.render(
 
     {Authcontrol.isUserAuthenticated() ?
       <Switch>
-        {/* <Route  path="*" render={ (props) => <App {...props} />}  /> */}
         <Route  path="*" component = {App}  />
+        {/* <Route  path="*" render = {(props)=><App {...props}/>}  /> */}
         
       </Switch>
       :

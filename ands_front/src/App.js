@@ -39,7 +39,7 @@ import be_conf from './be_config';
 import axios from 'axios';
 import $ from 'jquery';
 import { Router, Route, Switch, Redirect } from "react-router-dom";
-
+import History from './historyImp';
 
 import SideMenu from './components/SideMenu';
 import Profile from './components/Profile';
@@ -48,14 +48,16 @@ import Account from './components/Account';
 
 
 const Main = () => (
+
   <main>
     <Switch>
-      <Route  path='/profile' component={Profile} />
-      <Route  path='/orderlist' component={OrderList} />
-      <Route  path='/account' component={Account} />
+      <Route path='/profile' component={Profile} />
+      <Route path='/orderlist' component={OrderList} />
+      <Route path='/account' component={Account} />
 
     </Switch>
   </main>
+
 );
 
 
@@ -115,61 +117,31 @@ function Copyright() {
 }
 
 
+const NestComponent = (props) => {
 
-// function getPayments() {
-//   var parcel = {};
-//   parcel.ds = document.getElementById("date_start").value;
-//   parcel.de = document.getElementById("date_end").value;
-//   parcel.oo = document.getElementById("onlyOpen").checked;
+  if (window.location.toString().indexOf('/orderlist') > -1) {
+    return (<OrderList />);
+  }
+  if (window.location.toString().indexOf('/profile') > -1) {
+    return (<Profile />);
+  }
+  if (window.location.toString().indexOf('/account') > -1) {
+    return (<Account />);
+  }
+  ///default
+  return (<Redirect to='/orderlist' />);
 
-
-//   alert(JSON.stringify(parcel));
-// }
-
-// function loadFile(e) {
-//     var filename = e.target.files[0].name;
-//     alert(filename);
-// }
-// function Recovery() {
-
-//     var email = document.getElementById('email').value;
+}
 
 
-//     if (email == '') {
-//         alert("Укажите все поля!");
 
-//     }
-
-//     else {
-
-//         axios.post('/recovery', {
-
-//             email: email,
-
-
-//         }, { headers: {} })
-//             .then(function (response) {
-
-//                 alert("Ваш новый пароль выслан на указанный электронный ящик!");
-//                 window.location = '/login.html';
-
-//             })
-//             .catch(function (error) {
-//                 // handle error
-//                 if (error.message.indexOf('400') > 0) {
-//                     alert("Ошибка");
-
-//                 }
-//                 else {
-//                     alert(error);
-//                 }
-//                 // alert(typeof error.message);
-//             })
-//     }
-// }
-
-export default function App() {
+export default function App(props) {
   // alert("App render");
+
+
+
+
+
   const useStyles = makeStyles(theme => ({
     root: {
       margin: theme.spacing(6, 0, 3),
@@ -239,13 +211,14 @@ export default function App() {
 
   const handleCloseProfile = () => {
     setAnchorEl(null);
-    hideAllPage();
-    setProfilePage(true);
+    
+    History.push('/profile');
   };
   const handleCloseAccount = () => {
+    
     setAnchorEl(null);
-    hideAllPage();
-    setAccountPage(true);
+    
+    History.push('/account');
   };
   const handleCloseLogout = () => {
 
@@ -290,45 +263,10 @@ export default function App() {
   }
 
 
-  //////////////////catch account button click in external component///////////////
-
-  // function handleClickOutside(e) {
-
-
-  //   if (e.target.parentNode.id === 'acc_btn' || e.target.parentNode.id === 'menu_account') {
-  //     handleCloseAccount();
-
-  //   }
-  //   if (e.target.parentNode.id === 'menu_profile') {
-  //     handleCloseProfile();
-
-  //   }
-  //   if (e.target.parentNode.id === 'menu_exit') {
-  //     handleCloseLogout();
-
-  //   }
-
-  //   if (e.target.parentNode.id === 'menu_orderlist') {
-  //     handleOrderList();
-
-  //   }
-  //   if (e.target.parentNode.id === 'createOrder_btn') {
-  //     // alert('createOrder_btn');
 
 
 
-  //   }
 
-  //   if ($('.MuiTabs-indicator').width() === 0) {
-  //     let w = $('.MuiTabs-indicator').prev().children().outerWidth();
-
-  //     $('.MuiTabs-indicator').width(w);
-  //   }
-  // }
-
-
-
-  ////////////////////////////////////////////////////////////
 
 
 
@@ -376,7 +314,12 @@ export default function App() {
           <div className={classes.contentWrap}>
             <Paper className={classes.paper} >
 
-              <Main />
+              {/* <Main /> */}
+              <NestComponent {...props} />
+
+
+
+
 
 
 
