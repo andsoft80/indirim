@@ -21,13 +21,15 @@ import { createBrowserHistory } from "history";
 import History from '../historyImp';
 import Authcontrol from '../Authcontrol';
 import { red } from '@material-ui/core/colors';
+import '../index.css';
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
         maxWidth: 360,
         backgroundColor: theme.palette.background.paper,
         marginLeft: 10
-    }
+    },
+
 
 
 
@@ -64,24 +66,24 @@ export default function SideMenu() {
     };
     const Logout = () => {
 
-       
+
         Authcontrol.deauthenticateUser();
         window.location = '/login';
-      };
+    };
     return (
         <div id="content_wrap">
 
             <div style={{ height: '100%', width: '100%' }}>
                 {/* <Paper style={{ height: '100%' }}> */}
                 <List component="nav" aria-label="main mailbox folders" >
-                    
-                        <ListItem button id="menu_orderlist" onClick={viewOrderList} >
-                            <ListItemIcon id="menu_orderlist" >
-                                <ShoppingCartIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Заказы" id="menu_orderlist" />
-                        </ListItem>
-                    
+
+                    <ListItem button id="menu_orderlist" onClick={viewOrderList}  >
+                        <ListItemIcon id="menu_orderlist" >
+                            <ShoppingCartIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Заказы" id="menu_orderlist" />
+                    </ListItem>
+
                     <ListItem button>
                         <ListItemIcon>
                             <GavelIcon />

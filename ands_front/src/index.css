@@ -1,11 +1,17 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
 * {
-    font-family: Arial !important;
+    font-family: Roboto !important;
 }
 html,
 body {
     height: 100%;
     background-color: #F8F8F8;
+    margin: 0px;
+}
+
+#root {
+    height: 100%;
+    background-color: white;
 }
 
 #header {
@@ -120,4 +126,14 @@ body {
 
 
 
+}
+
+    
+
+
+.MuiListItem-button:hover {
+    
+    -webkit-box-shadow:inset 3px 0px 0px 0px #f00;
+    -moz-box-shadow:inset 3px 0px 0px 0px #f00;
+    box-shadow:inset 3px 0px 0px 0px #f00; 
 }

@@ -33,6 +33,7 @@ import {
 } from 'react';
 
 import ReactDom from 'react-dom';
+import {ruRU} from '@material-ui/core/locale';
 
 import Authcontrol from './Authcontrol';
 import be_conf from './be_config';
@@ -98,17 +99,11 @@ const theme = createMuiTheme({
       body2: 'span',
     },
   },
-  ListItem: {
-    button: {
-      
-        backgroundColor: colors.red
-      
-    }
-  }
 
 
 
-});
+
+},ruRU);
 
 function Copyright() {
   return (

@@ -319,7 +319,7 @@ export default function Profile() {
                 <font size="4">Вы привязаны к компании : </font>
                 <br /><br />
                 <b><font size="5">{companyData.name}</font></b>
-                <br />
+                <br /><br />
                 <Button id="acc_btn" color="primary" variant="outlined" onClick = {viewAccount} >
                     Управлять счетом
                 </Button>
