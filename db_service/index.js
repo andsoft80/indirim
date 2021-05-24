@@ -217,7 +217,7 @@ function api_impl(req, res) {
         }
         sqlStr = sqlStr.substring(0, sqlStr.length - 1);
         sqlStr = sqlStr + " where " + idName + " = " + id;
-
+        console.log(sqlStr);
         con.query(sqlStr, function (err, result) {
             if (err)
                 res.end(JSON.stringify(err));

@@ -143,7 +143,7 @@ export default function Account() {
                     // alert(JSON.stringify(response));
                     var companyid = response.data.insertId;
 
-
+                    
                     axios.post(be_conf.server + '/table/users/action/put', {
                         id: userData.id,
                         companyid: companyid
@@ -193,18 +193,20 @@ export default function Account() {
 
     useEffect(() => {
         getUserData();
-
+        
 
 
     }, []);
 
     function getUserData() {
+        
 
         axios.get(be_conf.server + '/userdbinfo', { headers: { "Authorization": 'Bearer ' + Authcontrol.getToken() } })
             .then(function (response) {
-
+                
                 if (response.data.companyid) {
                     setHaveCompany(true);
+                    
 
                     setUserData(response.data);
 
@@ -213,6 +215,12 @@ export default function Account() {
                     getCompanyUsers(response.data.companyid);
                     getCompanyBalance(response.data.companyid);
                     getCompanyTrx(response.data.companyid);
+                }
+                else{
+                    setHaveCompany(false);
+                    setUserData(response.data);
+
+
                 }
 
 
