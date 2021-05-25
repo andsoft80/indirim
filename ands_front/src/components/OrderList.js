@@ -55,7 +55,9 @@ export default function OrderList() {
             // flexWrap: 'wrap',
 
             // backgroundColor: 'silver',
-            maxWidth: 500
+            width: 400,
+            
+            overflow: 'auto'
 
 
         },
@@ -63,31 +65,42 @@ export default function OrderList() {
         orderCard: {
             //minWidth: 200,
             // minHeight: 300,
-            Width: '100%',
+
             // maxHeight: 300,
             borderBottomWidth: '3px',
             borderBottomColor: 'silver',
             borderBottomStyle: 'solid',
-            backgroundColor: '#F8F8F8',
+
+            cursor: 'pointer'
 
             // margin: 10
         },
         orderWrap: {
-            display: "flex"
+            display: "flex",
+
         },
         orderDetails: {
             borderLeftWidth: '1px',
             borderLeftColor: 'silver',
             borderLeftStyle: 'solid',
 
+        },
+        orderCenter: {
+            borderLeftWidth: '3px',
+
+            borderLeftStyle: 'dotted',
+            minHeight: 50
         }
+
 
 
     }));
     const classes = useStyles();
+
     const [userData, setUserData] = useState({ name: '' });
     const [orders, setOrders] = useState([]);
     const [ordertypes, setOredrTypes] = useState([]);
+    const [selectedOrder, setSelectedOrder] = useState(null);
 
     useEffect(() => {
 
@@ -96,7 +109,10 @@ export default function OrderList() {
 
     }, []);
 
+    const selectOrder = (order) => {
+        setSelectedOrder(order);
 
+    }
     const getUserData = () => {
 
         axios.get(be_conf.server + '/userdbinfo', { headers: { "Authorization": 'Bearer ' + Authcontrol.getToken() } })
@@ -383,7 +399,7 @@ export default function OrderList() {
     return (
         <div style={{ height: "100%" }}>
             <div id="all-wrap" style={{ display: 'flex', justifyContent: "space-between", flexDirection: 'column', height: "100%" }}>
-                <div id="header-and-content">
+                <div id="header-and-content" style={{ flex: 1 }}>
                     <div style={{ display: "flex" }}>
                         <font size="5">Заказы</font>
 
@@ -439,11 +455,16 @@ export default function OrderList() {
                         <div className={classes.orderList}>
                             {orders.map((order) => (
                                 // <Paper key={order.id} className={classes.orderCard} style={{ padding: 5 }}>
-                                <div key={order.id} className={classes.orderCard} style={{ padding: 5 }}>
+                                <div className={classes.orderCard} key={order.id} style={{
+                                    padding: 5,
+                                    backgroundColor: selectedOrder === order ? 'white' : '#F8F8F8',
+
+                                }}
+                                    onClick={() => selectOrder(order)}>
                                     <div id="orderWrap">
-                                        <div id="orderHeader" style={{ display: "flex", justifyContent: 'space-between' }}>
+                                        <div id="orderHeader" style={{ display: "flex", justifyContent: 'space-between', borderBottom: '1px solid silver' }}>
                                             <div>
-                                                <div id="orderHeaderLeft" style={{ height: 35 }}>
+                                                <div id="orderHeaderLeft" style={{ height: 20 }}>
                                                     <b>
                                                         {ordertypes.length > 0 ? ordertypes.filter(function (el) {
                                                             return el.id == order.typeid;
@@ -451,57 +472,39 @@ export default function OrderList() {
                                                     </b>
 
                                                 </div>
-                                                <div>
-                                                    <font size="1">{order.startdate.split(/\D/)[2] + '.' + order.startdate.split(/\D/)[1] + '.' + order.startdate.split(/\D/)[0]}</font>
-                                                </div>
+
                                             </div>
+
                                             <div>
-                                                <div id="orderHeaderRight" style={{ marginLeft: "auto", backgroundColor: order.enddate ? "red" : "green", color: "white", padding: 5, height: 30 }}>
-                                                    {order.enddate ? "Закрыто" : "Открыто"}
+                                                <div id="orderHeaderRight" style={{ marginLeft: "auto", backgroundColor: order.enddate ? "red" : "green", color: "white", padding: 5, height: 20 }}>
+                                                    <font size="2">{order.enddate ? "Закрыто" : "Открыто"}</font>
 
                                                 </div>
 
 
                                             </div>
                                         </div>
-                                        <br />
-                                        <div id='orderCenter'>
-                                            <TextField
-                                                variant="outlined"
-                                                id="orderNote"
-                                                label="Описание заказа"
-                                                multiline
-                                                rows={4}
-                                                fullWidth
-                                                InputProps={{
-                                                    readOnly: true,
+                                        <div style={{ textAlign: "right" }}>
+                                            <font size="1">{order.startdate.split(/\D/)[2] + '.' + order.startdate.split(/\D/)[1] + '.' + order.startdate.split(/\D/)[0]}</font>
+                                        </div>
 
-                                                }}
-                                                InputLabelProps={{
-                                                    shrink: true,
-                                                }}
-                                                value={order.note}
-                                                inputProps={{
-                                                    style: { overflow: 'auto' },
-                                                }}
+                                        <div className={classes.orderCenter} style={{ borderLeftColor: selectedOrder === order ? 'red' : 'gray', }}>
+                                            <p style={{ marginLeft: 10 }}><font size="2">  {order.note}</font></p>
 
-
-
-                                            />
 
                                         </div>
 
                                         <div id="orderPriceWrap" style={{ display: "flex", marginTop: 5, alignItems: 'center', justifyContent: 'space-between', padding: 5 }}>
-                                            <div id="orderPriceWrapLeft" style={{ textAlign: "right" }}>
-                                                <font size="1">Цена</font>  <b>{order.price}</b>
+                                            <div id="orderPriceWrapLeft" style={{ textAlign: "left" }}>
+                                                <font size="1">Цена</font>  <span style={{ marginLeft: 8 }}>{order.price}</span>
                                                 <br />
-                                                <font size="1">Сумма</font> {order.amount}
+                                                <font size="1">Сумма</font> <b>{order.amount}</b>
                                             </div>
                                             <div id="orderPriceWrapRight">
-                                                <font size="3">X{order.qty}</font>
+                                                <font size="2">Кол. х{order.qty}</font>
                                             </div>
                                             <div id="orderPriceWrapRight">
-                                                <font size="4">{order.currency}</font>
+                                                <font size="3">{order.currency}</font>
 
                                             </div>
 
@@ -509,7 +512,7 @@ export default function OrderList() {
                                         <div id='orderFoter'>
                                         </div>
                                     </div>
-                                </div>                
+                                </div>
                                 //</Paper> 
 
                             ))}
