@@ -57,10 +57,16 @@ export default function OrderList() {
             // backgroundColor: 'silver',
             width: 400,
             
-            overflow: 'auto'
+            overflow: 'hidden',
+            "&:hover": {
+                overflowY: "scroll"
+              },
+
+             
 
 
         },
+
 
         orderCard: {
             //minWidth: 200,
@@ -71,12 +77,19 @@ export default function OrderList() {
             borderBottomColor: 'silver',
             borderBottomStyle: 'solid',
 
-            cursor: 'pointer'
+            borderWidth: '1px',
+            borderColor: 'silver',
+            borderStyle: 'solid',
+            margin: '7px',
+
+            cursor: 'pointer',
+            width:360
 
             // margin: 10
         },
         orderWrap: {
             display: "flex",
+            height:500
 
         },
         orderDetails: {
